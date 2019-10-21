@@ -45,12 +45,13 @@ body{
     height: auto;
 }
 .dashboard{
-    height: 700px;
+    width: 100%;
+    height: auto;
 }
 
 /*dashboard link container*/
 .dashboard_link_con{
-    height: 100%;
+    height: auto;
     background-color: #323286;
 }
 .dash_header_con{
@@ -119,7 +120,7 @@ body{
 
 /*dashboard display container*/
 .dashboard_display_con{
-    height: 100%;
+    height: auto;
 }
 .tab_con{
     height: auto;
@@ -228,11 +229,19 @@ body{
 }
 .display_header{
     color: gray;
+    text-align: center;
     text-transform: capitalize;
-    font-size: 30px;
+    font-size: 50px;
+    line-height: 50px;
     font-weight: 500;
-    font-family: "Roboto Light";
-    margin: 0px;
+    font-family: Roboto;
+}
+.display_header_small{
+    color: gray;
+    text-transform: capitalize;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: lato;
 }
 .display_content_con{
     height: auto;

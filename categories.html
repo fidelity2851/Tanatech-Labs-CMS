@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tanatech Labs CMS</title>
+    <title>Tanatech Labs CMS / Categories</title>
     <!--google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Lato|Roboto&display=swap" rel="stylesheet">
 
@@ -52,13 +52,13 @@
                         </div>
                     </a>
                     <a href="post.html" class="text-decoration-none">
-                        <div class="dash_link_con dash_link_active d-flex">
+                        <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-podcast"></i> </span>
                             <p class="dash_link">post</p>
                         </div>
                     </a>
                     <a href="categories.html" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
+                        <div class="dash_link_con dash_link_active d-flex">
                             <span class="dash_icon"> <i class="fa fa-tags"></i> </span>
                             <p class="dash_link">categories</p>
                         </div>
@@ -100,77 +100,97 @@
                 <nav class="tab_con">
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <a class="nav-item nav-link active" data-toggle="tab" href="#nav-create" aria-selected="true">
-                            <p class="tab_link">create new post</p>
+                            <p class="tab_link">create new category</p>
                         </a>
                         <a class="nav-item nav-link" data-toggle="tab" href="#nav-manage" aria-selected="false">
-                            <p class="tab_link">manage your post</p>
+                            <p class="tab_link">manage your category</p>
                         </a>
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-create" aria-labelledby="nav-create-tab">
                         <div class="tab_content">
-                            <form action="#" enctype="multipart/form-data" method="post" class="d-flex justify-content-between">
-                                <div class="col-8 post_1 mr-3 px-0">
+                            <form action="#" enctype="multipart/form-data" method="post" class="d-flex justify-content-center">
+                                <div class="col post_1 mr-3 px-0">
                                     <div class="post_form_1">
                                         <div class="">
-                                            <label class="form_label">title:</label> <br>
-                                            <input type="text" class="full" name="title" required>
+                                            <label class="form_label">category name:</label> <br>
+                                            <input type="text" class="full" name="catename" required>
                                         </div>
-                                        <div class="">
-                                            <label class="form_label">slug / URl:</label> <br>
+                                        <div class="mb-2">
+                                            <label class="form_label">link to:</label> <br>
                                             <input type="url" class="full" name="URl" required>
                                         </div>
+                                        <label class="form_label"> <input type="checkbox" class="form_check" checked> dropdown icon</label> <br>
+                                        <label class="form_label">(optional)</label>
+                                        <div class="col border py-3">
+                                            <div class="">
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="col pl-0">
+                                                        <label class="form_label">sub categories: (1st)</label>
+                                                        <input type="text" class="full">
+                                                    </div>
+                                                    <div class="col pl-0">
+                                                        <label class="form_label">sub categories: (2nd)</label>
+                                                        <input type="text" class="full">
+                                                    </div>
+                                                    <div class="col px-0">
+                                                        <label class="form_label">sub categories: (3rd)</label>
+                                                        <input type="text" class="full">
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="col pl-0">
+                                                        <label class="form_label">link to: (1st)</label> <br>
+                                                        <input type="url" class="full" name="URl" required>
+                                                    </div>
+                                                    <div class="col px-0">
+                                                        <label class="form_label">link to: (2nd)</label> <br>
+                                                        <input type="url" class="full" name="URl" required>
+                                                    </div>
+                                                    <div class="col pr-0">
+                                                        <label class="form_label">link to: (3rd)</label> <br>
+                                                        <input type="url" class="full" name="URl" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="">
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="col pl-0">
+                                                        <label class="form_label">sub categories: (4th)</label>
+                                                        <input type="text" class="full">
+                                                    </div>
+                                                    <div class="col pl-0">
+                                                        <label class="form_label">sub categories: (5th)</label>
+                                                        <input type="text" class="full">
+                                                    </div>
+                                                    <div class="col px-0">
+                                                        <label class="form_label">sub categories: (6th)</label>
+                                                        <input type="text" class="full">
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="col pl-0">
+                                                        <label class="form_label">link to: (4th)</label> <br>
+                                                        <input type="url" class="full" name="URl" required>
+                                                    </div>
+                                                    <div class="col px-0">
+                                                        <label class="form_label">link to: (5th)</label> <br>
+                                                        <input type="url" class="full" name="URl" required>
+                                                    </div>
+                                                    <div class="col pr-0">
+                                                        <label class="form_label">link to: (6th)</label> <br>
+                                                        <input type="url" class="full" name="URl" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="">
-                                            <label class="form_label">summary:</label> <br>
+                                            <label class="form_label">description: (optional)</label> <br>
                                             <textarea name="summary" class="full_sum" required></textarea>
                                         </div>
-                                        <div class="">
-                                            <label class="form_label">content:</label> <br>
-                                            <textarea name="content" class="full_area" required></textarea>
-                                        </div>
-                                        <button type="reset" class="post_reset_btn mr-3">reset post</button>
-                                        <button type="submit" class="post_sub_btn">create post</button>
-                                    </div>
-                                </div>
-                                <div class="col post_2 px-0">
-                                    <div class="post_form_2">
-                                        <div class="">
-                                            <label class="form_label">author:</label>
-                                            <input type="text" class="full" required>
-                                        </div>
-                                        <div class="d-flex justify-content-between">
-                                            <div class="col pl-0">
-                                                <label class="form_label">categories:</label>
-                                                <select class="full">
-                                                    <option class="form_opt"></option>
-                                                    <option class="form_opt">music</option>
-                                                    <option class="form_opt">video</option>
-                                                    <option class="form_opt">news</option>
-                                                    <option class="form_opt">status</option>
-                                                    <option class="form_opt">stories</option>
-                                                </select>
-                                            </div>
-                                            <div class="col pr-0">
-                                                <label class="form_label">sub categories:</label>
-                                                <select class="full">
-                                                    <option class="form_opt"></option>
-                                                    <option class="form_opt">music</option>
-                                                    <option class="form_opt">video</option>
-                                                    <option class="form_opt">news</option>
-                                                    <option class="form_opt">status</option>
-                                                    <option class="form_opt">stories</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">tags:</label> <br>
-                                            <textarea name="summary" class="full_sum" required></textarea>
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">date:</label> <br>
-                                            <input type="date" class="full" required>
-                                        </div>
+                                        <button type="reset" class="post_reset_btn mr-3">reset category</button>
+                                        <button type="submit" class="post_sub_btn">create category</button>
                                     </div>
                                 </div>
                             </form>
@@ -200,9 +220,10 @@
                                 <tr>
                                     <th class="tbl_header"></th>
                                     <th class="tbl_header">ID</th>
-                                    <th class="tbl_header">Title</th>
-                                    <th class="tbl_header">Category</th>
-                                    <th class="tbl_header">Date / Time</th>
+                                    <th class="tbl_header">category name</th>
+                                    <th class="tbl_header">link to</th>
+                                    <th class="tbl_header">Description</th>
+                                    <th class="tbl_header">sub category</th>
                                     <th class="tbl_header">manage</th>
                                 </tr>
                                 </thead>
@@ -210,9 +231,10 @@
                                 <tr>
                                     <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
                                     <th class="tbl_head">1</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
+                                    <td class="tbl_title">about us</td>
+                                    <td class="tbl_data">http://localhost:63342/Tanatech%20Labs%20CMS/categories.html</td>
+                                    <td class="tbl_data">click for all you need to know about us</td>
+                                    <td class="tbl_data">1st, 2nd, 3rd, 4th</td>
                                     <td class="tbl_data d-flex border-0">
                                         <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
                                         <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
@@ -222,9 +244,10 @@
                                 <tr>
                                     <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
                                     <th class="tbl_head">2</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
+                                    <td class="tbl_title">about us</td>
+                                    <td class="tbl_data">http://localhost:63342/Tanatech%20Labs%20CMS/categories.html</td>
+                                    <td class="tbl_data">click for all you need to know about us</td>
+                                    <td class="tbl_data">1st, 2nd, 3rd, 4th</td>
                                     <td class="tbl_data d-flex border-0">
                                         <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
                                         <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
@@ -234,9 +257,10 @@
                                 <tr>
                                     <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
                                     <th class="tbl_head">3</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
+                                    <td class="tbl_title">about us</td>
+                                    <td class="tbl_data">http://localhost:63342/Tanatech%20Labs%20CMS/categories.html</td>
+                                    <td class="tbl_data">click for all you need to know about us</td>
+                                    <td class="tbl_data">1st, 2nd, 3rd, 4th</td>
                                     <td class="tbl_data d-flex border-0">
                                         <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
                                         <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
@@ -246,9 +270,10 @@
                                 <tr>
                                     <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
                                     <th class="tbl_head">4</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
+                                    <td class="tbl_title">about us</td>
+                                    <td class="tbl_data">http://localhost:63342/Tanatech%20Labs%20CMS/categories.html</td>
+                                    <td class="tbl_data">click for all you need to know about us</td>
+                                    <td class="tbl_data">1st, 2nd, 3rd, 4th</td>
                                     <td class="tbl_data d-flex border-0">
                                         <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
                                         <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
@@ -258,9 +283,10 @@
                                 <tr>
                                     <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
                                     <th class="tbl_head">5</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
+                                    <td class="tbl_title">about us</td>
+                                    <td class="tbl_data">http://localhost:63342/Tanatech%20Labs%20CMS/categories.html</td>
+                                    <td class="tbl_data">click for all you need to know about us</td>
+                                    <td class="tbl_data">1st, 2nd, 3rd, 4th</td>
                                     <td class="tbl_data d-flex border-0">
                                         <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
                                         <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
@@ -273,36 +299,36 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <!--dashboard container ENDS-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
-    <!--dashboard container ENDS-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-<!--housing div ENDS-->
+    <!--housing div ENDS-->
 
 </body>
 
 <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
-<script type="text/javascript" src="js/post.js"></script>
+<script type="text/javascript" src="js/categories.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 </html>
