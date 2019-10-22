@@ -48,12 +48,12 @@ body{
     width: 100%;
     height: 100%;
     position: absolute;
-    position: fixed;
 }
 
 /*dashboard link container*/
 .dashboard_link_con{
-    height: 100%;
+    height: auto;
+    position: absolute;
     background-color: #323286;
 }
 .dash_header_con{
@@ -121,9 +121,6 @@ body{
 /*dashboard link container ENDS*/
 
 /*dashboard display container*/
-.dashboard_display_con{
-    height: 100%;
-}
 .tab_con{
     height: auto;
     padding: 10px 15px 0px;
@@ -226,7 +223,8 @@ body{
 
 /*home dashboard*/
 .dashboard_display_con{
-    height: 100%;
+    height: auto;
+    position: absolute;
     padding: 20px 0px;
 }
 .display_header{
