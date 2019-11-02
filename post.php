@@ -1,3 +1,23 @@
+<?php
+include_once ("backend script/connection.php");
+
+if (isset($submit)){
+    //collect form values
+    $title = $_POST['title'];
+    $submit = $_POST['post_sub_btn'];
+
+//sending values to database
+    $send_to_db = "INSERT INTO post(title) VALUE ('{$title}')";
+    $send_db  = mysqli_query($conn, $send_to_db);
+    if (!$send_db){
+        echo "error sending data to database" . mysqli_error($conn);
+    }
+}
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,56 +58,56 @@
                     <div class="align-self-center drop position-relative">
                         <p class="dash_header">Tanatech admin <span class="dash_header_icon2"> <i class="fa fa-angle-down"></i> </span> </p>
                         <div class="drop_con">
-                            <a href="#" class="text-decoration-none">
+                            <a href="index.html" class="text-decoration-none">
                                 <p class="drop_link"> <i class="fa fa-power-off"></i> log out</p>
                             </a>
                         </div>
                     </div>
                 </div>
                 <div class="">
-                    <a href="index.html" class="text-decoration-none">
+                    <a href="dashboard.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-home"></i> </span>
                             <p class="dash_link">home</p>
                         </div>
                     </a>
-                    <a href="post.html" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
+                    <a href="post.php" class="text-decoration-none">
+                        <div class="dash_link_con dash_link_active d-flex">
                             <span class="dash_icon"> <i class="fa fa-podcast"></i> </span>
                             <p class="dash_link">post</p>
                         </div>
                     </a>
-                    <a href="categories.html" class="text-decoration-none">
+                    <a href="categories.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-tags"></i> </span>
                             <p class="dash_link">categories</p>
                         </div>
                     </a>
-                    <a href="banner.html" class="text-decoration-none">
+                    <a href="banner.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-sliders"></i> </span>
                             <p class="dash_link">slider / Banner</p>
                         </div>
                     </a>
-                    <a href="page.html" class="text-decoration-none">
-                        <div class="dash_link_con dash_link_active d-flex">
+                    <a href="page.php" class="text-decoration-none">
+                        <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-book"></i> </span>
                             <p class="dash_link">pages</p>
                         </div>
                     </a>
-                    <a href="multimedia.html" class="text-decoration-none">
+                    <a href="multimedia.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-picture-o"></i> </span>
                             <p class="dash_link">multimedia</p>
                         </div>
                     </a>
-                    <a href="faq.html" class="text-decoration-none">
+                    <a href="faq.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-question-circle"></i> </span>
                             <p class="dash_link">FAQ</p>
                         </div>
                     </a>
-                    <a href="setting.html" class="text-decoration-none">
+                    <a href="setting.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-cogs" aria-hidden="true"></i> </span>
                             <p class="dash_link">settings</p>
@@ -110,7 +130,7 @@
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-create" aria-labelledby="nav-create-tab">
                         <div class="tab_content">
-                            <form action="#" enctype="multipart/form-data" method="post" class="d-flex justify-content-between">
+                            <form action="" enctype="multipart/form-data" method="post" class="d-flex justify-content-between">
                                 <div class="col-8 post_1 mr-3 px-0">
                                     <div class="post_form_1">
                                         <div class="">
@@ -129,8 +149,8 @@
                                             <label class="form_label">content:</label> <br>
                                             <textarea name="content" class="full_area" required></textarea>
                                         </div>
-                                        <button type="reset" class="post_reset_btn mr-3">reset post</button>
-                                        <button type="submit" class="post_sub_btn">create post</button>
+                                        <button type="reset" name="post_reset_btn" class="post_reset_btn mr-3">reset post</button>
+                                        <button type="submit" name="post_sub_btn" class="post_sub_btn">create post</button>
                                     </div>
                                 </div>
                                 <div class="col post_2 px-0">
@@ -273,31 +293,31 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <!--dashboard container ENDS-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </div>
-    <!--housing div ENDS-->
+    <!--dashboard container ENDS-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+<!--housing div ENDS-->
 
 </body>
 

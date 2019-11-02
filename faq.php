@@ -45,50 +45,50 @@
                     </div>
                 </div>
                 <div class="">
-                    <a href="index.html" class="text-decoration-none">
+                    <a href="dashboard.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-home"></i> </span>
                             <p class="dash_link">home</p>
                         </div>
                     </a>
-                    <a href="post.html" class="text-decoration-none">
+                    <a href="post.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-podcast"></i> </span>
                             <p class="dash_link">post</p>
                         </div>
                     </a>
-                    <a href="categories.html" class="text-decoration-none">
+                    <a href="categories.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-tags"></i> </span>
                             <p class="dash_link">categories</p>
                         </div>
                     </a>
-                    <a href="banner.html" class="text-decoration-none">
+                    <a href="banner.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-sliders"></i> </span>
                             <p class="dash_link">slider / Banner</p>
                         </div>
                     </a>
-                    <a href="page.html" class="text-decoration-none">
+                    <a href="page.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-book"></i> </span>
                             <p class="dash_link">pages</p>
                         </div>
                     </a>
-                    <a href="multimedia.html" class="text-decoration-none">
+                    <a href="multimedia.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-picture-o"></i> </span>
                             <p class="dash_link">multimedia</p>
                         </div>
                     </a>
-                    <a href="faq.html" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
+                    <a href="faq.php" class="text-decoration-none">
+                        <div class="dash_link_con dash_link_active d-flex">
                             <span class="dash_icon"> <i class="fa fa-question-circle"></i> </span>
                             <p class="dash_link">FAQ</p>
                         </div>
                     </a>
-                    <a href="setting.html" class="text-decoration-none">
-                        <div class="dash_link_con dash_link_active d-flex">
+                    <a href="setting.php" class="text-decoration-none">
+                        <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-cogs" aria-hidden="true"></i> </span>
                             <p class="dash_link">settings</p>
                         </div>
@@ -114,62 +114,27 @@
                                 <div class="col-8 post_1 mr-3 px-0">
                                     <div class="post_form_1">
                                         <div class="">
-                                            <label class="form_label">title:</label> <br>
-                                            <input type="text" class="full" name="title" required>
+                                            <label class="form_label">select question:</label>
+                                            <select class="full">
+                                                <option class="form_opt"></option>
+                                                <option class="form_opt">music</option>
+                                                <option class="form_opt">video</option>
+                                                <option class="form_opt">news</option>
+                                                <option class="form_opt">status</option>
+                                                <option class="form_opt">stories</option>
+                                            </select>
                                         </div>
                                         <div class="">
-                                            <label class="form_label">slug / URl:</label> <br>
-                                            <input type="url" class="full" name="URl" required>
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">summary:</label> <br>
-                                            <textarea name="summary" class="full_sum" required></textarea>
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">content:</label> <br>
-                                            <textarea name="content" class="full_area" required></textarea>
-                                        </div>
-                                        <button type="reset" class="post_reset_btn mr-3">reset post</button>
-                                        <button type="submit" class="post_sub_btn">create post</button>
-                                    </div>
-                                </div>
-                                <div class="col post_2 px-0">
-                                    <div class="post_form_2">
-                                        <div class="">
-                                            <label class="form_label">author:</label>
-                                            <input type="text" class="full" required>
-                                        </div>
-                                        <div class="d-flex justify-content-between">
-                                            <div class="col pl-0">
-                                                <label class="form_label">categories:</label>
-                                                <select class="full">
-                                                    <option class="form_opt"></option>
-                                                    <option class="form_opt">music</option>
-                                                    <option class="form_opt">video</option>
-                                                    <option class="form_opt">news</option>
-                                                    <option class="form_opt">status</option>
-                                                    <option class="form_opt">stories</option>
-                                                </select>
-                                            </div>
-                                            <div class="col pr-0">
-                                                <label class="form_label">sub categories:</label>
-                                                <select class="full">
-                                                    <option class="form_opt"></option>
-                                                    <option class="form_opt">music</option>
-                                                    <option class="form_opt">video</option>
-                                                    <option class="form_opt">news</option>
-                                                    <option class="form_opt">status</option>
-                                                    <option class="form_opt">stories</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">tags:</label> <br>
-                                            <textarea name="summary" class="full_sum" required></textarea>
+                                            <label class="form_label">question answer:</label> <br>
+                                            <textarea name="question_ans" class="full_area" required></textarea>
                                         </div>
                                         <div class="">
                                             <label class="form_label">date:</label> <br>
                                             <input type="date" class="full" required>
+                                        </div>
+                                        <div class="">
+                                            <button type="reset" class="post_reset_btn mr-3">reset post</button>
+                                            <button type="submit" class="post_sub_btn">create post</button>
                                         </div>
                                     </div>
                                 </div>
@@ -198,10 +163,10 @@
                             <table class="table table-striped table-bordered">
                                 <thead>
                                 <tr>
-                                    <th class="tbl_header"></th>
+                                    <th class="tbl_header"> <input type="checkbox" class="tbl_check align-self-center"> </th>
                                     <th class="tbl_header">ID</th>
-                                    <th class="tbl_header">Title</th>
-                                    <th class="tbl_header">Category</th>
+                                    <th class="tbl_header">questions</th>
+                                    <th class="tbl_header">answers</th>
                                     <th class="tbl_header">Date / Time</th>
                                     <th class="tbl_header">manage</th>
                                 </tr>
@@ -274,17 +239,8 @@
                 </div>
             </div>
         </div>
+    </div>
         <!--dashboard container ENDS-->
-
-
-
-
-
-
-
-
-
-
 
 
 

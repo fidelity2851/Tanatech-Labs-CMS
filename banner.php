@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tanatech Labs CMS</title>
+    <title>Tanatech Labs CMS / banner</title>
     <!--google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Lato|Roboto&display=swap" rel="stylesheet">
 
@@ -45,49 +45,49 @@
                     </div>
                 </div>
                 <div class="">
-                    <a href="index.html" class="text-decoration-none">
+                    <a href="dashboard.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-home"></i> </span>
                             <p class="dash_link">home</p>
                         </div>
                     </a>
-                    <a href="post.html" class="text-decoration-none">
+                    <a href="post.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-podcast"></i> </span>
                             <p class="dash_link">post</p>
                         </div>
                     </a>
-                    <a href="categories.html" class="text-decoration-none">
+                    <a href="categories.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-tags"></i> </span>
                             <p class="dash_link">categories</p>
                         </div>
                     </a>
-                    <a href="banner.html" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
+                    <a href="banner.php" class="text-decoration-none">
+                        <div class="dash_link_con dash_link_active d-flex">
                             <span class="dash_icon"> <i class="fa fa-sliders"></i> </span>
                             <p class="dash_link">slider / Banner</p>
                         </div>
                     </a>
-                    <a href="page.html" class="text-decoration-none">
+                    <a href="page.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-book"></i> </span>
                             <p class="dash_link">pages</p>
                         </div>
                     </a>
-                    <a href="multimedia.html" class="text-decoration-none">
+                    <a href="multimedia.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-picture-o"></i> </span>
                             <p class="dash_link">multimedia</p>
                         </div>
                     </a>
-                    <a href="faq.html" class="text-decoration-none">
-                        <div class="dash_link_con dash_link_active d-flex">
+                    <a href="faq.php" class="text-decoration-none">
+                        <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-question-circle"></i> </span>
                             <p class="dash_link">FAQ</p>
                         </div>
                     </a>
-                    <a href="setting.html" class="text-decoration-none">
+                    <a href="setting.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-cogs" aria-hidden="true"></i> </span>
                             <p class="dash_link">settings</p>
@@ -110,67 +110,40 @@
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-create" aria-labelledby="nav-create-tab">
                         <div class="tab_content">
-                            <form action="#" enctype="multipart/form-data" method="post" class="d-flex justify-content-between">
-                                <div class="col-8 post_1 mr-3 px-0">
+                            <form action="#" enctype="multipart/form-data" method="post" class="d-flex justify-content-center">
+                                <div class="col post_1 mr-3 px-0">
                                     <div class="post_form_1">
                                         <div class="">
-                                            <label class="form_label">title:</label> <br>
+                                            <label class="form_label">web page:</label>
+                                            <select class="full">
+                                                <option class="form_opt"></option>
+                                                <option class="form_opt">homepage</option>
+                                                <option class="form_opt">about us page</option>
+                                                <option class="form_opt">gallery page</option>
+                                                <option class="form_opt">contact page</option>
+                                                <option class="form_opt">prosucts page</option>
+                                            </select>
+                                        </div>
+                                        <div class="">
+                                            <label class="form_label">banner image:</label> <br>
+                                            <input type="file" class="full" name="banner_image" required>
+                                        </div>
+                                        <div class="">
+                                            <label class="form_label">banner header:</label> <br>
                                             <input type="text" class="full" name="title" required>
                                         </div>
-                                        <div class="">
-                                            <label class="form_label">slug / URl:</label> <br>
-                                            <input type="url" class="full" name="URl" required>
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">summary:</label> <br>
-                                            <textarea name="summary" class="full_sum" required></textarea>
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">content:</label> <br>
-                                            <textarea name="content" class="full_area" required></textarea>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="col px-0">
+                                                <label class="form_label">banner description:</label> <br>
+                                                <textarea name="banner_description" class="full_sum" required></textarea>
+                                            </div>
+                                            <div class="col pr-0">
+                                                <label class="form_label">date:</label> <br>
+                                                <input type="date" class="full" required>
+                                            </div>
                                         </div>
                                         <button type="reset" class="post_reset_btn mr-3">reset post</button>
                                         <button type="submit" class="post_sub_btn">create post</button>
-                                    </div>
-                                </div>
-                                <div class="col post_2 px-0">
-                                    <div class="post_form_2">
-                                        <div class="">
-                                            <label class="form_label">author:</label>
-                                            <input type="text" class="full" required>
-                                        </div>
-                                        <div class="d-flex justify-content-between">
-                                            <div class="col pl-0">
-                                                <label class="form_label">categories:</label>
-                                                <select class="full">
-                                                    <option class="form_opt"></option>
-                                                    <option class="form_opt">music</option>
-                                                    <option class="form_opt">video</option>
-                                                    <option class="form_opt">news</option>
-                                                    <option class="form_opt">status</option>
-                                                    <option class="form_opt">stories</option>
-                                                </select>
-                                            </div>
-                                            <div class="col pr-0">
-                                                <label class="form_label">sub categories:</label>
-                                                <select class="full">
-                                                    <option class="form_opt"></option>
-                                                    <option class="form_opt">music</option>
-                                                    <option class="form_opt">video</option>
-                                                    <option class="form_opt">news</option>
-                                                    <option class="form_opt">status</option>
-                                                    <option class="form_opt">stories</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">tags:</label> <br>
-                                            <textarea name="summary" class="full_sum" required></textarea>
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">date:</label> <br>
-                                            <input type="date" class="full" required>
-                                        </div>
                                     </div>
                                 </div>
                             </form>
@@ -200,8 +173,8 @@
                                 <tr>
                                     <th class="tbl_header"></th>
                                     <th class="tbl_header">ID</th>
-                                    <th class="tbl_header">Title</th>
-                                    <th class="tbl_header">Category</th>
+                                    <th class="tbl_header">banner header</th>
+                                    <th class="tbl_header">banner image</th>
                                     <th class="tbl_header">Date / Time</th>
                                     <th class="tbl_header">manage</th>
                                 </tr>
@@ -210,8 +183,8 @@
                                 <tr>
                                     <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
                                     <th class="tbl_head">1</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
+                                    <td class="tbl_title">we are tanatech labd LTD</td>
+                                    <td class="tbl_data">slider 1.jpg</td>
                                     <td class="tbl_data">12:48pm - 19/10/2019</td>
                                     <td class="tbl_data d-flex border-0">
                                         <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
@@ -222,8 +195,8 @@
                                 <tr>
                                     <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
                                     <th class="tbl_head">2</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
+                                    <td class="tbl_title">we are tanatech labd LTD</td>
+                                    <td class="tbl_data">slider 1.jpg</td>
                                     <td class="tbl_data">12:48pm - 19/10/2019</td>
                                     <td class="tbl_data d-flex border-0">
                                         <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
@@ -234,8 +207,8 @@
                                 <tr>
                                     <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
                                     <th class="tbl_head">3</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
+                                    <td class="tbl_title">we are tanatech labd LTD</td>
+                                    <td class="tbl_data">slider 1.jpg</td>
                                     <td class="tbl_data">12:48pm - 19/10/2019</td>
                                     <td class="tbl_data d-flex border-0">
                                         <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
@@ -246,8 +219,8 @@
                                 <tr>
                                     <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
                                     <th class="tbl_head">4</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
+                                    <td class="tbl_title">we are tanatech labd LTD</td>
+                                    <td class="tbl_data">slider 1.jpg</td>
                                     <td class="tbl_data">12:48pm - 19/10/2019</td>
                                     <td class="tbl_data d-flex border-0">
                                         <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
@@ -258,8 +231,8 @@
                                 <tr>
                                     <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
                                     <th class="tbl_head">5</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
+                                    <td class="tbl_title">we are tanatech labd LTD</td>
+                                    <td class="tbl_data">slider 1.jpg</td>
                                     <td class="tbl_data">12:48pm - 19/10/2019</td>
                                     <td class="tbl_data d-flex border-0">
                                         <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
@@ -303,6 +276,6 @@
 
 <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
-<script type="text/javascript" src="js/post.js"></script>
+<script type="text/javascript" src="js/banner.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 </html>

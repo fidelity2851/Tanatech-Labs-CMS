@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tanatech Labs CMS</title>
+    <title>Tanatech Labs CMS / login</title>
     <!--google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Lato|Roboto&display=swap" rel="stylesheet">
 
@@ -14,166 +14,59 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-<!--housing div-->
+
 <div class="housing">
-    <!--header container-->
-    <div class="header_con sticky-top">
-        <div class="row header d-flex justify-content-center mx-0">
-            <div class="col-2 logo_con align-self-center px-0">
-                <img src="images/logo.fw.png" class="logo">
-            </div>
-            <div class="col header_text_con mx-auto align-self-center px-0">
-                <p class="header_text">welcome to Tanatech Labs LTD CMS</p>
-            </div>
-        </div>
-    </div>
-    <!--header container ENDS-->
 
-    <!--dashboard container-->
-    <div class="dashboard_con">
-        <div class="row dashboard d-flex justify-content-between mx-0">
-            <div class="col-2 dashboard_link_con d-flex flex-column px-0">
-                <div class="dash_header_con d-flex justify-content-around">
-                    <span class="dash_header_icon align-self-center"> <i class="fa fa-user"></i> </span>
-                    <div class="align-self-center drop position-relative">
-                        <p class="dash_header">Tanatech admin <span class="dash_header_icon2"> <i class="fa fa-angle-down"></i> </span> </p>
-                        <div class="drop_con">
-                            <a href="#" class="text-decoration-none">
-                                <p class="drop_link"> <i class="fa fa-power-off"></i> log out</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="">
-                    <a href="index.html" class="text-decoration-none">
-                        <div class="dash_link_con dash_link_active d-flex">
-                            <span class="dash_icon"> <i class="fa fa-home"></i> </span>
-                            <p class="dash_link">home</p>
-                        </div>
-                    </a>
-                    <a href="post.html" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-podcast"></i> </span>
-                            <p class="dash_link">post</p>
-                        </div>
-                    </a>
-                    <a href="categories.html" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-tags"></i> </span>
-                            <p class="dash_link">categories</p>
-                        </div>
-                    </a>
-                    <a href="banner.html" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-sliders"></i> </span>
-                            <p class="dash_link">slider / Banner</p>
-                        </div>
-                    </a>
-                    <a href="page.html" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-book"></i> </span>
-                            <p class="dash_link">pages</p>
-                        </div>
-                    </a>
-                    <a href="multimedia.html" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-picture-o"></i> </span>
-                            <p class="dash_link">multimedia</p>
-                        </div>
-                    </a>
-                    <a href="faq.html" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-question-circle"></i> </span>
-                            <p class="dash_link">FAQ</p>
-                        </div>
-                    </a>
-                    <a href="setting.html" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-cogs" aria-hidden="true"></i> </span>
-                            <p class="dash_link">settings</p>
-                        </div>
-                    </a>
-                </div>
-                <p class="power mt-auto">powered by: <span class="power_name">Tanatech Labs</span> </p>
-            </div>
-            <div class="col dashboard_display_con">
-                <p class="display_header">dashboard <span class="display_header_small">overview</span></p>
-                <div class="display_content_con d-flex justify-content-around">
-                    <a href="#" class="text-decoration-none">
-                        <div class="display_content d-flex flex-column">
-                            <div class="dis_img_con align-self-center">
-                                <img src="images/users_icon.png" class="display_content_img align-self-center">
-                            </div>
-                            <div class="dis_text_con">
-                                <p class="display_content_num">20</p>
-                                <p class="display_content_name">users</p>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="post.html" class="text-decoration-none">
-                        <div class="display_content d-flex flex-column">
-                            <div class="dis_img_con align-self-center">
-                                <img src="images/post_icon.png" class="display_content_img align-self-center">
-                            </div>
-                            <div class="dis_text_con">
-                                <p class="display_content_num">2000</p>
-                                <p class="display_content_name">posts</p>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="categories.html" class="text-decoration-none">
-                        <div class="display_content d-flex flex-column">
-                            <div class="dis_img_con align-self-center">
-                                <img src="images/categories_icon.jpg" class="display_content_img align-self-center">
-                            </div>
-                            <div class="dis_text_con">
-                                <p class="display_content_num">17</p>
-                                <p class="display_content_name">categories</p>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" class="text-decoration-none">
-                        <div class="display_content d-flex flex-column">
-                            <div class="dis_img_con align-self-center">
-                                <img src="images/writter_icon.png" class="display_content_img align-self-center">
-                            </div>
-                            <div class="dis_text_con">
-                                <p class="display_content_num">3</p>
-                                <p class="display_content_name">writter</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--dashboard container ENDS-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  <div class=" over_all d-flex justify-content-center mx-0">
+      <div class="container main_login_con d-flex justify-content-center px-0">
+          <!--login container-->
+          <div class="col-11 col-sm-8 col-md-6 col-lg-4 col-xl-3 login_con align-self-center">
+              <div class="login_main_con">
+                  <a href="#" class="text-decoration-none"> <button type="button" class="login_back_btn">go back</button> </a>
+                  <p class="login_header">login</p>
+                  <form action="dashboard.php"  method="post" enctype="multipart/form-data" class="login_form">
+                      <div class="mb-2">
+                          <label class="login_label">email:</label>
+                          <div class="d-flex">
+                              <span class="login_icon">&#10095;</span>
+                              <input type="email" name="email" class="login_box" required>
+                          </div>
+                      </div>
+                      <div class="mb-2">
+                          <label class="login_label">password:</label>
+                          <div class="d-flex">
+                              <span class="login_icon">&#10095;</span>
+                              <input type="password" name="password" class="login_box" required>
+                          </div>
+                      </div>
+                      <div class="">
+                          <button type="submit" name="login_sub_btn" class="login_sub_btn">login</button>
+                          <button type="button" class="forget_btn">reset password</button>
+                      </div>
+                  </form>
+              </div>
+              <div class="forget_con">
+                  <button type="button" class="close_forget_con">&times;</button>
+                  <p class="login_header">RESET PASSWORD</p>
+                  <div class="forget_hint_con">
+                      <p class="forget_hint"> <i class="fa fa-info"></i> enter your recovery email address so we can send you a reset password link</p>
+                  </div>
+                  <form action="#" method="post" enctype="multipart/form-data" class="">
+                      <label class="login_label">email:</label>
+                      <div class="">
+                          <input type="email" name="email" class="forget_box" required>
+                      </div>
+                      <button type="submit" class="forget_sub_btn">reset</button>
+                  </form>
+              </div>
+          </div>
+          <!--login container ENDS-->
+      </div>
+  </div>
 
 </div>
-<!--housing div ENDS-->
 
 </body>
-
 <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
 <script type="text/javascript" src="js/index.js"></script>

@@ -7,6 +7,154 @@ body{
     height: 100%;
 }
 
+/*login container*/
+.over_all{
+
+}
+.main_login_con{
+    height: 100%;
+    position: absolute;
+    background-image: url("../images/home_hero_front.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left;
+}
+.login_con{
+    height: auto;
+    padding: 20px 0px;
+    border: 3px dashed #454d55;
+    box-shadow: 0px 0px 5px #323286;
+    background-color: rgba(18, 18, 18, 0.23);
+}
+.login_back_btn{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    color: white;
+    text-transform: capitalize;
+    font-size: 12px;
+    font-weight: 500;
+    border: none;
+    padding: 3px 5px;
+    background: rgba(0, 0, 0, 0.47);
+}
+.login_header{
+    color: #323286;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 30px;
+    font-weight: 600;
+    font-family: "Maiandra GD";
+}
+.login_label{
+    color: white;
+    text-transform: capitalize;
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0px 0px 5px;
+}
+.login_icon{
+    width: 30px;
+    height: auto;
+    color: silver;
+    text-align: center;
+    font-size: 13px;
+    border: 2px solid white;
+}
+.login_box{
+    width: 100%;
+    height: auto;
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    border-bottom: 2px solid white;
+    padding: 3px 5px;
+    background: none;
+    outline: none;
+}
+.login_sub_btn{
+    width: 100%;
+    color: white;
+    text-transform: capitalize;
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+    border-radius: 3px;
+    margin: 15px 0px;
+    padding: 10px 0px;
+    background: #323286;
+}
+
+.forget_btn{
+    width: 100%;
+    height: auto;
+    color: #323286;
+    text-transform: capitalize;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    border-radius: 3px;
+    margin: 0px 0px 10px;
+    padding: 10px 0px;
+    background: white;
+}
+.forget_con{
+    display: none;
+    width: 100%;
+    padding: 10px 0px;
+    background-color: transparent;
+}
+.forget_box{
+    width: 100%;
+    height: auto;
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
+    border: 2px solid white;
+    padding: 3px 5px;
+    background: none;
+    outline: none;
+}
+.close_forget_con{
+    color: white;
+    font-size: 25px;
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    border: none;
+    background: transparent;
+}
+.forget_hint_con{
+    border-radius: 3px;
+    margin: 0px 0px 10px;
+    padding: 10px;
+    background-color: #007bff;
+}
+.forget_hint{
+    color: white;
+    text-align: center;
+    text-transform: capitalize;
+    font-size: 12px;
+    font-weight: 500;
+    margin: 0px 0px;
+
+}
+.forget_sub_btn{
+    width: 100%;
+    height: auto;
+    color: #323286;
+    text-transform: capitalize;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    border-radius: 3px;
+    margin-top: 15px;
+    padding: 10px 0px;
+    background-color: white;
+}
+/*login container ENDS*/
+
 /*header container*/
 .header_con{
     width: 100%;

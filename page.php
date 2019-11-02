@@ -45,49 +45,49 @@
                     </div>
                 </div>
                 <div class="">
-                    <a href="index.html" class="text-decoration-none">
+                    <a href="dashboard.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-home"></i> </span>
                             <p class="dash_link">home</p>
                         </div>
                     </a>
-                    <a href="post.html" class="text-decoration-none">
-                        <div class="dash_link_con dash_link_active d-flex">
+                    <a href="post.php" class="text-decoration-none">
+                        <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-podcast"></i> </span>
                             <p class="dash_link">post</p>
                         </div>
                     </a>
-                    <a href="categories.html" class="text-decoration-none">
+                    <a href="categories.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-tags"></i> </span>
                             <p class="dash_link">categories</p>
                         </div>
                     </a>
-                    <a href="banner.html" class="text-decoration-none">
+                    <a href="banner.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-sliders"></i> </span>
                             <p class="dash_link">slider / Banner</p>
                         </div>
                     </a>
-                    <a href="page.html" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
+                    <a href="page.php" class="text-decoration-none">
+                        <div class="dash_link_con dash_link_active d-flex">
                             <span class="dash_icon"> <i class="fa fa-book"></i> </span>
                             <p class="dash_link">pages</p>
                         </div>
                     </a>
-                    <a href="multimedia.html" class="text-decoration-none">
+                    <a href="multimedia.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-picture-o"></i> </span>
                             <p class="dash_link">multimedia</p>
                         </div>
                     </a>
-                    <a href="faq.html" class="text-decoration-none">
+                    <a href="faq.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-question-circle"></i> </span>
                             <p class="dash_link">FAQ</p>
                         </div>
                     </a>
-                    <a href="setting.html" class="text-decoration-none">
+                    <a href="setting.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-cogs" aria-hidden="true"></i> </span>
                             <p class="dash_link">settings</p>
@@ -273,31 +273,31 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <!--dashboard container ENDS-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
-    <!--dashboard container ENDS-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-<!--housing div ENDS-->
+    <!--housing div ENDS-->
 
 </body>
 
