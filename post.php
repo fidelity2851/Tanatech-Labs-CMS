@@ -4,21 +4,21 @@ include_once ("backend script/connection.php");
 if (isset($submit)){
     //collect form values
     $title = $_POST['title'];
+    $url = $_POST['url'];
+    $summary = $_POST['summary'];
+    $content = $_POST['content'];
+    $author = $_POST['author'];
+    $category = $_POST['category'];
+    $sub_category = $_POST['sub_category'];
+    $tags = $_POST['tags'];
+    $crt_date = $_POST['date'];
     $submit = $_POST['post_sub_btn'];
 
 //sending values to database
-    $send_to_db = "INSERT INTO post(title) VALUE ('{$title}')";
+    $send_to_db = "INSERT INTO post(post_title, slug_url, post_summary, post_content, author, category, sub_category, tags, crt_date)
+ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$category}', '{$sub_category}', '{$tags}', {$crt_date})";
     $send_db  = mysqli_query($conn, $send_to_db);
-    if ($send_db){
-        echo "<div class='alert alert - primary alert - dismissible fade show' role='alert'>
-        	<button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-        		<span aria-hidden='true'>&times;</span>
-        		<span class='sr - only'>Close</span>
-        	</button>
-        	<strong>Holy guacamole!</strong>.
-        </div>";
-    }
-    else{
+    if (!$send_db){
         echo "error sending data to database" . mysqli_error($conn);
     }
 }
@@ -148,7 +148,7 @@ if (isset($submit)){
                                         </div>
                                         <div class="">
                                             <label class="form_label">slug / URl:</label> <br>
-                                            <input type="url" class="full" name="URl" required>
+                                            <input type="url" class="full" name="url" required>
                                         </div>
                                         <div class="">
                                             <label class="form_label">summary:</label> <br>
@@ -166,12 +166,12 @@ if (isset($submit)){
                                     <div class="post_form_2">
                                         <div class="">
                                             <label class="form_label">author:</label>
-                                            <input type="text" class="full" required>
+                                            <input type="text" name="author" class="full" required>
                                         </div>
                                         <div class="d-flex justify-content-between">
                                             <div class="col pl-0">
                                                 <label class="form_label">categories:</label>
-                                                <select class="full">
+                                                <select name="category" class="full">
                                                     <option class="form_opt"></option>
                                                     <option class="form_opt">music</option>
                                                     <option class="form_opt">video</option>
@@ -182,7 +182,7 @@ if (isset($submit)){
                                             </div>
                                             <div class="col pr-0">
                                                 <label class="form_label">sub categories:</label>
-                                                <select class="full">
+                                                <select name="sub_category" class="full">
                                                     <option class="form_opt"></option>
                                                     <option class="form_opt">music</option>
                                                     <option class="form_opt">video</option>
@@ -194,11 +194,11 @@ if (isset($submit)){
                                         </div>
                                         <div class="">
                                             <label class="form_label">tags:</label> <br>
-                                            <textarea name="summary" class="full_sum" required></textarea>
+                                            <textarea name="tags" class="full_sum" required></textarea>
                                         </div>
                                         <div class="">
                                             <label class="form_label">date:</label> <br>
-                                            <input type="date" class="full" required>
+                                            <input type="date" name="date" class="full" required>
                                         </div>
                                     </div>
                                 </div>
