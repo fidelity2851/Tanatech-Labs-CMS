@@ -1,5 +1,7 @@
 <?php
 include_once ("backend script/connection.php");
+$conn = mysqli_connect($server, $username, $password, $db_name);
+$submit = $_POST['post_sub_btn'];
 
 if (isset($submit)){
     //collect form values
@@ -12,11 +14,10 @@ if (isset($submit)){
     $sub_category = $_POST['sub_category'];
     $tags = $_POST['tags'];
     $crt_date = $_POST['date'];
-    $submit = $_POST['post_sub_btn'];
 
 //sending values to database
-    $send_to_db = "INSERT INTO post(post_title, slug_url, post_summary, post_content, author, category, sub_category, tags, crt_date)
- VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$category}', '{$sub_category}', '{$tags}', {$crt_date})";
+    $send_to_db = "INSERT INTO post(post_title, post_slug_url, post_summary, post_content, author, category, sub_category, tags, crt_date)
+VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$category}', '{$sub_category}', '{$tags}', {$crt_date})";
     $send_db  = mysqli_query($conn, $send_to_db);
     if (!$send_db){
         echo "error sending data to database" . mysqli_error($conn);
