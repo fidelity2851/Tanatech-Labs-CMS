@@ -9,7 +9,16 @@ if (isset($submit)){
 //sending values to database
     $send_to_db = "INSERT INTO post(title) VALUE ('{$title}')";
     $send_db  = mysqli_query($conn, $send_to_db);
-    if (!$send_db){
+    if ($send_db){
+        echo "<div class='alert alert - primary alert - dismissible fade show' role='alert'>
+        	<button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+        		<span aria-hidden='true'>&times;</span>
+        		<span class='sr - only'>Close</span>
+        	</button>
+        	<strong>Holy guacamole!</strong>.
+        </div>";
+    }
+    else{
         echo "error sending data to database" . mysqli_error($conn);
     }
 }
@@ -58,7 +67,7 @@ if (isset($submit)){
                     <div class="align-self-center drop position-relative">
                         <p class="dash_header">Tanatech admin <span class="dash_header_icon2"> <i class="fa fa-angle-down"></i> </span> </p>
                         <div class="drop_con">
-                            <a href="index.html" class="text-decoration-none">
+                            <a href="index.php" class="text-decoration-none">
                                 <p class="drop_link"> <i class="fa fa-power-off"></i> log out</p>
                             </a>
                         </div>
