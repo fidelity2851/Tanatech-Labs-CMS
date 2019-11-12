@@ -23,7 +23,6 @@ body{
     height: auto;
     padding: 20px 0px;
     border: 3px dashed #454d55;
-    box-shadow: 0px 0px 5px #323286;
     background-color: rgba(18, 18, 18, 0.23);
 }
 .login_back_btn{
@@ -39,7 +38,7 @@ body{
     background: rgba(0, 0, 0, 0.47);
 }
 .login_header{
-    color: #323286;
+    color: #fd7e14;
     text-align: center;
     text-transform: uppercase;
     font-size: 30px;
@@ -51,15 +50,22 @@ body{
     text-transform: capitalize;
     font-size: 15px;
     font-weight: 500;
+    font-family: Roboto;
     margin: 0px 0px 5px;
 }
 .login_icon{
-    width: 30px;
+    width: auto;
     height: auto;
-    color: silver;
     text-align: center;
-    font-size: 13px;
-    border: 2px solid white;
+    border-right: none;
+    border-top: 2px solid white;
+    border-left: 2px solid white;
+    border-bottom: 2px solid white;
+    border-radius: 100% 0px 0px 100%;
+}
+.form_img{
+    width: 30px;
+    height: 30px;
 }
 .login_box{
     width: 100%;
@@ -68,6 +74,9 @@ body{
     font-size: 13px;
     font-weight: 500;
     border: none;
+    border-left: none;
+    border-top: 2px solid white;
+    border-right: 2px solid white;
     border-bottom: 2px solid white;
     padding: 3px 5px;
     background: none;
@@ -205,7 +214,7 @@ body{
     background-color: #323286;
 }
 .dash_header_con{
-    padding: 10px 10px;
+    padding: 5px 5px;
     background-color: #fd7e14;
 }
 .dash_header_icon{
@@ -213,7 +222,12 @@ body{
     font-size: 20px;
     border: 1px solid #dee2e6;
     border-radius: 100%;
-    padding: 5px 12px;
+
+}
+.dash_header_img{
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
 }
 .dash_header_icon2{
     font-size: 18px;
@@ -239,11 +253,10 @@ body{
     font-weight: 700;
     font-family: Roboto;
     margin: 0px;
-    padding: 5px 20px;
+    padding: 10px 20px;
 }
 
 .dash_link_con{
-    border-bottom: 2px solid white;
     padding: 5px 20px;
     transition: all 0.3s ease-in-out;
 }
@@ -253,7 +266,7 @@ body{
     align-self: center;
 }
 .dash_link_active{
-    background: linear-gradient(to right, #dc3545, #323286);
+    background-color: #1b1e21;
 }
 .dash_link{
     color: white;
@@ -370,6 +383,12 @@ body{
 /*dashboard display container ENDS*/
 
 /*home dashboard*/
+.succ_msg{
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
 .dashboard_display_con{
     height: auto;
     position: absolute;
@@ -540,7 +559,7 @@ body{
 
 /*hover Effects*/
 .dash_link_con:hover{
-    padding-left: 30px;
+    padding-left: 40px;
     background-color: white;
 }
 .dash_link_con:hover .dash_icon,

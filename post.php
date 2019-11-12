@@ -1,9 +1,8 @@
 <?php
 include_once ("backend script/connection.php");
 $conn = mysqli_connect($server, $username, $password, $db_name);
-$submit = $_POST['post_sub_btn'];
 
-if (isset($submit)){
+if (isset($_POST['post_sub_btn'])){
     //collect form values
     $title = $_POST['title'];
     $url = $_POST['url'];
@@ -20,7 +19,10 @@ if (isset($submit)){
 VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$category}', '{$sub_category}', '{$tags}', {$crt_date})";
     $send_db  = mysqli_query($conn, $send_to_db);
     if (!$send_db){
-        echo "error sending data to database" . mysqli_error($conn);
+        echo $failed = "failed to create your post";
+    }
+    else {
+        $success = "post created successfully";
     }
 }
 
@@ -64,7 +66,7 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$categor
         <div class="row dashboard d-flex justify-content-between mx-0">
             <div class="col-2 dashboard_link_con d-flex flex-column px-0">
                 <div class="dash_header_con d-flex justify-content-around">
-                    <span class="dash_header_icon align-self-center"> <i class="fa fa-user"></i> </span>
+                    <div class="dash_header_icon align-self-center"> <img src="images/user.png" class="dash_header_img"> </div>
                     <div class="align-self-center drop position-relative">
                         <p class="dash_header">Tanatech admin <span class="dash_header_icon2"> <i class="fa fa-angle-down"></i> </span> </p>
                         <div class="drop_con">
@@ -117,6 +119,12 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$categor
                             <p class="dash_link">FAQ</p>
                         </div>
                     </a>
+                    <a href="user.php" class="text-decoration-none">
+                        <div class="dash_link_con d-flex">
+                            <span class="dash_icon"> <i class="fa fa-users" aria-hidden="true"></i> </span>
+                            <p class="dash_link">users</p>
+                        </div>
+                    </a>
                     <a href="setting.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-cogs" aria-hidden="true"></i> </span>
@@ -127,6 +135,45 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$categor
                 <p class="power mt-auto">powered by: <span class="power_name">Tanatech Labs</span> </p>
             </div>
             <div class="col dashboard_display_con px-0">
+                <?php
+                if (isset($success)){
+                    ?>
+                <div class="succ_msg">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <?php
+                        if (isset($success)){
+                        echo " <strong>" . $success . "</strong>";
+                        }
+                        ?>
+                    </div>
+                </div>
+                <?php
+                }
+                ?>
+
+                <?php
+                if (isset($failed)){
+                    ?>
+                    <div class="succ_msg">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <?php
+                            if (isset($failed)){
+                                echo " <strong>" . $failed . "</strong>";
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
                 <nav class="tab_con">
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <a class="nav-item nav-link active" data-toggle="tab" href="#nav-create" aria-selected="true">
@@ -154,6 +201,10 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$categor
                                         <div class="">
                                             <label class="form_label">summary:</label> <br>
                                             <textarea name="summary" class="full_sum" required></textarea>
+                                        </div>
+                                        <div class="">
+                                            <label class="form_label">post image:</label> <br>
+                                            <input type="file" class="full" name="banner_image" required>
                                         </div>
                                         <div class="">
                                             <label class="form_label">content:</label> <br>
@@ -228,7 +279,7 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$categor
                             <table class="table table-striped table-bordered">
                                 <thead>
                                 <tr>
-                                    <th class="tbl_header"></th>
+                                    <th class="tbl_header"> <input type="checkbox" class="tbl_check align-self-center"> </th>
                                     <th class="tbl_header">ID</th>
                                     <th class="tbl_header">Title</th>
                                     <th class="tbl_header">Category</th>
@@ -237,66 +288,34 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$categor
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <?php
+                                $query = "SELECT * FROM post ORDER BY post_id DESC ";
+                                if ($query_run = mysqli_query($conn, $query)){
+                                    while ($query_row = mysqli_fetch_assoc($query_run)){
+                                        $id = $query_row['post_id'];
+                                        $title = $query_row['post_title'];
+                                        $cate = $query_row['category'];
+                                        $date = $query_row['up_date'];
+                                        ?>
+
                                 <tr>
                                     <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">1</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
+                                    <td class="tbl_head"> <?Php echo $id?> </td>
+                                    <td class="tbl_title"> <?Php echo $title?> </td>
+                                    <td class="tbl_data"> <?Php echo $cate?> </td>
+                                    <td class="tbl_data"> <?Php echo $date?> </td>
                                     <td class="tbl_data d-flex border-0">
                                         <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
                                         <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
                                         <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">2</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">3</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">4</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">5</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
+
+                                <?php
+                                }
+                                }
+                                ?>
+
                                 </tbody>
                             </table>
                         </div>
@@ -305,24 +324,6 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$categor
             </div>
     </div>
     <!--dashboard container ENDS-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

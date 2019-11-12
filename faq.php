@@ -34,11 +34,11 @@
         <div class="row dashboard d-flex justify-content-between mx-0">
             <div class="col-2 dashboard_link_con d-flex flex-column px-0">
                 <div class="dash_header_con d-flex justify-content-around">
-                    <span class="dash_header_icon align-self-center"> <i class="fa fa-user"></i> </span>
+                    <div class="dash_header_icon align-self-center"> <img src="images/user.png" class="dash_header_img"> </div>
                     <div class="align-self-center drop position-relative">
                         <p class="dash_header">Tanatech admin <span class="dash_header_icon2"> <i class="fa fa-angle-down"></i> </span> </p>
                         <div class="drop_con">
-                            <a href="#" class="text-decoration-none">
+                            <a href="index.php" class="text-decoration-none">
                                 <p class="drop_link"> <i class="fa fa-power-off"></i> log out</p>
                             </a>
                         </div>
@@ -85,6 +85,12 @@
                         <div class="dash_link_con dash_link_active d-flex">
                             <span class="dash_icon"> <i class="fa fa-question-circle"></i> </span>
                             <p class="dash_link">FAQ</p>
+                        </div>
+                    </a>
+                    <a href="user.php" class="text-decoration-none">
+                        <div class="dash_link_con d-flex">
+                            <span class="dash_icon"> <i class="fa fa-users" aria-hidden="true"></i> </span>
+                            <p class="dash_link">users</p>
                         </div>
                     </a>
                     <a href="setting.php" class="text-decoration-none">

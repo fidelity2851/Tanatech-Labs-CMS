@@ -1,3 +1,34 @@
+<?php
+include_once ("backend script/connection.php");
+$conn = mysqli_connect($server, $username, $password, $db_name);
+
+if (isset($_POST['post_sub_btn'])){
+    //collect form values
+    $user_name = $_POST['username'];
+    $firstname = $_POST['firstname'];
+    $lastname = $_POST['lastname'];
+    $password = $_POST['password'];
+    $comfirm_password = $_POST['comfirm_password'];
+    $biograph = $_POST['biograph'];
+    $profile_pic = $_POST['profile_image'];
+    $crt_date = $_POST['date'];
+
+//sending values to database
+    $send_to_db = "INSERT INTO users(username, firstname, lastname, password, biograph, profile_img, crt_date)
+VALUE ('{$user_name}', '{$firstname}', '{$lastname}', '{$password}', '{$biograph}', '{$profile_pic}',  {$crt_date})";
+    $send_db  = mysqli_query($conn, $send_to_db);
+    if (!$send_db){
+        $failed = "failed to create your post";
+    }
+    else {
+        $success = "post created successfully";
+    }
+}
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -88,13 +119,13 @@
                         </div>
                     </a>
                     <a href="user.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
+                        <div class="dash_link_con dash_link_active d-flex">
                             <span class="dash_icon"> <i class="fa fa-users" aria-hidden="true"></i> </span>
                             <p class="dash_link">users</p>
                         </div>
                     </a>
                     <a href="setting.php" class="text-decoration-none">
-                        <div class="dash_link_con dash_link_active d-flex">
+                        <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-cogs" aria-hidden="true"></i> </span>
                             <p class="dash_link">settings</p>
                         </div>
@@ -103,77 +134,98 @@
                 <p class="power mt-auto">powered by: <span class="power_name">Tanatech Labs</span> </p>
             </div>
             <div class="col dashboard_display_con px-0">
+                <?php
+                if (isset($success)){
+                    ?>
+                    <div class="succ_msg">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <?php
+                            if (isset($success)){
+                                echo " <strong>" . $success . "</strong>";
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
+
+                <?php
+                if (isset($failed)){
+                    ?>
+                    <div class="succ_msg">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <?php
+                            if (isset($failed)){
+                                echo " <strong>" . $failed . "</strong>";
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
                 <nav class="tab_con">
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <a class="nav-item nav-link active" data-toggle="tab" href="#nav-create" aria-selected="true">
-                            <p class="tab_link">create new post</p>
+                            <p class="tab_link">create new user</p>
                         </a>
                         <a class="nav-item nav-link" data-toggle="tab" href="#nav-manage" aria-selected="false">
-                            <p class="tab_link">manage your post</p>
+                            <p class="tab_link">manage your users</p>
                         </a>
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-create" aria-labelledby="nav-create-tab">
                         <div class="tab_content">
-                            <form action="#" enctype="multipart/form-data" method="post" class="d-flex justify-content-between">
+                            <form action="" enctype="multipart/form-data" method="post" class="d-flex justify-content-between">
                                 <div class="col-8 post_1 mr-3 px-0">
                                     <div class="post_form_1">
                                         <div class="">
-                                            <label class="form_label">site-URL:</label> <br>
-                                            <input type="url" class="full" name="site_url" required>
+                                            <label class="form_label">username:</label> <br>
+                                            <input type="text" class="full" name="username" required>
                                         </div>
                                         <div class="">
-                                            <label class="form_label">chat-ID:</label> <br>
-                                            <input type="text" class="full" name="chat_id" required>
+                                            <label class="form_label">firstname:</label> <br>
+                                            <input type="text" class="full" name="firstname" required>
                                         </div>
                                         <div class="">
-                                            <label class="form_label">google analytics:</label> <br>
-                                            <input type="text" name="google_analytics" class="full" required>
+                                            <label class="form_label">lastname:</label> <br>
+                                            <input type="text" class="full" name="lastname" required>
                                         </div>
                                         <div class="">
-                                            <label class="form_label">KYC option:</label>
-                                            <select class="full">
-                                                <option class="form_opt"></option>
-                                                <option class="form_opt">music</option>
-                                                <option class="form_opt">video</option>
-                                                <option class="form_opt">news</option>
-                                                <option class="form_opt">status</option>
-                                                <option class="form_opt">stories</option>
-                                            </select>
+                                            <label class="form_label">profile picture:</label> <br>
+                                            <input type="file" class="full" name="profile_image">
                                         </div>
                                         <div class="">
-                                            <label class="form_label">veryify Email:</label> <br>
-                                            <input type="text" name="veryify_email" class="full" required>
+                                            <label class="form_label">biograph:</label> <br>
+                                            <textarea name="biograph" class="full_sum" required></textarea>
                                         </div>
-                                        <div class="">
-                                            <button type="reset" class="post_reset_btn mr-3">reset post</button>
-                                            <button type="submit" class="post_sub_btn">create post</button>
-                                        </div>
+                                        <button type="reset" name="post_reset_btn" class="post_reset_btn mr-3">reset post</button>
+                                        <button type="submit" name="post_sub_btn" class="post_sub_btn">create post</button>
                                     </div>
                                 </div>
                                 <div class="col post_2 px-0">
-                                    <label class="form_label">social media accounts:</label>
                                     <div class="post_form_2">
                                         <div class="">
-                                            <label class="form_label">facebook-URL:</label>
-                                            <input type="url" class="full" name="facebook_url" required>
+                                            <label class="form_label">password:</label> <br>
+                                            <input type="password" class="full" name="password" required>
                                         </div>
                                         <div class="">
-                                            <label class="form_label">instagram-URL:</label>
-                                            <input type="url" class="full" name="instagram_url" required>
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">twitter-URL:</label>
-                                            <input type="url" class="full" name="twitter_url" required>
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">youtube-URL:</label>
-                                            <input type="url" class="full" name="youtube_url" required>
+                                            <label class="form_label">comfirm password:</label> <br>
+                                            <input type="password" class="full" name="comfirm_password" required>
                                         </div>
                                         <div class="">
                                             <label class="form_label">date:</label> <br>
-                                            <input type="date" class="full" required>
+                                            <input type="date" name="date" class="full" required>
                                         </div>
                                     </div>
                                 </div>
@@ -204,73 +256,41 @@
                                 <tr>
                                     <th class="tbl_header"> <input type="checkbox" class="tbl_check align-self-center"> </th>
                                     <th class="tbl_header">ID</th>
-                                    <th class="tbl_header">Title</th>
-                                    <th class="tbl_header">Category</th>
+                                    <th class="tbl_header">username</th>
+                                    <th class="tbl_header">biograph</th>
                                     <th class="tbl_header">Date / Time</th>
                                     <th class="tbl_header">manage</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">1</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">2</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">3</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">4</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">5</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
+                                <?php
+                                $query = "SELECT * FROM post ORDER BY post_id DESC ";
+                                if ($query_run = mysqli_query($conn, $query)){
+                                    while ($query_row = mysqli_fetch_assoc($query_run)){
+                                        $id = $query_row['user_id'];
+                                        $title = $query_row['username'];
+                                        $cate = $query_row['biograph'];
+                                        $date = $query_row['up_date'];
+                                        ?>
+
+                                        <tr>
+                                            <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
+                                            <td class="tbl_head"> <?Php echo $id?> </td>
+                                            <td class="tbl_title"> <?Php echo $title?> </td>
+                                            <td class="tbl_data"> <?Php echo $cate?> </td>
+                                            <td class="tbl_data"> <?Php echo $date?> </td>
+                                            <td class="tbl_data d-flex border-0">
+                                                <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
+                                                <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
+                                                <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+
+                                        <?php
+                                    }
+                                }
+                                ?>
+
                                 </tbody>
                             </table>
                         </div>
@@ -278,8 +298,9 @@
                 </div>
             </div>
         </div>
-    </div>
         <!--dashboard container ENDS-->
+
+
 
     </div>
     <!--housing div ENDS-->

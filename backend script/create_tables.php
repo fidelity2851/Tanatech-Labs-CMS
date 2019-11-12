@@ -13,6 +13,20 @@ if (!$post){
     echo "error creating post table: " . mysqli_error($conn);
 }
 
+//create user table
+$post_tb = "CREATE TABLE IF NOT EXISTS users (user_id INT NOT NULL AUTO_INCREMENT, username VARCHAR(400) NOT NULL, firstname VARCHAR(200) NOT NULL, lastname VARCHAR(200) NOT NULL, password VARCHAR(200) NOT NULL, biograph VARCHAR(500), profile_img VARCHAR(200), status BOOLEAN, crt_date TIMESTAMP(6), up_date TIMESTAMP(6), PRIMARY KEY(user_id))";
+$post = mysqli_query($conn, $post_tb);
+if (!$post){
+    echo "error creating post table: " . mysqli_error($conn);
+}
+
+//create writter table
+$post_tb = "CREATE TABLE IF NOT EXISTS writter (writter_id INT NOT NULL AUTO_INCREMENT, username VARCHAR(400) NOT NULL, firstname VARCHAR(200) NOT NULL, lastname VARCHAR(200) NOT NULL, password VARCHAR(200) NOT NULL, profile_img VARCHAR(200), status BOOLEAN, crt_date TIMESTAMP(6), up_date TIMESTAMP(6), PRIMARY KEY(writter_id))";
+$post = mysqli_query($conn, $post_tb);
+if (!$post){
+    echo "error creating post table: " . mysqli_error($conn);
+}
+
 //create category table
 $category_tb = "CREATE TABLE IF NOT EXISTS category (category_id INT NOT NULL AUTO_INCREMENT, cate_name VARCHAR(200), category_url VARCHAR(500), icon BOOLEAN, crt_date TIMESTAMP(6), up_date TIMESTAMP(6), PRIMARY KEY (category_id))";
 $category = mysqli_query($conn, $category_tb);

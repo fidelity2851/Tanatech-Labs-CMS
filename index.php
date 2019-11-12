@@ -1,3 +1,24 @@
+<?php
+
+
+if (isset($_POST['login_sub_btn'])){
+
+    $username = "fidelity@gmail.com";
+    $password  = "fidelity";
+    $link = "dashboard.php";
+
+    if ($_POST['email'] == $username && $_POST['password'] == $password){
+        $success = "Login Done Successfully";
+        $link = "dashboard.php";
+    }
+    else{
+        $failed = "Incorrect User Details";
+    }
+
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +37,44 @@
 <body>
 
 <div class="housing">
+    <?php
+    if (isset($success))
+    {
+    ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <?php
+            if (isset($success)) {
+                echo "<strong>" . $success . "</strong>";
+            }
+            ?>
+        </div>
+    <?php
+    }
+    ?>
+
+    <?php
+    if (isset($failed))
+    {
+        ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <?php
+            if (isset($failed)) {
+                echo "<strong>" . $failed . "</strong>";
+            }
+            ?>
+        </div>
+        <?php
+    }
+    ?>
+
 
   <div class=" over_all d-flex justify-content-center mx-0">
       <div class="container main_login_con d-flex justify-content-center px-0">
@@ -24,18 +83,18 @@
               <div class="login_main_con">
                   <a href="#" class="text-decoration-none"> <button type="button" class="login_back_btn">go back</button> </a>
                   <p class="login_header">login</p>
-                  <form action="dashboard.php"  method="post" enctype="multipart/form-data" class="login_form">
+                  <form action="<?php $link ?>" method="post" enctype="multipart/form-data" class="login_form">
                       <div class="mb-2">
                           <label class="login_label">email:</label>
                           <div class="d-flex">
-                              <span class="login_icon">&#10095;</span>
+                              <span class="login_icon"> <img src="images/user.png" class="form_img"> </span>
                               <input type="email" name="email" class="login_box" required>
                           </div>
                       </div>
                       <div class="mb-2">
                           <label class="login_label">password:</label>
                           <div class="d-flex">
-                              <span class="login_icon">&#10095;</span>
+                              <span class="login_icon"> <img src="images/password.svg" class="form_img"> </span>
                               <input type="password" name="password" class="login_box" required>
                           </div>
                       </div>
@@ -53,8 +112,9 @@
                   </div>
                   <form action="#" method="post" enctype="multipart/form-data" class="">
                       <label class="login_label">email:</label>
-                      <div class="">
-                          <input type="email" name="email" class="forget_box" required>
+                      <div class="d-flex">
+                          <span class="login_icon"> <img src="images/email.png" class="form_img"> </span>
+                          <input type="email" name="email" class="login_box" required>
                       </div>
                       <button type="submit" class="forget_sub_btn">reset</button>
                   </form>

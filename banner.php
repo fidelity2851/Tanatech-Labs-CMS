@@ -34,11 +34,11 @@
         <div class="row dashboard d-flex justify-content-between mx-0">
             <div class="col-2 dashboard_link_con d-flex flex-column px-0">
                 <div class="dash_header_con d-flex justify-content-around">
-                    <span class="dash_header_icon align-self-center"> <i class="fa fa-user"></i> </span>
+                    <div class="dash_header_icon align-self-center"> <img src="images/user.png" class="dash_header_img"> </div>
                     <div class="align-self-center drop position-relative">
                         <p class="dash_header">Tanatech admin <span class="dash_header_icon2"> <i class="fa fa-angle-down"></i> </span> </p>
                         <div class="drop_con">
-                            <a href="#" class="text-decoration-none">
+                            <a href="index.php" class="text-decoration-none">
                                 <p class="drop_link"> <i class="fa fa-power-off"></i> log out</p>
                             </a>
                         </div>
@@ -87,6 +87,12 @@
                             <p class="dash_link">FAQ</p>
                         </div>
                     </a>
+                    <a href="user.php" class="text-decoration-none">
+                        <div class="dash_link_con d-flex">
+                            <span class="dash_icon"> <i class="fa fa-users" aria-hidden="true"></i> </span>
+                            <p class="dash_link">users</p>
+                        </div>
+                    </a>
                     <a href="setting.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-cogs" aria-hidden="true"></i> </span>
@@ -100,10 +106,10 @@
                 <nav class="tab_con">
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <a class="nav-item nav-link active" data-toggle="tab" href="#nav-create" aria-selected="true">
-                            <p class="tab_link">create new post</p>
+                            <p class="tab_link">create new banner</p>
                         </a>
                         <a class="nav-item nav-link" data-toggle="tab" href="#nav-manage" aria-selected="false">
-                            <p class="tab_link">manage your post</p>
+                            <p class="tab_link">manage your banner</p>
                         </a>
                     </div>
                 </nav>
@@ -121,7 +127,7 @@
                                                 <option class="form_opt">about us page</option>
                                                 <option class="form_opt">gallery page</option>
                                                 <option class="form_opt">contact page</option>
-                                                <option class="form_opt">prosucts page</option>
+                                                <option class="form_opt">products page</option>
                                             </select>
                                         </div>
                                         <div class="">

@@ -1,3 +1,8 @@
+<?php
+include_once ("backend script/connection.php");
+$conn = mysqli_connect($server, $username, $password, $db_name);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,11 +39,11 @@
         <div class="row dashboard d-flex justify-content-between mx-0">
             <div class="col-2 dashboard_link_con d-flex flex-column px-0">
                 <div class="dash_header_con d-flex justify-content-around">
-                    <span class="dash_header_icon align-self-center"> <i class="fa fa-user"></i> </span>
+                    <div class="dash_header_icon align-self-center"> <img src="images/user.png" class="dash_header_img"> </div>
                     <div class="align-self-center drop position-relative">
                         <p class="dash_header">Tanatech admin <span class="dash_header_icon2"> <i class="fa fa-angle-down"></i> </span> </p>
                         <div class="drop_con">
-                            <a href="#" class="text-decoration-none">
+                            <a href="index.php" class="text-decoration-none">
                                 <p class="drop_link"> <i class="fa fa-power-off"></i> log out</p>
                             </a>
                         </div>
@@ -87,6 +92,12 @@
                             <p class="dash_link">FAQ</p>
                         </div>
                     </a>
+                    <a href="user.php" class="text-decoration-none">
+                        <div class="dash_link_con d-flex">
+                            <span class="dash_icon"> <i class="fa fa-users" aria-hidden="true"></i> </span>
+                            <p class="dash_link">users</p>
+                        </div>
+                    </a>
                     <a href="setting.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-cogs" aria-hidden="true"></i> </span>
@@ -99,46 +110,102 @@
             <div class="col dashboard_display_con">
                 <p class="display_header">dashboard <span class="display_header_small">overview</span></p>
                 <div class="display_content_con d-flex justify-content-around">
-                    <a href="#" class="text-decoration-none">
+
+                    <a href="user.php" class="text-decoration-none">
                         <div class="display_content d-flex flex-column">
                             <div class="dis_img_con align-self-center">
-                                <img src="images/users_icon.png" class="display_content_img align-self-center">
+                                <img src="images/user_icon.svg" class="display_content_img align-self-center">
                             </div>
                             <div class="dis_text_con">
-                                <p class="display_content_num">20</p>
+                                <?php
+                                $query = "SELECT count(*) AS users_row FROM users";
+                                if ($query_run = mysqli_query($conn, $query)){
+                                    while ($query_row = mysqli_fetch_assoc($query_run)){
+                                        $user_row = $query_row['users_row'];
+                                        ?>
+                                        <p class="display_content_num"> <?php echo $user_row ?> </p>
+                                        <?php
+                                    }
+                                }
+                                else{
+                                    echo mysqli_error($conn);
+                                }
+                                ?>
                                 <p class="display_content_name">users</p>
                             </div>
                         </div>
                     </a>
+
                     <a href="post.php" class="text-decoration-none">
                         <div class="display_content d-flex flex-column">
                             <div class="dis_img_con align-self-center">
                                 <img src="images/post_icon.png" class="display_content_img align-self-center">
                             </div>
                             <div class="dis_text_con">
-                                <p class="display_content_num">2000</p>
-                                <p class="display_content_name">posts</p>
+                                <?php
+                                $query = "SELECT count(*) AS post_row FROM post";
+                                if ($query_run = mysqli_query($conn, $query)){
+                                    $query_row = mysqli_fetch_assoc($query_run);
+                                        $post_row = $query_row['post_row'];
+                                        ?>
+                                        <p class="display_content_num"> <?php echo $post_row ?> </p>
+                                        <?php
+
+                                }
+                                else{
+                                    echo mysqli_error($conn);
+                                }
+                                ?>
+                                <p class="display_content_name">post</p>
                             </div>
                         </div>
                     </a>
+
                     <a href="categories.php" class="text-decoration-none">
                         <div class="display_content d-flex flex-column">
                             <div class="dis_img_con align-self-center">
-                                <img src="images/categories_icon.jpg" class="display_content_img align-self-center">
+                                <img src="images/categories_icon.svg" class="display_content_img align-self-center">
                             </div>
                             <div class="dis_text_con">
-                                <p class="display_content_num">17</p>
+                                <?php
+                                $query2 = "SELECT count(*) AS category_row FROM category";
+                                if ($query_run2 = mysqli_query($conn, $query2)){
+                                    $query_row2 = mysqli_fetch_assoc($query_run2);
+                                    $post_row2 = $query_row2['category_row'];
+                                    ?>
+                                    <p class="display_content_num"> <?php echo $post_row2 ?> </p>
+                                    <?php
+
+                                }
+                                else{
+                                    echo mysqli_error($conn);
+                                }
+                                ?>
                                 <p class="display_content_name">categories</p>
                             </div>
                         </div>
                     </a>
-                    <a href="#" class="text-decoration-none">
+
+                    <a href="writter.php" class="text-decoration-none">
                         <div class="display_content d-flex flex-column">
                             <div class="dis_img_con align-self-center">
-                                <img src="images/writter_icon.png" class="display_content_img align-self-center">
+                                <img src="images/writter_icon.svg" class="display_content_img align-self-center">
                             </div>
                             <div class="dis_text_con">
-                                <p class="display_content_num">3</p>
+                                <?php
+                                $query3 = "SELECT count(*) AS writter_row FROM writter";
+                                if ($query_run3 = mysqli_query($conn, $query3)){
+                                    $query_row3 = mysqli_fetch_assoc($query_run3);
+                                    $post_row3 = $query_row3['writter_row'];
+                                    ?>
+                                    <p class="display_content_num"> <?php echo $post_row3 ?> </p>
+                                    <?php
+
+                                }
+                                else{
+                                    echo mysqli_error($conn);
+                                }
+                                ?>
                                 <p class="display_content_name">writter</p>
                             </div>
                         </div>
