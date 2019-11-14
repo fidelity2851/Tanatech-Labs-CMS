@@ -12,6 +12,13 @@
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <!-- reference your copy Font Awesome here (from our CDN or by hosting yourself) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- include summernote css -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
+
 </head>
 <body>
 <!--housing div-->
@@ -133,7 +140,7 @@
                                         </div>
                                         <div class="">
                                             <label class="form_label">content:</label> <br>
-                                            <textarea name="content" class="full_area" required></textarea>
+                                            <textarea  class="full_area" id="summernote" name="content"></textarea>
                                         </div>
                                         <button type="reset" class="post_reset_btn mr-3">reset post</button>
                                         <button type="submit" class="post_sub_btn">create post</button>
@@ -307,7 +314,6 @@
 
 </body>
 
-<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
 <script type="text/javascript" src="js/post.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
