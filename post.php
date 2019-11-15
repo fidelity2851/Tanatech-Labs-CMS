@@ -1,6 +1,12 @@
 <?php
-include_once ("backend script/connection.php");
+include_once ("backend_script/connection.php");
 $conn = mysqli_connect($server, $username, $password, $db_name);
+
+session_start();
+$userid = $_SESSION["cool"];
+if(!$userid){
+    header("location: index.php");
+}
 
 if (isset($_POST['post_sub_btn'])){
     //collect form values
@@ -15,11 +21,11 @@ if (isset($_POST['post_sub_btn'])){
     $crt_date = $_POST['date'];
 
 //sending values to database
-    $send_to_db = "INSERT INTO post(post_title, post_slug_url, post_summary, post_content, author, category, sub_category, tags, crt_date)
-VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$category}', '{$sub_category}', '{$tags}', {$crt_date})";
+    $send_to_db = "INSERT INTO post(post_title, post_slug_url, post_summary, post_content, author, category, sub_category, tags, crt_date, up_date)
+VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$category}', '{$sub_category}', '{$tags}', '{$crt_date}', now())";
     $send_db  = mysqli_query($conn, $send_to_db);
     if (!$send_db){
-        echo $failed = "failed to create your post";
+        echo $failed = "failed to create your post" . mysqli_error($conn);
     }
     else {
         $success = "post created successfully";
@@ -45,7 +51,10 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$categor
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <!-- reference your copy Font Awesome here (from our CDN or by hosting yourself) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script>
+        var jQuery_3_4_1 = $.noConflict();
+    </script>
     <!-- include summernote css -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
@@ -56,8 +65,98 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$categor
 <body>
 <!--housing div-->
 <div class="housing">
+
+    <div class="edit_con position-absolute">
+        <div class="container edit px-0">
+            <div class="d-flex justify-content-end"> <button type="button" class="close_edit"> &times; </button> </div>
+            <div class="col dashboard_display_con px-0">
+                <nav class="tab_con">
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" data-toggle="tab" href="#nav-create2" aria-selected="true">
+                            <p class="tab_link">update post</p>
+                        </a>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-create2" aria-labelledby="nav-create-tab">
+                        <div class="tab_content">
+                            <form action="" enctype="multipart/form-data" method="post" class="d-flex justify-content-between">
+                                <div class="col-8 post_1 mr-3 px-0">
+                                    <div class="post_form_1">
+                                        <div class="">
+                                            <label class="form_label">title:</label> <br>
+                                            <input type="text" class="full" name="title" required>
+                                        </div>
+                                        <div class="">
+                                            <label class="form_label">slug / URl: (optional)</label> <br>
+                                            <input type="url" class="full" name="url" >
+                                        </div>
+                                        <div class="">
+                                            <label class="form_label">summary:</label> <br>
+                                            <textarea name="summary" class="full_sum" required></textarea>
+                                        </div>
+                                        <div class="">
+                                            <label class="form_label">post image:</label> <br>
+                                            <input type="file" class="full" name="banner_image">
+                                        </div>
+                                        <div class="">
+                                            <label class="form_label">content:</label> <br>
+                                            <textarea class="full_area" id="summernote2" name="content"></textarea>
+                                        </div>
+                                        <button type="reset" name="post_reset_btn" class="post_reset_btn mr-3">reset post</button>
+                                        <button type="submit" name="post_sub_btn" class="post_sub_btn">update post</button>
+                                    </div>
+                                </div>
+                                <div class="col post_2 px-0">
+                                    <div class="post_form_2">
+                                        <div class="">
+                                            <label class="form_label">author:</label>
+                                            <input type="text" name="author" class="full" required>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="col pl-0">
+                                                <label class="form_label">categories:</label>
+                                                <select name="category" class="full">
+                                                    <option class="form_opt"></option>
+                                                    <option class="form_opt">music</option>
+                                                    <option class="form_opt">video</option>
+                                                    <option class="form_opt">news</option>
+                                                    <option class="form_opt">status</option>
+                                                    <option class="form_opt">stories</option>
+                                                </select>
+                                            </div>
+                                            <div class="col pr-0">
+                                                <label class="form_label">sub categories:</label>
+                                                <select name="sub_category" class="full">
+                                                    <option class="form_opt"></option>
+                                                    <option class="form_opt">music</option>
+                                                    <option class="form_opt">video</option>
+                                                    <option class="form_opt">news</option>
+                                                    <option class="form_opt">status</option>
+                                                    <option class="form_opt">stories</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <label class="form_label">tags:</label> <br>
+                                            <textarea name="tags" class="full_sum"></textarea>
+                                        </div>
+                                        <div class="">
+                                            <label class="form_label">date:</label> <br>
+                                            <input type="date" name="date" class="full">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--header container-->
-    <div class="header_con sticky-top">
+    <div class="header_con">
         <div class="row header d-flex justify-content-center mx-0">
             <div class="col-2 logo_con align-self-center px-0">
                 <img src="images/logo.fw.png" class="logo">
@@ -78,7 +177,7 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$categor
                     <div class="align-self-center drop position-relative">
                         <p class="dash_header">Tanatech admin <span class="dash_header_icon2"> <i class="fa fa-angle-down"></i> </span> </p>
                         <div class="drop_con">
-                            <a href="index.php" class="text-decoration-none">
+                            <a href="logout.php" class="text-decoration-none">
                                 <p class="drop_link"> <i class="fa fa-power-off"></i> log out</p>
                             </a>
                         </div>
@@ -203,8 +302,8 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$categor
                                             <input type="text" class="full" name="title" required>
                                         </div>
                                         <div class="">
-                                            <label class="form_label">slug / URl:</label> <br>
-                                            <input type="url" class="full" name="url" required>
+                                            <label class="form_label">slug / URl: (optional)</label> <br>
+                                            <input type="url" class="full" name="url" >
                                         </div>
                                         <div class="">
                                             <label class="form_label">summary:</label> <br>
@@ -212,7 +311,7 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$categor
                                         </div>
                                         <div class="">
                                             <label class="form_label">post image:</label> <br>
-                                            <input type="file" class="full" name="banner_image" required>
+                                            <input type="file" class="full" name="banner_image">
                                         </div>
                                         <div class="">
                                             <label class="form_label">content:</label> <br>
@@ -254,11 +353,11 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$categor
                                         </div>
                                         <div class="">
                                             <label class="form_label">tags:</label> <br>
-                                            <textarea name="tags" class="full_sum" required></textarea>
+                                            <textarea name="tags" class="full_sum"></textarea>
                                         </div>
                                         <div class="">
                                             <label class="form_label">date:</label> <br>
-                                            <input type="date" name="date" class="full" required>
+                                            <input type="date" name="date" class="full">
                                         </div>
                                     </div>
                                 </div>
@@ -313,7 +412,7 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$categor
                                     <td class="tbl_data"> <?Php echo $cate?> </td>
                                     <td class="tbl_data"> <?Php echo $date?> </td>
                                     <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
+                                        <a href="#" class="text-decoration-none edit_btn"> <i class="fa fa-edit"></i></a>
                                         <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
                                         <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
                                     </td>

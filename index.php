@@ -1,22 +1,38 @@
 <?php
+include_once ("backend_script/connection.php");
+$conn = mysqli_connect($server, $username, $password, $db_name);
 
-
+//collecting form data
 if (isset($_POST['login_sub_btn'])){
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
 
-    $username = "fidelity@gmail.com";
-    $password  = "fidelity";
-    $link = "dashboard.php";
+    //query out data from DB
+    $query = "SELECT * FROM admin ";
+    if ($query_run = mysqli_query($conn, $query)){
+        $query_row = mysqli_fetch_assoc($query_run);
+        $user_id = $query_row['admin_id'];
+        $email_db = $query_row['email'];
+        $password_db = $query_row['password'];
 
-    if ($_POST['email'] == $username && $_POST['password'] == $password){
-        $success = "Login Done Successfully";
-        $link = "dashboard.php";
-    }
-    else{
-        $failed = "Incorrect User Details";
+        if ($email == $email_db && $password == $password_db){
+            $success = "Login Done Successfully";
+            //create a section
+            session_start();
+            $_SESSION["cool"] = $user_id;
+
+            //redirect to dashboard
+            header("location: dashboard.php");
+        }
+        else {
+            $failed = "Incorrect User Details";
+        }
     }
 
 }
+
 ?>
+
 
 
 <!DOCTYPE html>
@@ -83,7 +99,7 @@ if (isset($_POST['login_sub_btn'])){
               <div class="login_main_con">
                   <a href="#" class="text-decoration-none"> <button type="button" class="login_back_btn">go back</button> </a>
                   <p class="login_header">login</p>
-                  <form action="<?php $link ?>" method="post" enctype="multipart/form-data" class="login_form">
+                  <form action="" method="post" enctype="multipart/form-data" class="login_form">
                       <div class="mb-2">
                           <label class="login_label">email:</label>
                           <div class="d-flex">

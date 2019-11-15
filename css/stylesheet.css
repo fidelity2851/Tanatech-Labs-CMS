@@ -7,6 +7,29 @@ body{
     height: 100%;
 }
 
+/*edit container*/
+.edit_con{
+    width: 100%;
+    z-index: 5000;
+    display: none;
+    padding: 100px 0px;
+    background: rgba(38, 38, 38, 0.70);
+}
+.edit{
+    height: auto;
+    border-radius: 20px;
+    background: white;
+}
+.close_edit{
+    color: black;
+    font-size: 30px;
+    font-weight: 600;
+    border: none;
+    padding: 10px 20px;
+    background: none;
+}
+/*edit container ENDS*/
+
 /*login container*/
 .over_all{
 

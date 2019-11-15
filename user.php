@@ -1,7 +1,13 @@
 <?php
-include_once ("backend script/connection.php");
+include_once ("backend_script/connection.php");
 $conn = mysqli_connect($server, $username, $password, $db_name);
 
+session_start();
+$userid = $_SESSION["cool"];
+if(!$userid){
+    header("location: index.php");
+}
+//collecting form data
 if (isset($_POST['post_sub_btn'])){
     //collect form values
     $user_name = $_POST['username'];
@@ -69,7 +75,7 @@ VALUE ('{$user_name}', '{$firstname}', '{$lastname}', '{$password}', '{$biograph
                     <div class="align-self-center drop position-relative">
                         <p class="dash_header">Tanatech admin <span class="dash_header_icon2"> <i class="fa fa-angle-down"></i> </span> </p>
                         <div class="drop_con">
-                            <a href="index.php" class="text-decoration-none">
+                            <a href="logout.php" class="text-decoration-none">
                                 <p class="drop_link"> <i class="fa fa-power-off"></i> log out</p>
                             </a>
                         </div>
