@@ -25,7 +25,7 @@ if (isset($_POST['post_sub_btn'])){
 VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$category}', '{$sub_category}', '{$tags}', '{$crt_date}', now())";
     $send_db  = mysqli_query($conn, $send_to_db);
     if (!$send_db){
-        echo $failed = "failed to create your post" . mysqli_error($conn);
+        $failed = "failed to create your post" . mysqli_error($conn);
     }
     else {
         $success = "post created successfully";
@@ -65,7 +65,7 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$categor
 <body>
 <!--housing div-->
 <div class="housing">
-
+    <!--editing container-->
     <div class="edit_con position-absolute">
         <div class="container edit px-0">
             <div class="d-flex justify-content-end"> <button type="button" class="close_edit"> &times; </button> </div>
@@ -82,41 +82,48 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$categor
                         <div class="tab_content">
                             <form action="" enctype="multipart/form-data" method="post" class="d-flex justify-content-between">
                                 <div class="col-8 post_1 mr-3 px-0">
+                                    <?php
+                                    $edit_query = "SELECT * FROM post ";
+                                    if ($edit_query_run = mysqli_query($conn, $edit_query)){
+                                    $edit_query_row = mysqli_fetch_assoc($edit_query_run);
+                                    $title_edit = $edit_query_row['post_title'];
+                                    ?>
+
                                     <div class="post_form_1">
                                         <div class="">
                                             <label class="form_label">title:</label> <br>
-                                            <input type="text" class="full" name="title" required>
+                                            <input type="text" class="full" name="edit_title" value="<?php echo $title_edit; ?>" required>
                                         </div>
                                         <div class="">
                                             <label class="form_label">slug / URl: (optional)</label> <br>
-                                            <input type="url" class="full" name="url" >
+                                            <input type="url" class="full" name="edit_url" >
                                         </div>
                                         <div class="">
                                             <label class="form_label">summary:</label> <br>
-                                            <textarea name="summary" class="full_sum" required></textarea>
+                                            <textarea name="edit_summary" class="full_sum" required></textarea>
                                         </div>
                                         <div class="">
                                             <label class="form_label">post image:</label> <br>
-                                            <input type="file" class="full" name="banner_image">
+                                            <input type="file" class="full" name="edit_banner_image">
                                         </div>
                                         <div class="">
                                             <label class="form_label">content:</label> <br>
-                                            <textarea class="full_area" id="summernote2" name="content"></textarea>
+                                            <textarea class="full_area" id="summernote2" name="edit_content"></textarea>
                                         </div>
-                                        <button type="reset" name="post_reset_btn" class="post_reset_btn mr-3">reset post</button>
-                                        <button type="submit" name="post_sub_btn" class="post_sub_btn">update post</button>
+                                        <button type="reset" name="edit_post_reset_btn" class="post_reset_btn mr-3">reset post</button>
+                                        <button type="submit" name="edit_post_sub_btn" class="post_sub_btn">update post</button>
                                     </div>
                                 </div>
                                 <div class="col post_2 px-0">
                                     <div class="post_form_2">
                                         <div class="">
                                             <label class="form_label">author:</label>
-                                            <input type="text" name="author" class="full" required>
+                                            <input type="text" name="edit_author" class="full" required>
                                         </div>
                                         <div class="d-flex justify-content-between">
                                             <div class="col pl-0">
                                                 <label class="form_label">categories:</label>
-                                                <select name="category" class="full">
+                                                <select name="edit_category" class="full">
                                                     <option class="form_opt"></option>
                                                     <option class="form_opt">music</option>
                                                     <option class="form_opt">video</option>
@@ -127,7 +134,7 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$categor
                                             </div>
                                             <div class="col pr-0">
                                                 <label class="form_label">sub categories:</label>
-                                                <select name="sub_category" class="full">
+                                                <select name="edit_sub_category" class="full">
                                                     <option class="form_opt"></option>
                                                     <option class="form_opt">music</option>
                                                     <option class="form_opt">video</option>
@@ -139,13 +146,16 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$categor
                                         </div>
                                         <div class="">
                                             <label class="form_label">tags:</label> <br>
-                                            <textarea name="tags" class="full_sum"></textarea>
+                                            <textarea name="edit_tags" class="full_sum"></textarea>
                                         </div>
                                         <div class="">
                                             <label class="form_label">date:</label> <br>
-                                            <input type="date" name="date" class="full">
+                                            <input type="date" name="edit_date" class="full">
                                         </div>
                                     </div>
+                                    <?php
+                                    }
+                                    ?>
                                 </div>
                             </form>
                         </div>
@@ -154,6 +164,7 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$categor
             </div>
         </div>
     </div>
+    <!--editing container ENDS-->
 
     <!--header container-->
     <div class="header_con">
@@ -190,16 +201,16 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$categor
                             <p class="dash_link">home</p>
                         </div>
                     </a>
-                    <a href="post.php" class="text-decoration-none">
-                        <div class="dash_link_con dash_link_active d-flex">
-                            <span class="dash_icon"> <i class="fa fa-podcast"></i> </span>
-                            <p class="dash_link">post</p>
-                        </div>
-                    </a>
                     <a href="categories.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-tags"></i> </span>
                             <p class="dash_link">categories</p>
+                        </div>
+                    </a>
+                    <a href="post.php" class="text-decoration-none">
+                        <div class="dash_link_con dash_link_active d-flex">
+                            <span class="dash_icon"> <i class="fa fa-podcast"></i> </span>
+                            <p class="dash_link">post</p>
                         </div>
                     </a>
                     <a href="banner.php" class="text-decoration-none">
@@ -331,12 +342,17 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$categor
                                             <div class="col pl-0">
                                                 <label class="form_label">categories:</label>
                                                 <select name="category" class="full">
-                                                    <option class="form_opt"></option>
-                                                    <option class="form_opt">music</option>
-                                                    <option class="form_opt">video</option>
-                                                    <option class="form_opt">news</option>
-                                                    <option class="form_opt">status</option>
-                                                    <option class="form_opt">stories</option>
+                                                    <?php
+                                                    $query1 = "SELECT * FROM category ORDER BY category_id";
+                                                    if ($query_run1 = mysqli_query($conn, $query1)){
+                                                        while ($query_row1 = mysqli_fetch_assoc($query_run1)){
+                                                            $main_cate = $query_row1['cate_name'];
+                                                    ?>
+                                                            <option class="form_opt"> <?php echo $main_cate ; ?> </option>
+                                                    <?php
+                                                        }
+                                                    }
+                                                    ?>
                                                 </select>
                                             </div>
                                             <div class="col pr-0">
@@ -412,7 +428,7 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$categor
                                     <td class="tbl_data"> <?Php echo $cate?> </td>
                                     <td class="tbl_data"> <?Php echo $date?> </td>
                                     <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none edit_btn"> <i class="fa fa-edit"></i></a>
+                                        <a href="#"  class="text-decoration-none edit_btn"> <i class="fa fa-edit"></i></a>
                                         <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
                                         <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
                                     </td>
@@ -433,6 +449,9 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$content}', '{$author}', '{$categor
     <!--dashboard container ENDS-->
 
 
+
+</div>
+    <!--dashboard container-->
 
 </div>
 <!--housing div ENDS-->

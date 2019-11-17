@@ -2,11 +2,15 @@
 include_once ("backend_script/connection.php");
 $conn = mysqli_connect($server, $username, $password, $db_name);
 
+//setting your session
 session_start();
 $userid = $_SESSION["cool"];
 if(!$userid){
     header("location: index.php");
 }
+
+
+
 
 ?>
 
@@ -63,16 +67,16 @@ if(!$userid){
                             <p class="dash_link">home</p>
                         </div>
                     </a>
-                    <a href="post.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-podcast"></i> </span>
-                            <p class="dash_link">post</p>
-                        </div>
-                    </a>
                     <a href="categories.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-tags"></i> </span>
                             <p class="dash_link">categories</p>
+                        </div>
+                    </a>
+                    <a href="post.php" class="text-decoration-none">
+                        <div class="dash_link_con d-flex">
+                            <span class="dash_icon"> <i class="fa fa-podcast"></i> </span>
+                            <p class="dash_link">post</p>
                         </div>
                     </a>
                     <a href="banner.php" class="text-decoration-none">
@@ -154,10 +158,6 @@ if(!$userid){
                                             <div class="col px-0">
                                                 <label class="form_label">banner description:</label> <br>
                                                 <textarea name="banner_description" class="full_sum" required></textarea>
-                                            </div>
-                                            <div class="col pr-0">
-                                                <label class="form_label">date:</label> <br>
-                                                <input type="date" class="full" required>
                                             </div>
                                         </div>
                                         <button type="reset" class="post_reset_btn mr-3">reset post</button>

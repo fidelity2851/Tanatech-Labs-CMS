@@ -70,16 +70,16 @@ if(!$userid){
                             <p class="dash_link">home</p>
                         </div>
                     </a>
-                    <a href="post.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-podcast"></i> </span>
-                            <p class="dash_link">post</p>
-                        </div>
-                    </a>
                     <a href="categories.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-tags"></i> </span>
                             <p class="dash_link">categories</p>
+                        </div>
+                    </a>
+                    <a href="post.php" class="text-decoration-none">
+                        <div class="dash_link_con d-flex">
+                            <span class="dash_icon"> <i class="fa fa-podcast"></i> </span>
+                            <p class="dash_link">post</p>
                         </div>
                     </a>
                     <a href="banner.php" class="text-decoration-none">

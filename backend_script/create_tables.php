@@ -7,70 +7,70 @@ $conn = mysqli_connect($server, $username, $password, $db_name);
 
 
 //create post table
-$post_tb = "CREATE TABLE IF NOT EXISTS post (post_id INT NOT NULL AUTO_INCREMENT, post_title VARCHAR(400), post_slug_url VARCHAR(200), post_summary TEXT, post_content TEXT, author VARCHAR(100), category VARCHAR(100), sub_category VARCHAR(100), tags VARCHAR(300), crt_date DATETIME, up_date DATETIME, PRIMARY KEY(post_id))";
+$post_tb = "CREATE TABLE IF NOT EXISTS post (post_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, post_title VARCHAR(255), post_slug_url VARCHAR(255), post_summary TEXT, post_content TEXT, author VARCHAR(255), category VARCHAR(255), sub_category VARCHAR(255), tags VARCHAR(255), crt_date DATETIME, up_date DATETIME)";
 $post = mysqli_query($conn, $post_tb);
 if (!$post){
     echo "error creating post table: " . mysqli_error($conn);
 }
 
 //create user table
-$post_tb = "CREATE TABLE IF NOT EXISTS users (user_id INT NOT NULL AUTO_INCREMENT, username VARCHAR(400) NOT NULL, firstname VARCHAR(200) NOT NULL, lastname VARCHAR(200) NOT NULL, password VARCHAR(200) NOT NULL, biograph VARCHAR(500), profile_img VARCHAR(200), status BOOLEAN, crt_date DATETIME, up_date DATETIME, PRIMARY KEY(user_id))";
+$post_tb = "CREATE TABLE IF NOT EXISTS users (user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), firstname VARCHAR(255), lastname VARCHAR(255), password VARCHAR(255), biograph VARCHAR(255), profile_img VARCHAR(255), status BOOLEAN, crt_date DATETIME, up_date DATETIME)";
 $post = mysqli_query($conn, $post_tb);
 if (!$post){
     echo "error creating post table: " . mysqli_error($conn);
 }
 
 //create writter table
-$post_tb = "CREATE TABLE IF NOT EXISTS writter (writter_id INT NOT NULL AUTO_INCREMENT, username VARCHAR(400) NOT NULL, firstname VARCHAR(200) NOT NULL, lastname VARCHAR(200) NOT NULL, password VARCHAR(200) NOT NULL, profile_img VARCHAR(200), status BOOLEAN, crt_date DATETIME, up_date DATETIME, PRIMARY KEY(writter_id))";
+$post_tb = "CREATE TABLE IF NOT EXISTS writter (writter_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), firstname VARCHAR(255), lastname VARCHAR(255), password VARCHAR(255) NOT NULL, profile_img VARCHAR(255), status BOOLEAN, crt_date DATETIME, up_date DATETIME)";
 $post = mysqli_query($conn, $post_tb);
 if (!$post){
     echo "error creating post table: " . mysqli_error($conn);
 }
 
 //create category table
-$category_tb = "CREATE TABLE IF NOT EXISTS category (category_id INT NOT NULL AUTO_INCREMENT, cate_name VARCHAR(200), category_url VARCHAR(500), icon BOOLEAN, crt_date DATETIME, up_date DATETIME, PRIMARY KEY (category_id))";
+$category_tb = "CREATE TABLE IF NOT EXISTS category (category_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, cate_name VARCHAR(255), cate_url VARCHAR(255), cate_check BOOLEAN, cate_desc VARCHAR(255), crt_date DATETIME, up_date DATETIME)";
 $category = mysqli_query($conn, $category_tb);
 if (!$category){
     echo "error creating category tables: " . mysqli_error($conn);
 }
 
 //create banner table
-$banner_tb = "CREATE TABLE IF NOT EXISTS banner (banner_id INT NOT NULL AUTO_INCREMENT, webpage VARCHAR(200), banner_img VARCHAR(500), banner_header VARCHAR(100), banner_description TEXT, crt_date DATETIME, up_date DATETIME, PRIMARY KEY (banner_id))";
+$banner_tb = "CREATE TABLE IF NOT EXISTS banner (banner_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, webpage VARCHAR(255), banner_img VARCHAR(255), banner_header VARCHAR(255), banner_description TEXT, crt_date DATETIME, up_date DATETIME)";
 $banner = mysqli_query($conn, $banner_tb);
 if (!$banner){
     echo "error creating subcategory table: " . mysqli_error($conn);
 }
 
 //create page table
-$page_tb = "CREATE TABLE IF NOT EXISTS pages (page_id INT NOT NULL AUTO_INCREMENT, page_title VARCHAR(400), page_slug_url VARCHAR(200), page_summary TEXT, page_content TEXT, author VARCHAR(100), category VARCHAR(100), sub_category VARCHAR(100), tags VARCHAR(300), crt_date DATETIME, up_date DATETIME, PRIMARY KEY(page_id))";
+$page_tb = "CREATE TABLE IF NOT EXISTS pages (page_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, page_title VARCHAR(255), page_slug_url VARCHAR(255), page_summary TEXT, page_content TEXT, author VARCHAR(100), category VARCHAR(100), sub_category VARCHAR(100), tags VARCHAR(300), crt_date DATETIME, up_date DATETIME)";
 $page = mysqli_query($conn, $page_tb);
 if (!$page){
     echo "error creating post table: " . mysqli_error($conn);
 }
 
 //create faq table
-$faq_tb = "CREATE TABLE IF NOT EXISTS faq (faq_id INT NOT NULL AUTO_INCREMENT, question VARCHAR(400), answer VARCHAR(200), crt_date TIMESTAMP(6), up_date TIMESTAMP(6), PRIMARY KEY(faq_id))";
+$faq_tb = "CREATE TABLE IF NOT EXISTS faq (faq_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, question VARCHAR(255), answer VARCHAR(255), crt_date DATETIME, up_date DATETIME,)";
 $faq = mysqli_query($conn, $faq_tb);
 if (!$faq){
     echo "error creating post table: " . mysqli_error($conn);
 }
 
 //create multimedia table
-$multimedia_tb = "CREATE TABLE IF NOT EXISTS multimedia (multimedia_id INT NOT NULL AUTO_INCREMENT, album_title VARCHAR(200), album_cover_img VARCHAR(300), album_url VARCHAR(300), album_description VARCHAR(400),  crt_date DATETIME, up_date DATETIME, PRIMARY KEY(multimedia_id))";
+$multimedia_tb = "CREATE TABLE IF NOT EXISTS multimedia (multimedia_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, album_title VARCHAR(255), album_cover_img VARCHAR(255), album_url VARCHAR(255), album_description VARCHAR(255),  crt_date DATETIME, up_date DATETIME)";
 $multimedia = mysqli_query($conn, $multimedia_tb);
 if (!$multimedia){
     echo "error creating users table: " . mysqli_error($conn);
 }
 
 //create setting table
-$setting_tb = "CREATE TABLE IF NOT EXISTS setting (setting_id INT NOT NULL AUTO_INCREMENT, site_url VARCHAR(400), chat_id VARCHAR(100), google_analytics VARCHAR(100), kyc_option VARCHAR(100), veryify_email VARCHAR(100), facebook_url VARCHAR(100), instagram_url VARCHAR(100), twitter_url VARCHAR(100), youtube_url VARCHAR(100), crt_date DATETIME, up_date DATETIME, PRIMARY KEY(setting_id))";
+$setting_tb = "CREATE TABLE IF NOT EXISTS setting (setting_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, site_url VARCHAR(255), chat_id VARCHAR(255), google_analytics VARCHAR(255), kyc_option VARCHAR(255), veryify_email VARCHAR(255), facebook_url VARCHAR(255), instagram_url VARCHAR(255), twitter_url VARCHAR(255), youtube_url VARCHAR(255), crt_date DATETIME, up_date DATETIME)";
 $setting = mysqli_query($conn, $setting_tb);
 if (!$setting){
     echo "error creating post table: " . mysqli_error($conn);
 }
 
 //create admin table
-$admin_tb = "CREATE TABLE IF NOT EXISTS admin (admin_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, email VARCHAR(200), password VARCHAR(100), crt_date DATETIME, up_date DATETIME)";
+$admin_tb = "CREATE TABLE IF NOT EXISTS admin (admin_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, email VARCHAR(255), password VARCHAR(255), crt_date DATETIME, up_date DATETIME)";
 
 $admin = mysqli_query($conn, $admin_tb);
 if (!$admin){

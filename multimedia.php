@@ -63,16 +63,16 @@ if(!$userid){
                             <p class="dash_link">home</p>
                         </div>
                     </a>
-                    <a href="post.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-podcast"></i> </span>
-                            <p class="dash_link">post</p>
-                        </div>
-                    </a>
                     <a href="categories.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-tags"></i> </span>
                             <p class="dash_link">categories</p>
+                        </div>
+                    </a>
+                    <a href="post.php" class="text-decoration-none">
+                        <div class="dash_link_con d-flex">
+                            <span class="dash_icon"> <i class="fa fa-podcast"></i> </span>
+                            <p class="dash_link">post</p>
                         </div>
                     </a>
                     <a href="banner.php" class="text-decoration-none">
@@ -119,10 +119,6 @@ if(!$userid){
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <a class="nav-item nav-link active" data-toggle="tab" href="#nav-create" aria-selected="true">
                             <p class="tab_link">create new album</p>
-                        </a>
-                        <a class="nav-item nav-link" data-toggle="tab" href="#nav-addimage" aria-selected="false">
-                            <p class="tab_link">add images to your album</p>
-                        </a>
                         <a class="nav-item nav-link" data-toggle="tab" href="#nav-manage" aria-selected="false">
                             <p class="tab_link">manage your album</p>
                         </a>
@@ -130,8 +126,8 @@ if(!$userid){
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-create" aria-labelledby="nav-create-tab">
-                        <div class="tab_content">
-                            <form action="#" enctype="multipart/form-data" method="post" class="d-flex justify-content-center">
+                        <div class="tab_content d-flex justify-content-between">
+                            <form action="#" enctype="multipart/form-data" method="post" class="col d-flex justify-content-center px-0">
                                 <div class="col post_1 mr-3 px-0">
                                     <div class="post_form_1">
                                         <div class="">
@@ -150,17 +146,13 @@ if(!$userid){
                                             <label class="form_label">album description:</label> <br>
                                             <textarea name="album_description" class="full_sum" required></textarea>
                                         </div>
-                                        <button type="reset" class="post_reset_btn mr-3">reset post</button>
-                                        <button type="submit" class="post_sub_btn">create post</button>
+                                        <button type="reset" class="post_reset_btn mr-3">reset album</button>
+                                        <button type="submit" class="post_sub_btn">create album</button>
                                     </div>
                                 </div>
                             </form>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="nav-addimage" aria-labelledby="nav-manage-tab">
-                        <div class="tab_content">
-                            <form action="#" enctype="multipart/form-data" method="post" class="d-flex justify-content-center">
-                                <div class="col post_1 mr-3 px-0">
+                            <form action="#" enctype="multipart/form-data" method="post" class="col d-flex justify-content-center px-0">
+                                <div class="col post_2 ml-3 px-0">
                                     <div class="post_form_1">
                                         <div class="">
                                             <label class="form_label">select album to add image to:</label>

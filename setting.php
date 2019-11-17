@@ -63,16 +63,16 @@ if(!$userid){
                             <p class="dash_link">home</p>
                         </div>
                     </a>
-                    <a href="post.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-podcast"></i> </span>
-                            <p class="dash_link">post</p>
-                        </div>
-                    </a>
                     <a href="categories.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-tags"></i> </span>
                             <p class="dash_link">categories</p>
+                        </div>
+                    </a>
+                    <a href="post.php" class="text-decoration-none">
+                        <div class="dash_link_con d-flex">
+                            <span class="dash_icon"> <i class="fa fa-podcast"></i> </span>
+                            <p class="dash_link">post</p>
                         </div>
                     </a>
                     <a href="banner.php" class="text-decoration-none">
@@ -129,7 +129,7 @@ if(!$userid){
                     <div class="tab-pane fade show active" id="nav-create" aria-labelledby="nav-create-tab">
                         <div class="tab_content">
                             <form action="#" enctype="multipart/form-data" method="post" class="d-flex justify-content-between">
-                                <div class="col-8 post_1 mr-3 px-0">
+                                <div class="col post_1 mr-3 px-0">
                                     <div class="post_form_1">
                                         <div class="">
                                             <label class="form_label">site-URL:</label> <br>
@@ -182,10 +182,6 @@ if(!$userid){
                                         <div class="">
                                             <label class="form_label">youtube-URL:</label>
                                             <input type="url" class="full" name="youtube_url" required>
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">date:</label> <br>
-                                            <input type="date" class="full" required>
                                         </div>
                                     </div>
                                 </div>

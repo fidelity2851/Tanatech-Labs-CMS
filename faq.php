@@ -63,16 +63,16 @@ if(!$userid){
                             <p class="dash_link">home</p>
                         </div>
                     </a>
-                    <a href="post.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-podcast"></i> </span>
-                            <p class="dash_link">post</p>
-                        </div>
-                    </a>
                     <a href="categories.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-tags"></i> </span>
                             <p class="dash_link">categories</p>
+                        </div>
+                    </a>
+                    <a href="post.php" class="text-decoration-none">
+                        <div class="dash_link_con d-flex">
+                            <span class="dash_icon"> <i class="fa fa-podcast"></i> </span>
+                            <p class="dash_link">post</p>
                         </div>
                     </a>
                     <a href="banner.php" class="text-decoration-none">
@@ -129,18 +129,11 @@ if(!$userid){
                     <div class="tab-pane fade show active" id="nav-create" aria-labelledby="nav-create-tab">
                         <div class="tab_content">
                             <form action="#" enctype="multipart/form-data" method="post" class="d-flex justify-content-between">
-                                <div class="col-8 post_1 mr-3 px-0">
+                                <div class="col post_1 mr-3 px-0">
                                     <div class="post_form_1">
                                         <div class="">
-                                            <label class="form_label">select question:</label>
-                                            <select class="full">
-                                                <option class="form_opt"></option>
-                                                <option class="form_opt">music</option>
-                                                <option class="form_opt">video</option>
-                                                <option class="form_opt">news</option>
-                                                <option class="form_opt">status</option>
-                                                <option class="form_opt">stories</option>
-                                            </select>
+                                            <label class="form_label">question:</label>
+                                            <input type="text" name="question" class="full" required>
                                         </div>
                                         <div class="">
                                             <label class="form_label">question answer:</label> <br>
@@ -151,8 +144,8 @@ if(!$userid){
                                             <input type="date" class="full" required>
                                         </div>
                                         <div class="">
-                                            <button type="reset" class="post_reset_btn mr-3">reset post</button>
-                                            <button type="submit" class="post_sub_btn">create post</button>
+                                            <button type="reset" class="post_reset_btn mr-3">reset question</button>
+                                            <button type="submit" class="post_sub_btn">create question</button>
                                         </div>
                                     </div>
                                 </div>
