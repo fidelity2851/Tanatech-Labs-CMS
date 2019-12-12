@@ -8,6 +8,44 @@ if(!$userid){
     header("location: index.php");
 }
 
+//collecting form data
+if (isset($_POST['que_sub_btn'])){
+    $question = mysqli_real_escape_string($conn, $_POST['question']);
+    $question_ans = mysqli_real_escape_string($conn, $_POST['question_ans']);
+
+    //sending date to database
+    $send_to_db = "INSERT INTO faq (question, answer, crt_date, up_date) 
+VALUES ('{$question}', '{$question_ans}', now(), now())";
+    $send_db = mysqli_query($conn, $send_to_db);
+
+    if (!$send_db){
+        $failed = "failed to create your post" . mysqli_error($conn);
+    }
+    else {
+        $success = "post created successfully";
+    }
+
+}
+
+?>
+
+<?php
+//delecting data from database
+
+if(isset($_GET['id'])){
+
+    //get delete variable
+    $dodelete = $_GET['id'];
+
+    //perform delete
+    $sql = mysqli_query($conn,"DELETE FROM faq WHERE faq_id='$dodelete'");
+    if (!$sql){
+        $failed = "failed to delect your faq" . mysqli_error($conn);
+    }
+    else {
+        $success = "faq delected successfully";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -28,6 +66,7 @@ if(!$userid){
 <body>
 <!--housing div-->
 <div class="housing">
+
     <!--header container-->
     <div class="header_con sticky-top">
         <div class="row header d-flex justify-content-center mx-0">
@@ -63,7 +102,7 @@ if(!$userid){
                             <p class="dash_link">home</p>
                         </div>
                     </a>
-                    <a href="categories.php" class="text-decoration-none">
+                    <a href="category.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-tags"></i> </span>
                             <p class="dash_link">categories</p>
@@ -115,6 +154,45 @@ if(!$userid){
                 <p class="power mt-auto">powered by: <span class="power_name">Tanatech Labs</span> </p>
             </div>
             <div class="col dashboard_display_con px-0">
+                <?php
+                if (isset($success)){
+                    ?>
+                    <div class="succ_msg">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <?php
+                            if (isset($success)){
+                                echo " <strong>" . $success . "</strong>";
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
+
+                <?php
+                if (isset($failed)){
+                    ?>
+                    <div class="succ_msg">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <?php
+                            if (isset($failed)){
+                                echo " <strong>" . $failed . "</strong>";
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
                 <nav class="tab_con">
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <a class="nav-item nav-link active" data-toggle="tab" href="#nav-create" aria-selected="true">
@@ -140,12 +218,8 @@ if(!$userid){
                                             <textarea name="question_ans" class="full_area" required></textarea>
                                         </div>
                                         <div class="">
-                                            <label class="form_label">date:</label> <br>
-                                            <input type="date" class="full" required>
-                                        </div>
-                                        <div class="">
-                                            <button type="reset" class="post_reset_btn mr-3">reset question</button>
-                                            <button type="submit" class="post_sub_btn">create question</button>
+                                            <button type="reset" name="que_reset_btn" class="post_reset_btn mr-3">reset question</button>
+                                            <button type="submit" name="que_sub_btn" class="post_sub_btn">create question</button>
                                         </div>
                                     </div>
                                 </div>
@@ -183,66 +257,33 @@ if(!$userid){
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">1</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">2</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">3</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">4</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">5</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
+                                <?PHP
+                                $query = "SELECT * FROM faq ORDER BY faq_id DESC";
+                                if ($query_run = mysqli_query($conn, $query)){
+                                    while ($query_row = mysqli_fetch_assoc($query_run)){
+                                        $faq_id = $query_row['faq_id'];
+                                        $question1 = $query_row['question'];
+                                        $question_ans2 = $query_row['answer'];
+                                        $crt_date = $query_row['crt_date'];
+                                        $up_date = $query_row['up_date'];
+                                        ?>
+                                        <tr>
+                                            <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
+                                            <th class="tbl_head"> <?php echo $faq_id; ?> </th>
+                                            <td class="tbl_data"> <?php echo $question1; ?> </td>
+                                            <td class="tbl_data"> <?php echo $question_ans2; ?> </td>
+                                            <td class="tbl_data"> <?php echo $up_date; ?> </td>
+                                            <td class="tbl_data d-flex border-0">
+                                                <a href="faqedit.php?edit=<?php if (isset($faq_id)) echo $faq_id; ?>" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
+                                                <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
+                                                <a href="faq.php?id=<?php if (isset($faq_id)) echo $faq_id; ?>" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                    }
+                                }
+
+                                ?>
                                 </tbody>
                             </table>
                         </div>
@@ -253,16 +294,6 @@ if(!$userid){
     </div>
         <!--dashboard container ENDS-->
 
-
-
-
-
-
-
-
-
-
-
     </div>
     <!--housing div ENDS-->
 
@@ -270,6 +301,6 @@ if(!$userid){
 
 <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
-<script type="text/javascript" src="js/post.js"></script>
+<script type="text/javascript" src="js/faq.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 </html>

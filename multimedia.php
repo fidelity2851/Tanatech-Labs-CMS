@@ -8,6 +8,53 @@ if(!$userid){
     header("location: index.php");
 }
 
+//collecting form data
+if (isset($_POST['album_sub_btn'])){
+    $album_name = $_POST['album_title'];
+
+    //processing image
+    $album_cover_img = $_FILES['album_cover_img']['name'];
+    $folder = "uploads/.$album_cover_img";
+    move_uploaded_file($_FILES['album_cover_img']['tmp_name'],$folder);
+
+    $album_url = $_POST['album_url'];
+    $album_desc = $_POST['album_desc'];
+
+    //sending date to database
+    $send_to_db = "INSERT INTO multimedia (album_title, album_cover_img, album_url, album_description, crt_date, up_date) 
+VALUES ('{$album_name}', '{$album_cover_img}', '{$album_url}', '{$album_desc}', now(), now())";
+    $send_db = mysqli_query($conn, $send_to_db);
+
+    if (!$send_db){
+        $failed = "failed to create your post" . mysqli_error($conn);
+    }
+    else {
+        $success = "post created successfully";
+    }
+
+}
+
+
+?>
+
+<?php
+//delecting data from database
+
+if(isset($_GET['id'])){
+
+    //get delete variable
+    $dodelete = $_GET['id'];
+
+    //perform delete
+    $sql = mysqli_query($conn,"DELETE FROM multimedia WHERE multimedia_id='$dodelete'");
+    if (!$sql){
+        $failed = "failed to delect your album" . mysqli_error($conn);
+    }
+    else {
+        $success = "album delected successfully";
+        //header("location: banner.php");
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -28,6 +75,7 @@ if(!$userid){
 <body>
 <!--housing div-->
 <div class="housing">
+
     <!--header container-->
     <div class="header_con sticky-top">
         <div class="row header d-flex justify-content-center mx-0">
@@ -63,7 +111,7 @@ if(!$userid){
                             <p class="dash_link">home</p>
                         </div>
                     </a>
-                    <a href="categories.php" class="text-decoration-none">
+                    <a href="category.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-tags"></i> </span>
                             <p class="dash_link">categories</p>
@@ -115,6 +163,45 @@ if(!$userid){
                 <p class="power mt-auto">powered by: <span class="power_name">Tanatech Labs</span> </p>
             </div>
             <div class="col dashboard_display_con px-0">
+                <?php
+                if (isset($success)){
+                    ?>
+                    <div class="succ_msg">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <?php
+                            if (isset($success)){
+                                echo " <strong>" . $success . "</strong>";
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
+
+                <?php
+                if (isset($failed)){
+                    ?>
+                    <div class="succ_msg">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <?php
+                            if (isset($failed)){
+                                echo " <strong>" . $failed . "</strong>";
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
                 <nav class="tab_con">
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <a class="nav-item nav-link active" data-toggle="tab" href="#nav-create" aria-selected="true">
@@ -136,18 +223,18 @@ if(!$userid){
                                         </div>
                                         <div class="">
                                             <label class="form_label">album cover image:</label> <br>
-                                            <input type="file" class="full" name="album_cover_image" required>
+                                            <input type="file" class="full" name="album_cover_img">
                                         </div>
                                         <div class="">
                                             <label class="form_label">album URl:</label> <br>
-                                            <input type="url" class="full" name="album_url" required>
+                                            <input type="url" class="full" name="album_url">
                                         </div>
                                         <div class="">
                                             <label class="form_label">album description:</label> <br>
-                                            <textarea name="album_description" class="full_sum" required></textarea>
+                                            <textarea name="album_desc" class="full_sum" required></textarea>
                                         </div>
-                                        <button type="reset" class="post_reset_btn mr-3">reset album</button>
-                                        <button type="submit" class="post_sub_btn">create album</button>
+                                        <button type="reset" name="album_reset_btn" class="post_reset_btn mr-3">reset album</button>
+                                        <button type="submit" name="album_sub_btn" class="post_sub_btn">create album</button>
                                     </div>
                                 </div>
                             </form>
@@ -157,12 +244,19 @@ if(!$userid){
                                         <div class="">
                                             <label class="form_label">select album to add image to:</label>
                                             <select class="full">
-                                                <option class="form_opt"></option>
-                                                <option class="form_opt">kind of album</option>
-                                                <option class="form_opt">kind of album</option>
-                                                <option class="form_opt">kind of album</option>
-                                                <option class="form_opt">kind of album</option>
-                                                <option class="form_opt">kind of album</option>
+                                                <option class="form_opt" disabled selected>select album</option>
+                                                <?PHP
+                                                $query1 = "SELECT * FROM multimedia ORDER BY multimedia_id DESC";
+                                                if ($query_run1 = mysqli_query($conn, $query1)){
+                                                    while ($query_row1 = mysqli_fetch_assoc($query_run1)){
+                                                        $sel_title = $query_row1['album_title'];
+                                                ?>
+                                                        <option class="form_opt"> <?php echo $sel_title; ?> </option>
+                                                <?php
+                                                    }
+                                                }
+
+                                                ?>
                                             </select>
                                         </div>
                                         <div class="">
@@ -214,77 +308,42 @@ if(!$userid){
                                     <th class="tbl_header">ID</th>
                                     <th class="tbl_header">album Title</th>
                                     <th class="tbl_header">album cover image</th>
-                                    <th class="tbl_header">album image</th>
+                                    <th class="tbl_header">album description</th>
                                     <th class="tbl_header">Date / Time</th>
                                     <th class="tbl_header">manage</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">1</th>
-                                    <td class="tbl_title">10 years of the company</td>
-                                    <td class="tbl_data">10 years cover image</td>
-                                    <td class="tbl_data">12 image</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">2</th>
-                                    <td class="tbl_title">10 years of the company</td>
-                                    <td class="tbl_data">10 years cover image</td>
-                                    <td class="tbl_data">12 image</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">3</th>
-                                    <td class="tbl_title">10 years of the company</td>
-                                    <td class="tbl_data">10 years cover image</td>
-                                    <td class="tbl_data">12 image</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">4</th>
-                                    <td class="tbl_title">10 years of the company</td>
-                                    <td class="tbl_data">10 years cover image</td>
-                                    <td class="tbl_data">12 image</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">5</th>
-                                    <td class="tbl_title">10 years of the company</td>
-                                    <td class="tbl_data">10 years cover image</td>
-                                    <td class="tbl_data">12 image</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
+                                <?PHP
+                                $query = "SELECT * FROM multimedia ORDER BY multimedia_id DESC";
+                                if ($query_run = mysqli_query($conn, $query)){
+                                    while ($query_row = mysqli_fetch_assoc($query_run)){
+                                        $alu_id = $query_row['multimedia_id'];
+                                        $alu_title = $query_row['album_title'];
+                                        $alu_cover_img = $query_row['album_cover_img'];
+                                        $alu_url = $query_row['album_url'];
+                                        $alu_desc = $query_row['album_description'];
+                                        $crt_date = $query_row['crt_date'];
+                                        $up_date = $query_row['up_date'];
+                                ?>
+                                        <tr>
+                                            <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
+                                            <th class="tbl_head"> <?php echo $alu_id; ?> </th>
+                                            <td class="tbl_title"> <?php echo $alu_title; ?> </td>
+                                            <td class="tbl_data"> <?php echo $alu_cover_img; ?> </td>
+                                            <td class="tbl_data"> <?php echo $alu_desc; ?> </td>
+                                            <td class="tbl_data"> <?php echo $up_date; ?> </td>
+                                            <td class="tbl_data d-flex border-0">
+                                                <a href="multimediaedit.php?edit=<?php if (isset($alu_id)) echo $alu_id; ?>" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
+                                                <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
+                                                <a href="multimedia.php?id=<?php if(isset($alu_id))echo $alu_id; ?>" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                <?php
+                                    }
+                                }
+
+                                ?>
                                 </tbody>
                             </table>
                         </div>
@@ -293,26 +352,6 @@ if(!$userid){
             </div>
         </div>
         <!--dashboard container ENDS-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     </div>
     <!--housing div ENDS-->

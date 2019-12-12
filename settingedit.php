@@ -28,6 +28,7 @@ if(!$userid){
 <body>
 <!--housing div-->
 <div class="housing">
+
     <!--header container-->
     <div class="header_con sticky-top">
         <div class="row header d-flex justify-content-center mx-0">
@@ -58,7 +59,7 @@ if(!$userid){
                 </div>
                 <div class="">
                     <a href="dashboard.php" class="text-decoration-none">
-                        <div class="dash_link_con dash_link_active d-flex">
+                        <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-home"></i> </span>
                             <p class="dash_link">home</p>
                         </div>
@@ -106,7 +107,7 @@ if(!$userid){
                         </div>
                     </a>
                     <a href="setting.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
+                        <div class="dash_link_con dash_link_active d-flex">
                             <span class="dash_icon"> <i class="fa fa-cogs" aria-hidden="true"></i> </span>
                             <p class="dash_link">settings</p>
                         </div>
@@ -114,134 +115,83 @@ if(!$userid){
                 </div>
                 <p class="power mt-auto">powered by: <span class="power_name">Tanatech Labs</span> </p>
             </div>
-            <div class="col dashboard_display_con">
-                <p class="display_header">dashboard <span class="display_header_small">overview</span></p>
-                <div class="display_content_con d-flex justify-content-around">
-
-                    <a href="user.php" class="text-decoration-none">
-                        <div class="display_content d-flex flex-column">
-                            <div class="dis_img_con align-self-center">
-                                <img src="images/user_icon.svg" class="display_content_img align-self-center">
-                            </div>
-                            <div class="dis_text_con">
-                                <?php
-                                $query = "SELECT count(*) AS users_row FROM users";
-                                if ($query_run = mysqli_query($conn, $query)){
-                                    while ($query_row = mysqli_fetch_assoc($query_run)){
-                                        $user_row = $query_row['users_row'];
-                                        ?>
-                                        <p class="display_content_num"> <?php echo $user_row ?> </p>
-                                        <?php
-                                    }
-                                }
-                                else{
-                                    echo mysqli_error($conn);
-                                }
-                                ?>
-                                <p class="display_content_name">users</p>
-                            </div>
+            <div class="col dashboard_display_con px-0">
+                <nav class="tab_con">
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a href="setting.php" class="text-decoration-none"> <img src="images/back_btn.png" class="back_btn"> </a>
+                        <a class="nav-item nav-link active" data-toggle="tab" href="#nav-manage" aria-selected="false">
+                            <p class="tab_link">manage your post</p>
+                        </a>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-create" aria-labelledby="nav-create-tab">
+                        <div class="tab_content">
+                            <form action="#" enctype="multipart/form-data" method="post" class="d-flex justify-content-between">
+                                <div class="col post_1 mr-3 px-0">
+                                    <div class="post_form_1">
+                                        <div class="">
+                                            <label class="form_label">site-URL:</label> <br>
+                                            <input type="url" class="full" name="site_url" required>
+                                        </div>
+                                        <div class="">
+                                            <label class="form_label">chat-ID:</label> <br>
+                                            <input type="text" class="full" name="chat_id" required>
+                                        </div>
+                                        <div class="">
+                                            <label class="form_label">google analytics:</label> <br>
+                                            <input type="text" name="google_analytics" class="full" required>
+                                        </div>
+                                        <div class="">
+                                            <label class="form_label">KYC option:</label>
+                                            <select name="kyc" class="full">
+                                                <option class="form_opt"></option>
+                                                <option class="form_opt">music</option>
+                                                <option class="form_opt">video</option>
+                                                <option class="form_opt">news</option>
+                                                <option class="form_opt">status</option>
+                                                <option class="form_opt">stories</option>
+                                            </select>
+                                        </div>
+                                        <div class="">
+                                            <label class="form_label">veryify Email:</label> <br>
+                                            <input type="text" name="veryify_email" class="full" required>
+                                        </div>
+                                        <div class="">
+                                            <button type="reset" name="set_reset_btn" class="post_reset_btn mr-3">reset post</button>
+                                            <button type="submit" name="set_sub_btn" class="post_sub_btn">create post</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col post_2 px-0">
+                                    <label class="form_label">social media accounts:</label>
+                                    <div class="post_form_2">
+                                        <div class="">
+                                            <label class="form_label">facebook-URL:</label>
+                                            <input type="url" class="full" name="facebook_url" required>
+                                        </div>
+                                        <div class="">
+                                            <label class="form_label">instagram-URL:</label>
+                                            <input type="url" class="full" name="instagram_url" required>
+                                        </div>
+                                        <div class="">
+                                            <label class="form_label">twitter-URL:</label>
+                                            <input type="url" class="full" name="twitter_url" required>
+                                        </div>
+                                        <div class="">
+                                            <label class="form_label">youtube-URL:</label>
+                                            <input type="url" class="full" name="youtube_url" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                    </a>
-
-                    <a href="post.php" class="text-decoration-none">
-                        <div class="display_content d-flex flex-column">
-                            <div class="dis_img_con align-self-center">
-                                <img src="images/post_icon.png" class="display_content_img align-self-center">
-                            </div>
-                            <div class="dis_text_con">
-                                <?php
-                                $query = "SELECT count(*) AS post_row FROM post";
-                                if ($query_run = mysqli_query($conn, $query)){
-                                    $query_row = mysqli_fetch_assoc($query_run);
-                                        $post_row = $query_row['post_row'];
-                                        ?>
-                                        <p class="display_content_num"> <?php echo $post_row ?> </p>
-                                        <?php
-
-                                }
-                                else{
-                                    echo mysqli_error($conn);
-                                }
-                                ?>
-                                <p class="display_content_name">post</p>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="category.php" class="text-decoration-none">
-                        <div class="display_content d-flex flex-column">
-                            <div class="dis_img_con align-self-center">
-                                <img src="images/categories_icon.svg" class="display_content_img align-self-center">
-                            </div>
-                            <div class="dis_text_con">
-                                <?php
-                                $query2 = "SELECT count(*) AS category_row FROM category";
-                                if ($query_run2 = mysqli_query($conn, $query2)){
-                                    $query_row2 = mysqli_fetch_assoc($query_run2);
-                                    $post_row2 = $query_row2['category_row'];
-                                    ?>
-                                    <p class="display_content_num"> <?php echo $post_row2 ?> </p>
-                                    <?php
-
-                                }
-                                else{
-                                    echo mysqli_error($conn);
-                                }
-                                ?>
-                                <p class="display_content_name">categories</p>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="writter.php" class="text-decoration-none">
-                        <div class="display_content d-flex flex-column">
-                            <div class="dis_img_con align-self-center">
-                                <img src="images/writter_icon.svg" class="display_content_img align-self-center">
-                            </div>
-                            <div class="dis_text_con">
-                                <?php
-                                $query3 = "SELECT count(*) AS writter_row FROM writter";
-                                if ($query_run3 = mysqli_query($conn, $query3)){
-                                    $query_row3 = mysqli_fetch_assoc($query_run3);
-                                    $post_row3 = $query_row3['writter_row'];
-                                    ?>
-                                    <p class="display_content_num"> <?php echo $post_row3 ?> </p>
-                                    <?php
-
-                                }
-                                else{
-                                    echo mysqli_error($conn);
-                                }
-                                ?>
-                                <p class="display_content_name">writter</p>
-                            </div>
-                        </div>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <!--dashboard container ENDS-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </div>
 <!--housing div ENDS-->
@@ -250,6 +200,6 @@ if(!$userid){
 
 <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
-<script type="text/javascript" src="js/dashboard.js"></script>
+<script type="text/javascript" src="js/post.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 </html>

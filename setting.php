@@ -28,6 +28,7 @@ if(!$userid){
 <body>
 <!--housing div-->
 <div class="housing">
+
     <!--header container-->
     <div class="header_con sticky-top">
         <div class="row header d-flex justify-content-center mx-0">
@@ -63,7 +64,7 @@ if(!$userid){
                             <p class="dash_link">home</p>
                         </div>
                     </a>
-                    <a href="categories.php" class="text-decoration-none">
+                    <a href="category.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-tags"></i> </span>
                             <p class="dash_link">categories</p>
@@ -145,7 +146,7 @@ if(!$userid){
                                         </div>
                                         <div class="">
                                             <label class="form_label">KYC option:</label>
-                                            <select class="full">
+                                            <select name="kyc" class="full">
                                                 <option class="form_opt"></option>
                                                 <option class="form_opt">music</option>
                                                 <option class="form_opt">video</option>
@@ -159,8 +160,8 @@ if(!$userid){
                                             <input type="text" name="veryify_email" class="full" required>
                                         </div>
                                         <div class="">
-                                            <button type="reset" class="post_reset_btn mr-3">reset post</button>
-                                            <button type="submit" class="post_sub_btn">create post</button>
+                                            <button type="reset" name="set_reset_btn" class="post_reset_btn mr-3">reset post</button>
+                                            <button type="submit" name="set_sub_btn" class="post_sub_btn">create post</button>
                                         </div>
                                     </div>
                                 </div>
@@ -226,55 +227,7 @@ if(!$userid){
                                     <td class="tbl_data">music</td>
                                     <td class="tbl_data">12:48pm - 19/10/2019</td>
                                     <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">2</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">3</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">4</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">5</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
+                                        <a href="settingedit.php?<?php if (isset($id)) echo $id; ?>" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
                                         <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
                                         <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
                                     </td>
@@ -287,7 +240,7 @@ if(!$userid){
             </div>
         </div>
     </div>
-        <!--dashboard container ENDS-->
+    <!--dashboard container ENDS-->
 
     </div>
     <!--housing div ENDS-->

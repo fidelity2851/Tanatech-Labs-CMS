@@ -8,27 +8,93 @@ if(!$userid){
     header("location: index.php");
 }
 
+//getting data from database
+if (isset($_GET['edit'])){
+    $edit = $_GET['edit'];
+
+    $edit_query = "SELECT * FROM post WHERE post_id = '$edit'";
+    if ($edit_query_run = mysqli_query($conn, $edit_query)) {
+        $edit_query_row = mysqli_fetch_assoc($edit_query_run);
+        
+        $title_edit = $edit_query_row['post_title'];
+        $url_edit = $edit_query_row['post_slug_url'];
+        $summary_edit = $edit_query_row['post_summary'];
+        $post_img = $edit_query_row['post_image'];
+        $content_edit = $edit_query_row['post_content'];
+        $author_edit = $edit_query_row['author'];
+        $category_edit = $edit_query_row['category'];
+        $sub_category_edit = $edit_query_row['sub_category'];
+        $tag_edit = $edit_query_row['tags'];
+    }
+}
+
 if (isset($_POST['post_sub_btn'])){
     //collect form values
-    $title = $_POST['title'];
-    $url = $_POST['url'];
-    $summary = $_POST['summary'];
+    $title = mysqli_real_escape_string($conn,  $_POST['title']);
+    $url = mysqli_real_escape_string($conn,  $_POST['url']);
+    $summary = mysqli_real_escape_string($conn,  $_POST['summary']);
 
     //processing image
     $img = $_FILES['post_image']['name'];
     $folder = "uploads/.$img";
     move_uploaded_file($_FILES['post_image']['tmp_name'],$folder);
 
-    $content = $_POST['content'];
-    $author = $_POST['author'];
-    $category = $_POST['category'];
-    $sub_category = $_POST['sub_category'];
-    $tags = $_POST['tags'];
-    $crt_date = $_POST['date'];
+    $content = mysqli_real_escape_string($conn,  $_POST['content']);
+    $author = mysqli_real_escape_string($conn,  $_POST['author']);
+    $category = mysqli_real_escape_string($conn,  $_POST['category']);
+    $sub_category = mysqli_real_escape_string($conn, $_POST['sub_category']);
+    $tags = mysqli_real_escape_string($conn, $_POST['tags']);
 
-//sending values to database
-    $send_to_db = "INSERT INTO post(post_title, post_slug_url, post_summary, post_image, post_content, author, category, sub_category, tags, crt_date, up_date)
-VALUE ('{$title}', '{$url}', '{$summary}', '{$img}', '{$content}', '{$author}', '{$category}', '{$sub_category}', '{$tags}', '{$crt_date}', now())";
+    if (empty($_FILES['post_image'])){
+        //sending values to database
+
+        $send_to_db = "UPDATE post SET post_title = '{$title}', post_slug_url = '{$url}', post_summary = '{$summary}', post_content = '{$content}', author = '{$author}', category = '{$category}', sub_category = '{$sub_category}', tags = '{$tags}', up_date = now() WHERE post_id = '$edit'";
+
+        $send_db  = mysqli_query($conn, $send_to_db);
+        if (!$send_db){
+            $failed = "failed to create your post" . mysqli_error($conn);
+        }
+        else {
+            $success = "post created successfully";
+            header("location: postedit.php?edit=$edit");
+        }
+    }
+    else if (!empty($_FILES['post_image'])){
+        //sending values to database
+
+        $send_to_db = "UPDATE post SET post_title = '{$title}', post_slug_url = '{$url}', post_summary = '{$summary}', post_image = '{$img}', post_content = '{$content}', author = '{$author}', category = '{$category}', sub_category = '{$sub_category}', tags = '{$tags}', up_date = now() WHERE post_id = '$edit'";
+
+        $send_db  = mysqli_query($conn, $send_to_db);
+        if (!$send_db){
+            $failed = "failed to create your post" . mysqli_error($conn);
+        }
+        else {
+            $success = "post created successfully";
+            header("location: postedit.php?edit=$edit");
+        }
+    }
+}
+/*else{
+    //collect form values
+    $title = mysqli_real_escape_string($conn,  $_POST['title']);
+    $url = mysqli_real_escape_string($conn,  $_POST['url']);
+    $summary = mysqli_real_escape_string($conn,  $_POST['summary']);
+
+    //processing image
+    $img = $_FILES['post_image']['name'];
+    $folder = "uploads/.$img";
+    move_uploaded_file($_FILES['post_image']['tmp_name'],$folder);
+
+    $content = mysqli_real_escape_string($conn,  $_POST['content']);
+    $author = mysqli_real_escape_string($conn,  $_POST['author']);
+    $category = mysqli_real_escape_string($conn,  $_POST['category']);
+    $sub_category = mysqli_real_escape_string($conn, $_POST['sub_category']);
+    $tags = mysqli_real_escape_string($conn, $_POST['tags']);
+
+    //sending values to database
+
+    $send_to_db = "UPDATE post SET post_title = '{$title}', post_slug_url = '{$url}', post_summary = '{$summary}', post_content = '{$content}', author = '{$author}', category = '{$category}', sub_category = '{$sub_category}', tags = '{$tags}', up_date = now() WHERE post_id = '$edit'";
+
     $send_db  = mysqli_query($conn, $send_to_db);
     if (!$send_db){
         $failed = "failed to create your post" . mysqli_error($conn);
@@ -36,31 +102,11 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$img}', '{$content}', '{$author}', 
     else {
         $success = "post created successfully";
     }
-}
+}*/
 
 
 
-?>
 
-
-<?php
-//delecting data from database
-
-if(isset($_GET['id'])){
-
-    //get delete variable
-    $dodelete = $_GET['id'];
-
-    //perform delete
-    $sql = mysqli_query($conn,"DELETE FROM post WHERE post_id='$dodelete'");
-    if (!$sql){
-        $failed = "failed to delect your post" . mysqli_error($conn);
-    }
-    else {
-        $success = "post delected successfully";
-        //header("location: banner.php");
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -183,20 +229,20 @@ if(isset($_GET['id'])){
                 <?php
                 if (isset($success)){
                     ?>
-                <div class="succ_msg">
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            <span class="sr-only">Close</span>
-                        </button>
-                        <?php
-                        if (isset($success)){
-                        echo " <strong>" . $success . "</strong>";
-                        }
-                        ?>
+                    <div class="succ_msg">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <?php
+                            if (isset($success)){
+                                echo " <strong>" . $success . "</strong>";
+                            }
+                            ?>
+                        </div>
                     </div>
-                </div>
-                <?php
+                    <?php
                 }
                 ?>
 
@@ -221,11 +267,9 @@ if(isset($_GET['id'])){
                 ?>
                 <nav class="tab_con">
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a href="post.php" class="text-decoration-none"> <img src="images/back_btn.png" class="back_btn"> </a>
                         <a class="nav-item nav-link active" data-toggle="tab" href="#nav-create" aria-selected="true">
-                            <p class="tab_link">create new post</p>
-                        </a>
-                        <a class="nav-item nav-link" data-toggle="tab" href="#nav-manage" aria-selected="false">
-                            <p class="tab_link">manage your post</p>
+                            <p class="tab_link">edit post</p>
                         </a>
                     </div>
                 </nav>
@@ -237,23 +281,24 @@ if(isset($_GET['id'])){
                                     <div class="post_form_1">
                                         <div class="">
                                             <label class="form_label">title:</label> <br>
-                                            <input type="text" class="full" name="title" required>
+                                            <input type="text" class="full" value="<?php if (isset($title_edit)) echo $title_edit; ?>" name="title" required>
                                         </div>
                                         <div class="">
                                             <label class="form_label">slug / URl: (optional)</label> <br>
-                                            <input type="url" class="full" name="url" >
+                                            <input type="url" class="full" value="<?php if (isset($url_edit)) echo $url_edit; ?>" name="url" >
                                         </div>
                                         <div class="">
                                             <label class="form_label">summary:</label> <br>
-                                            <textarea name="summary" class="full_sum" required></textarea>
+                                            <textarea name="summary" class="full_sum" required> <?php if (isset($summary_edit)) echo $summary_edit; ?> </textarea>
                                         </div>
                                         <div class="">
                                             <label class="form_label">post image:</label> <br>
                                             <input type="file" class="full" name="post_image">
+                                            <img src="uploads/<?php echo ".{$post_img}"; ?>" class="edit_img">
                                         </div>
                                         <div class="">
                                             <label class="form_label">content:</label> <br>
-                                            <textarea class="full_area" id="summernote" name="content"></textarea>
+                                            <textarea class="full_area" id="summernote" name="content"> <?php if (isset($content_edit)) echo $content_edit; ?> </textarea>
                                         </div>
                                         <button type="reset" name="post_reset_btn" class="post_reset_btn mr-3">reset post</button>
                                         <button type="submit" name="post_sub_btn" class="post_sub_btn">create post</button>
@@ -263,7 +308,7 @@ if(isset($_GET['id'])){
                                     <div class="post_form_2">
                                         <div class="">
                                             <label class="form_label">author:</label>
-                                            <select name="author" class="full" >
+                                            <select name="author" class="full">
                                                 <option class="form_opt" disabled selected>select author</option>
                                                 <?php
                                                 $query1 = "SELECT * FROM users ORDER BY user_id";
@@ -287,9 +332,9 @@ if(isset($_GET['id'])){
                                                     if ($query_run1 = mysqli_query($conn, $query1)){
                                                         while ($query_row1 = mysqli_fetch_assoc($query_run1)){
                                                             $main_cate = $query_row1['cate_name'];
-                                                    ?>
-                                                            <option class="form_opt"> <?php if (isset($main_cate)) echo $main_cate ; ?> </option>
-                                                    <?php
+                                                            ?>
+                                                            <option class="form_opt"> <?php if (isset($category_edit)) echo $category_edit; ?> </option>
+                                                            <?php
                                                         }
                                                     }
                                                     ?>
@@ -309,97 +354,31 @@ if(isset($_GET['id'])){
                                         </div>
                                         <div class="">
                                             <label class="form_label">tags:</label> <br>
-                                            <textarea name="tags" class="full_sum"></textarea>
+                                            <textarea name="tags"  class="full_sum"> <?php if (isset($tag_edit)) echo $tag_edit; ?> </textarea>
                                         </div>
-                                        <div class="">
-                                            <label class="form_label">date:</label> <br>
-                                            <input type="date" name="date" class="full">
-                                        </div>
+
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="nav-manage" aria-labelledby="nav-manage-tab">
-                        <div class="tab_content">
-                            <div class="man_search_con d-flex justify-content-start">
-                                <form class="col-4 man_search_form px-0">
-                                    <div class="col man_search d-flex justify-content-center px-0">
-                                        <input type="search" name="man_search_box" class="man_search_box" placeholder="Quick Search">
-                                        <select class="man_select mr-3">
-                                            <option class="">categories</option>
-                                            <option class="">all</option>
-                                            <option class="">musics</option>
-                                            <option class="">videos</option>
-                                            <option class="">news</option>
-                                            <option class="">status</option>
-                                            <option class="">stories</option>
-                                        </select>
-                                        <button type="submit" class="man_sub_btn"> <i class="fa fa-arrow-right"></i> </button>
-                                    </div>
-                                </form>
-                            </div>
-                            <table class="table table-striped table-bordered">
-                                <thead>
-                                <tr>
-                                    <th class="tbl_header"> <input type="checkbox" class="tbl_check align-self-center"> </th>
-                                    <th class="tbl_header">ID</th>
-                                    <th class="tbl_header">Title</th>
-                                    <th class="tbl_header">Category</th>
-                                    <th class="tbl_header">Date / Time</th>
-                                    <th class="tbl_header">manage</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php
-                                $query = "SELECT * FROM post ORDER BY post_id DESC ";
-                                if ($query_run = mysqli_query($conn, $query)){
-                                    while ($query_row = mysqli_fetch_assoc($query_run)){
-                                        $id = $query_row['post_id'];
-                                        $title = $query_row['post_title'];
-                                        $cate = $query_row['category'];
-                                        $date = $query_row['up_date'];
-                                        ?>
-
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <td class="tbl_head"> <?Php echo $id?> </td>
-                                    <td class="tbl_title"> <?Php echo $title?> </td>
-                                    <td class="tbl_data"> <?Php echo $cate?> </td>
-                                    <td class="tbl_data"> <?Php echo $date?> </td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="postedit.php?edit=<?php if (isset($id)) echo $id; ?>"  class="text-decoration-none edit_btn"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="post.php?id=<?php if (isset($id)) echo $id; ?>" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-
-                                <?php
-                                }
-                                }
-                                ?>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                 </div>
             </div>
+        </div>
+        <!--dashboard container ENDS-->
+
+
+
     </div>
-    <!--dashboard container ENDS-->
-
-
-
-</div>
     <!--dashboard container-->
 
 </div>
 <!--housing div ENDS-->
 
-    <!-- include summernote css/js -->
-    <script type="text/javascript" src="js/bootstrap.js"></script>
-    <script type="text/javascript" src="js/post.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<!-- include summernote css/js -->
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/post.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 
 </body>
 </html>

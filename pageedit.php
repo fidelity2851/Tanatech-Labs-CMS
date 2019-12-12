@@ -24,9 +24,7 @@ if(!$userid){
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <!-- reference your copy Font Awesome here (from our CDN or by hosting yourself) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script>
-        var jQuery_3_4_1 = $.noConflict();
-    </script>
+
     <!-- include summernote css -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
@@ -37,7 +35,6 @@ if(!$userid){
 <body>
 <!--housing div-->
 <div class="housing">
-
     <!--header container-->
     <div class="header_con sticky-top">
         <div class="row header d-flex justify-content-center mx-0">
@@ -127,11 +124,9 @@ if(!$userid){
             <div class="col dashboard_display_con px-0">
                 <nav class="tab_con">
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a href="page.php" class="text-decoration-none"> <img src="images/back_btn.png" class="back_btn"> </a>
                         <a class="nav-item nav-link active" data-toggle="tab" href="#nav-create" aria-selected="true">
-                            <p class="tab_link">create new post</p>
-                        </a>
-                        <a class="nav-item nav-link" data-toggle="tab" href="#nav-manage" aria-selected="false">
-                            <p class="tab_link">manage your post</p>
+                            <p class="tab_link">edit post</p>
                         </a>
                     </div>
                 </nav>
@@ -155,7 +150,7 @@ if(!$userid){
                                         </div>
                                         <div class="">
                                             <label class="form_label">content:</label> <br>
-                                            <textarea class="full_area" id="summernote" name="content"></textarea>
+                                            <textarea  class="full_area" id="summernote" name="content"></textarea>
                                         </div>
                                         <button type="reset" class="post_reset_btn mr-3">reset post</button>
                                         <button type="submit" class="post_sub_btn">create post</button>
@@ -204,58 +199,10 @@ if(!$userid){
                             </form>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="nav-manage" aria-labelledby="nav-manage-tab">
-                        <div class="tab_content">
-                            <div class="man_search_con d-flex justify-content-start">
-                                <form class="col-4 man_search_form px-0">
-                                    <div class="col man_search d-flex justify-content-center px-0">
-                                        <input type="search" name="man_search_box" class="man_search_box" placeholder="Quick Search">
-                                        <select class="man_select mr-3">
-                                            <option class="">categories</option>
-                                            <option class="">all</option>
-                                            <option class="">musics</option>
-                                            <option class="">videos</option>
-                                            <option class="">news</option>
-                                            <option class="">status</option>
-                                            <option class="">stories</option>
-                                        </select>
-                                        <button type="submit" class="man_sub_btn"> <i class="fa fa-arrow-right"></i> </button>
-                                    </div>
-                                </form>
-                            </div>
-                            <table class="table table-striped table-bordered">
-                                <thead>
-                                <tr>
-                                    <th class="tbl_header"></th>
-                                    <th class="tbl_header">ID</th>
-                                    <th class="tbl_header">Title</th>
-                                    <th class="tbl_header">Category</th>
-                                    <th class="tbl_header">Date / Time</th>
-                                    <th class="tbl_header">manage</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">1</th>
-                                    <td class="tbl_title">Nnamani wants end to discrimination against women ....pays WAEC fees for girls in his constituency</td>
-                                    <td class="tbl_data">music</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="pageedit.php?<?php if (isset($id)) echo $id;?>" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
         <!--dashboard container ENDS-->
-    </div>
 
     </div>
     <!--housing div ENDS-->
@@ -263,6 +210,6 @@ if(!$userid){
 </body>
 
 <script type="text/javascript" src="js/bootstrap.js"></script>
-<script type="text/javascript" src="js/page.js"></script>
+<script type="text/javascript" src="js/post.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 </html>

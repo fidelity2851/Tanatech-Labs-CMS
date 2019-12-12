@@ -9,10 +9,10 @@ if(!$userid){
 }
 //collecting form values
 if (isset($_POST['cate_sub_btn'])){
-    $cate_name = $_POST['cate_name'];
-    $cate_url = $_POST['cate_url'];
-    $cate_check = $_POST['cate_check'];
-    $cate_desc = $_POST['cate_desc'];
+    $cate_name = mysqli_real_escape_string($conn,  $_POST['cate_name']);
+    $cate_url = mysqli_real_escape_string($conn,  $_POST['cate_url']);
+    $cate_check = mysqli_real_escape_string($conn,  $_POST['cate_check']);
+    $cate_desc = mysqli_real_escape_string($conn,  $_POST['cate_desc']);
 
     //sending value to the database
     $send_to_db = "INSERT INTO category (cate_name, cate_url, cate_check, cate_desc, crt_date, up_date) 
@@ -32,9 +32,26 @@ else{
 
 }
 
+?>
 
+<?php
+//delecting data from database
 
+if(isset($_GET['id'])){
 
+    //get delete variable
+    $dodelete = $_GET['id'];
+
+    //perform delete
+    $sql = mysqli_query($conn,"DELETE FROM category WHERE category_id='$dodelete'");
+    if (!$sql){
+        $failed = "failed to delect your category" . mysqli_error($conn);
+    }
+    else {
+        $success = "category delected successfully";
+        //header("location: banner.php");
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -55,75 +72,6 @@ else{
 <body>
     <!--housing div-->
     <div class="housing">
-
-        <!--editing container-->
-        <div class="edit_con position-absolute">
-            <div class="container edit px-0">
-                <div class="d-flex justify-content-end"> <button type="button" class="close_edit"> &times; </button> </div>
-                <div class="col dashboard_display_con px-0">
-                    <div class="tab_content d-flex justify-content-between">
-                        <form action="#" enctype="multipart/form-data" method="post" class="col d-flex justify-content-center px-0">
-                            <div class="col post_1 mr-3 px-0">
-                                <div class="post_form_1">
-                                    <div class="">
-                                        <label class="form_label">category name:</label> <br>
-                                        <input type="text" class="full" name="cate_name" required>
-                                    </div>
-                                    <div class="mb-2">
-                                        <label class="form_label">link to:</label> <br>
-                                        <input type="url" class="full" name="cate_url" required>
-                                    </div>
-                                    <label class="form_label"> <input type="checkbox" name="cate_check" class="form_check"> dropdown icon</label> <br>
-                                    <div class="d-flex justify-content-between">
-                                        <div class="col px-0">
-                                            <label class="form_label">description: (optional)</label> <br>
-                                            <textarea name="cate_desc" class="full_sum" required></textarea>
-                                        </div>
-                                    </div>
-                                    <button type="reset" name="cate_reset_btn" class="post_reset_btn mr-3">reset category</button>
-                                    <button type="submit" name="cate_sub_btn" class="post_sub_btn">create category</button>
-                                </div>
-                            </div>
-                        </form>
-                        <form action="#" enctype="multipart/form-data" method="post" class="col d-flex justify-content-center px-0">
-                            <div class="col post_2 ml-3 px-0">
-                                <div class="post_form_2">
-                                    <label class="form_label">add sub category: (optional)</label>
-                                    <div class="col border py-3">
-                                        <div class="">
-                                            <label class="form_label">main categories:</label>
-                                            <select name="category" class="full">
-                                                <option class="form_opt"></option>
-                                                <option class="form_opt">music</option>
-                                                <option class="form_opt">video</option>
-                                                <option class="form_opt">news</option>
-                                                <option class="form_opt">status</option>
-                                                <option class="form_opt">stories</option>
-                                            </select>
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">sub category:</label>
-                                            <input type="text" name="author" class="full" required>
-                                        </div>
-                                        <div class="mb-2">
-                                            <label class="form_label">link to:</label> <br>
-                                            <input type="url" class="full" name="URl" required>
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">description: (optional)</label> <br>
-                                            <textarea name="tags" class="full_sum"></textarea>
-                                        </div>
-                                        <button type="reset" class="post_reset_btn mr-3">reset sub category</button>
-                                        <button type="submit" class="post_sub_btn">create sub category</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--editing container ENDS-->
 
         <!--header container-->
         <div class="header_con sticky-top">
@@ -160,7 +108,7 @@ else{
                                 <p class="dash_link">home</p>
                             </div>
                         </a>
-                        <a href="categories.php" class="text-decoration-none">
+                        <a href="category.php" class="text-decoration-none">
                             <div class="dash_link_con dash_link_active d-flex">
                                 <span class="dash_icon"> <i class="fa fa-tags"></i> </span>
                                 <p class="dash_link">categories</p>
@@ -276,7 +224,7 @@ else{
                                                     <label class="form_label">link to:</label> <br>
                                                     <input type="url" class="full" name="cate_url" required>
                                                 </div>
-                                                <label class="form_label"> <input type="checkbox" name="cate_check" class="form_check"> dropdown icon</label> <br>
+                                                <label class="form_label"> <input type="checkbox" name="cate_check" value="1" class="form_check" checked> dropdown icon</label> <br>
                                                 <div class="d-flex justify-content-between">
                                                     <div class="col px-0">
                                                         <label class="form_label">description: (optional)</label> <br>
@@ -296,13 +244,14 @@ else{
                                                     <div class="">
                                                         <label class="form_label">main categories:</label>
                                                         <select name="category" class="full">
+                                                            <option class="form_opt" disabled selected>select main category</option>
                                                             <?php
                                                             $query1 = "SELECT * FROM category ORDER BY category_id";
                                                             if ($query_run1 = mysqli_query($conn, $query1)){
                                                                 while ($query_row1 = mysqli_fetch_assoc($query_run1)){
                                                                     $main_menu = $query_row1['cate_name'];
                                                             ?>
-                                                                    <option class="form_opt"> <?php echo $main_menu; ?> </option>
+                                                                    <option class="form_opt"> <?php if (isset($main_menu)) echo $main_menu; ?> </option>
                                                             <?php
                                                                 }
                                                             }
@@ -373,15 +322,15 @@ else{
                                                 ?>
                                                 <tr>
                                                     <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                                    <th class="tbl_head"> <?php echo $id; ?> </th>
-                                                    <td class="tbl_title"> <?php echo $name; ?> </td>
-                                                    <td class="tbl_data"> <?php echo $url; ?> </td>
-                                                    <td class="tbl_data"> <?php echo $desc; ?> </td>
-                                                    <td class="tbl_data"> <?php echo $date; ?> </td>
+                                                    <th class="tbl_head"> <?php if (isset($id)) echo $id; ?> </th>
+                                                    <td class="tbl_title"> <?php if (isset($name)) echo $name; ?> </td>
+                                                    <td class="tbl_data"> <?php if (isset($url)) echo $url; ?> </td>
+                                                    <td class="tbl_data"> <?php if (isset($desc)) echo $desc; ?> </td>
+                                                    <td class="tbl_data"> <?php if (isset($date)) echo $date; ?> </td>
                                                     <td class="tbl_data d-flex border-0">
-                                                        <a href="#" class="text-decoration-none edit_btn"> <i class="fa fa-edit"></i></a>
-                                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
+                                                        <a href="categoryedit.php?edit=<?php if (isset($id)) echo $id; ?>" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
+                                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i> </a>
+                                                        <a href="category.php?id=<?php if (isset($id)) echo $id; ?>" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
                                                     </td>
                                                 </tr>
                                                 <?php

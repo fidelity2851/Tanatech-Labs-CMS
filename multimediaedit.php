@@ -7,59 +7,57 @@ $userid = $_SESSION["cool"];
 if(!$userid){
     header("location: index.php");
 }
+
+
+if (isset($_GET['edit'])){
+    $edit = $_GET['edit'];
+
+    //get value from database
+    $query = "SELECT * FROM multimedia WHERE multimedia_id = '$edit'";
+    $query_run = mysqli_query($conn, $query);
+    $query_row = mysqli_fetch_assoc($query_run);
+    $edit_name = $query_row['album_title'];
+    $edit_url = $query_row['album_url'];
+    $edit_img = $query_row['album_cover_img'];
+    $edit_desc = $query_row['album_description'];
+
+}
+
 //collecting form data
-if (isset($_POST['post_sub_btn'])){
-    //collect form values
-    $user_name = mysqli_real_escape_string($conn, $_POST['username']);
-    $email = mysqli_real_escape_string($conn,  $_POST['email']);
+if (isset($_POST['album_sub_btn'])){
+    $album_name = mysqli_real_escape_string($conn, $_POST['album_title']);
 
     //processing image
-    $profile_pic = $_FILES['profile_image']['name'];
-    $folder = "uploads/.$profile_pic";
-    move_uploaded_file($_FILES['profile_image']['tmp_name'],$folder);
+    $album_cover_img = $_FILES['album_cover_img']['name'];
+    $folder = "uploads/.$album_cover_img";
+    move_uploaded_file($_FILES['album_cover_img']['tmp_name'],$folder);
 
-    $biograph = mysqli_real_escape_string($conn, $_POST['biograph']);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
-    $comfirm_password = mysqli_real_escape_string($conn, $_POST['comfirm_password']);
+    $album_url = mysqli_real_escape_string($conn, $_POST['album_url']);
+    $album_desc = mysqli_real_escape_string($conn, $_POST['album_desc']);
 
-    //sending values to database
-    $send_to_db = "INSERT INTO users(username, email, password, profile_img, biograph, crt_date, up_date)
-    VALUE ('{$user_name}', '{$email}', '{$password}', '{$profile_pic}', '{$biograph}',  now(), now())";
-    $send_db  = mysqli_query($conn, $send_to_db);
+    $send_to_db = "UPDATE multimedia SET album_title = '{$album_name}', album_cover_img = '{$album_cover_img}', album_url = '{$album_url}', album_description = '{$album_desc}', up_date = now() WHERE multimedia_id = $edit";
+    $send_db = mysqli_query($conn, $send_to_db);
+
     if (!$send_db){
-        $failed = "failed to create your user";
+        $failed = "failed to create your album" . mysqli_error($conn);
     }
     else {
-        $success = "user created successfully";
+        $success = "album created successfully";
+        header("location: multimediaedit.php?edit=$edit");
     }
+
 }
-
-
-//delecting data from database
-
-if (isset($_GET['id'])) {
-
-    //get delete variable
-    $dodelete = $_GET['id'];
-
-    //perform delete
-    $sql = mysqli_query($conn, "DELETE FROM users WHERE user_id='$dodelete'");
-    if (!$sql) {
-        $failed = "failed to delect your user" . mysqli_error($conn);
-    } else {
-        $success = "user delected successfully";
-    }
-}
-
 
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tanatech Labs CMS</title>
+    <title>Tanatech Labs CMS /multimedia</title>
     <!--google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Lato|Roboto&display=swap" rel="stylesheet">
 
@@ -72,6 +70,7 @@ if (isset($_GET['id'])) {
 <body>
 <!--housing div-->
 <div class="housing">
+
     <!--header container-->
     <div class="header_con sticky-top">
         <div class="row header d-flex justify-content-center mx-0">
@@ -132,7 +131,7 @@ if (isset($_GET['id'])) {
                         </div>
                     </a>
                     <a href="multimedia.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
+                        <div class="dash_link_con dash_link_active d-flex">
                             <span class="dash_icon"> <i class="fa fa-picture-o"></i> </span>
                             <p class="dash_link">multimedia</p>
                         </div>
@@ -144,7 +143,7 @@ if (isset($_GET['id'])) {
                         </div>
                     </a>
                     <a href="user.php" class="text-decoration-none">
-                        <div class="dash_link_con dash_link_active d-flex">
+                        <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-users" aria-hidden="true"></i> </span>
                             <p class="dash_link">users</p>
                         </div>
@@ -200,124 +199,89 @@ if (isset($_GET['id'])) {
                 ?>
                 <nav class="tab_con">
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a href="multimedia.php" class="text-decoration-none"> <img src="images/back_btn.png" class="back_btn"> </a>
                         <a class="nav-item nav-link active" data-toggle="tab" href="#nav-create" aria-selected="true">
-                            <p class="tab_link">create new user</p>
-                        </a>
-                        <a class="nav-item nav-link" data-toggle="tab" href="#nav-manage" aria-selected="false">
-                            <p class="tab_link">manage your users</p>
+                            <p class="tab_link">edit album</p>
                         </a>
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-create" aria-labelledby="nav-create-tab">
-                        <div class="tab_content">
-                            <form action="" enctype="multipart/form-data" method="post" class="d-flex justify-content-between">
+                        <div class="tab_content d-flex justify-content-between">
+                            <form action="#" enctype="multipart/form-data" method="post" class="col d-flex justify-content-center px-0">
                                 <div class="col post_1 mr-3 px-0">
                                     <div class="post_form_1">
                                         <div class="">
-                                            <label class="form_label">username:</label> <br>
-                                            <input type="text" class="full" name="username" required>
+                                            <label class="form_label">album title:</label> <br>
+                                            <input type="text" class="full" value="<?php if (isset($edit_name)) echo $edit_name; ?>" name="album_title" required>
                                         </div>
                                         <div class="">
-                                            <label class="form_label">email:</label> <br>
-                                            <input type="email" class="full" name="email" required>
+                                            <label class="form_label">album cover image:</label> <br>
+                                            <input type="file" class="full" name="album_cover_img">
+                                            <img src="uploads/<?php if (isset($edit_img)) echo ".{$edit_img}"; ?>" class="edit_img">
                                         </div>
                                         <div class="">
-                                            <label class="form_label">profile picture:</label> <br>
-                                            <input type="file" class="full" name="profile_image">
+                                            <label class="form_label">album URl:</label> <br>
+                                            <input type="url" class="full" <?php if (isset($edit_url)) echo $edit_url; ?> name="album_url">
                                         </div>
                                         <div class="">
-                                            <label class="form_label">biograph:</label> <br>
-                                            <textarea name="biograph" class="full_sum" required></textarea>
+                                            <label class="form_label">album description:</label> <br>
+                                            <textarea name="album_desc"  class="full_sum" required> <?php if (isset($edit_desc)) echo $edit_desc; ?></textarea>
                                         </div>
-                                        <button type="reset" name="post_reset_btn" class="post_reset_btn mr-3">reset post</button>
-                                        <button type="submit" name="post_sub_btn" class="post_sub_btn">create post</button>
+                                        <button type="reset" name="album_reset_btn" class="post_reset_btn mr-3">reset album</button>
+                                        <button type="submit" name="album_sub_btn" class="post_sub_btn">create album</button>
                                     </div>
                                 </div>
-                                <div class="col post_2 px-0">
-                                    <div class="post_form_2">
+                            </form>
+                            <form action="#" enctype="multipart/form-data" method="post" class="col d-flex justify-content-center px-0">
+                                <div class="col post_2 ml-3 px-0">
+                                    <div class="post_form_1">
                                         <div class="">
-                                            <label class="form_label">password:</label> <br>
-                                            <input type="password" class="full" name="password" required>
+                                            <label class="form_label">select album to add image to:</label>
+                                            <select class="full">
+                                                <option class="form_opt" disabled selected>select album</option>
+                                                <?PHP
+                                                $query1 = "SELECT * FROM multimedia ORDER BY multimedia_id DESC";
+                                                if ($query_run1 = mysqli_query($conn, $query1)){
+                                                    while ($query_row1 = mysqli_fetch_assoc($query_run1)){
+                                                        $sel_title = $query_row1['album_title'];
+                                                        ?>
+                                                        <option class="form_opt"> <?php echo $sel_title; ?> </option>
+                                                        <?php
+                                                    }
+                                                }
+
+                                                ?>
+                                            </select>
                                         </div>
                                         <div class="">
-                                            <label class="form_label">comfirm password:</label> <br>
-                                            <input type="password" class="full" name="comfirm_password" required>
+                                            <label class="form_label">add image to album:</label> <br>
+                                            <input type="file" class="full" name="add_album_image" required>
                                         </div>
+                                        <div class="">
+                                            <label class="form_label">image title:</label> <br>
+                                            <input type="text" class="full" name="album_image_title" required>
+                                        </div>
+                                        <div class="">
+                                            <label class="form_label">image URl: (optional)</label> <br>
+                                            <input type="url" class="full" name="add_album_image_url" required>
+                                        </div>
+                                        <div class="">
+                                            <label class="form_label">image description:</label> <br>
+                                            <textarea name="album_description" class="full_sum" required></textarea>
+                                        </div>
+                                        <button type="reset" class="post_reset_btn mr-3">reset album image</button>
+                                        <button type="submit" class="post_sub_btn">create album image</button>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="nav-manage" aria-labelledby="nav-manage-tab">
-                        <div class="tab_content">
-                            <div class="man_search_con d-flex justify-content-start">
-                                <form class="col-4 man_search_form px-0">
-                                    <div class="col man_search d-flex justify-content-center px-0">
-                                        <input type="search" name="man_search_box" class="man_search_box" placeholder="Quick Search">
-                                        <select class="man_select mr-3">
-                                            <option class="">categories</option>
-                                            <option class="">all</option>
-                                            <option class="">musics</option>
-                                            <option class="">videos</option>
-                                            <option class="">news</option>
-                                            <option class="">status</option>
-                                            <option class="">stories</option>
-                                        </select>
-                                        <button type="submit" class="man_sub_btn"> <i class="fa fa-arrow-right"></i> </button>
-                                    </div>
-                                </form>
-                            </div>
-                            <table class="table table-striped table-bordered">
-                                <thead>
-                                <tr>
-                                    <th class="tbl_header"> <input type="checkbox" class="tbl_check align-self-center"> </th>
-                                    <th class="tbl_header">ID</th>
-                                    <th class="tbl_header">username</th>
-                                    <th class="tbl_header">biograph</th>
-                                    <th class="tbl_header">Date / Time</th>
-                                    <th class="tbl_header">manage</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php
-                                $query = "SELECT * FROM users ORDER BY user_id DESC ";
-                                if ($query_run = mysqli_query($conn, $query)){
-                                    while ($query_row = mysqli_fetch_assoc($query_run)){
-                                        $id = $query_row['user_id'];
-                                        $username = $query_row['username'];
-                                        $email = $query_row['email'];
-                                        $date = $query_row['up_date'];
-                                        ?>
 
-                                        <tr>
-                                            <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                            <td class="tbl_head"> <?Php echo $id?> </td>
-                                            <td class="tbl_title"> <?Php echo $username?> </td>
-                                            <td class="tbl_data"> <?Php echo $email?> </td>
-                                            <td class="tbl_data"> <?Php echo $date?> </td>
-                                            <td class="tbl_data d-flex border-0">
-                                                <a href="useredit.php?edit=<?php if (isset($id)) echo $id; ?>" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                                <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                                <a href="user.php?id=<?php if (isset($id)) echo $id; ?>" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                            </td>
-                                        </tr>
-
-                                        <?php
-                                    }
-                                }
-                                ?>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
         <!--dashboard container ENDS-->
-
-
 
     </div>
     <!--housing div ENDS-->
@@ -326,6 +290,6 @@ if (isset($_GET['id'])) {
 
 <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
-<script type="text/javascript" src="js/post.js"></script>
+<script type="text/javascript" src="js/multimedia.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 </html>

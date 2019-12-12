@@ -7,6 +7,24 @@ $userid = $_SESSION["cool"];
 if(!$userid){
     header("location: index.php");
 }
+
+//getting data from database
+if (isset($_GET['edit'])){
+    $edit = $_GET['edit'];
+
+    $edit_query = "SELECT * FROM users WHERE user_id = '$edit'";
+    if ($edit_query_run = mysqli_query($conn, $edit_query)) {
+        $edit_query_row = mysqli_fetch_assoc($edit_query_run);
+
+        $user_edit = $edit_query_row['username'];
+        $email_edit = $edit_query_row['email'];
+        $img_edit = $edit_query_row['profile_img'];
+        $bio_edit = $edit_query_row['biograph'];
+        $pass_edit = $edit_query_row['password'];
+
+    }
+}
+
 //collecting form data
 if (isset($_POST['post_sub_btn'])){
     //collect form values
@@ -20,36 +38,19 @@ if (isset($_POST['post_sub_btn'])){
 
     $biograph = mysqli_real_escape_string($conn, $_POST['biograph']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
-    $comfirm_password = mysqli_real_escape_string($conn, $_POST['comfirm_password']);
 
-    //sending values to database
-    $send_to_db = "INSERT INTO users(username, email, password, profile_img, biograph, crt_date, up_date)
-    VALUE ('{$user_name}', '{$email}', '{$password}', '{$profile_pic}', '{$biograph}',  now(), now())";
+//sending values to database
+    $send_to_db = "UPDATE users SET username = '{$user_name}', email = '{$email}', profile_img = '{$profile_pic}', biograph = '{$biograph}', password = '{$password}', up_date = now() WHERE user_id = '$edit'";
     $send_db  = mysqli_query($conn, $send_to_db);
     if (!$send_db){
-        $failed = "failed to create your user";
+        $failed = "failed to update your user";
     }
     else {
-        $success = "user created successfully";
+        $success = "user updated successfully";
+        header("location: useredit.php?edit=$edit");
     }
 }
 
-
-//delecting data from database
-
-if (isset($_GET['id'])) {
-
-    //get delete variable
-    $dodelete = $_GET['id'];
-
-    //perform delete
-    $sql = mysqli_query($conn, "DELETE FROM users WHERE user_id='$dodelete'");
-    if (!$sql) {
-        $failed = "failed to delect your user" . mysqli_error($conn);
-    } else {
-        $success = "user delected successfully";
-    }
-}
 
 
 ?>
@@ -200,11 +201,9 @@ if (isset($_GET['id'])) {
                 ?>
                 <nav class="tab_con">
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a href="user.php" class="text-decoration-none"> <img src="images/back_btn.png" class="back_btn"> </a>
                         <a class="nav-item nav-link active" data-toggle="tab" href="#nav-create" aria-selected="true">
-                            <p class="tab_link">create new user</p>
-                        </a>
-                        <a class="nav-item nav-link" data-toggle="tab" href="#nav-manage" aria-selected="false">
-                            <p class="tab_link">manage your users</p>
+                            <p class="tab_link">edit user</p>
                         </a>
                     </div>
                 </nav>
@@ -216,19 +215,20 @@ if (isset($_GET['id'])) {
                                     <div class="post_form_1">
                                         <div class="">
                                             <label class="form_label">username:</label> <br>
-                                            <input type="text" class="full" name="username" required>
+                                            <input type="text" class="full" value="<?php if (isset($user_edit)) echo $user_edit; ?>" name="username" required>
                                         </div>
                                         <div class="">
                                             <label class="form_label">email:</label> <br>
-                                            <input type="email" class="full" name="email" required>
+                                            <input type="email" class="full" value="<?php if (isset($email_edit)) echo $email_edit; ?>" name="email" required>
                                         </div>
                                         <div class="">
                                             <label class="form_label">profile picture:</label> <br>
                                             <input type="file" class="full" name="profile_image">
+                                            <img src="uploads/<?php echo ".{$img_edit}"; ?>" class="edit_img">
                                         </div>
                                         <div class="">
                                             <label class="form_label">biograph:</label> <br>
-                                            <textarea name="biograph" class="full_sum" required></textarea>
+                                            <textarea name="biograph" class="full_sum" required> <?php if (isset($bio_edit)) echo $bio_edit; ?> </textarea>
                                         </div>
                                         <button type="reset" name="post_reset_btn" class="post_reset_btn mr-3">reset post</button>
                                         <button type="submit" name="post_sub_btn" class="post_sub_btn">create post</button>
@@ -238,80 +238,14 @@ if (isset($_GET['id'])) {
                                     <div class="post_form_2">
                                         <div class="">
                                             <label class="form_label">password:</label> <br>
-                                            <input type="password" class="full" name="password" required>
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">comfirm password:</label> <br>
-                                            <input type="password" class="full" name="comfirm_password" required>
+                                            <input type="password" class="full" value="<?php if (isset($pass_edit)) echo $pass_edit; ?>" name="password" required>
                                         </div>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="nav-manage" aria-labelledby="nav-manage-tab">
-                        <div class="tab_content">
-                            <div class="man_search_con d-flex justify-content-start">
-                                <form class="col-4 man_search_form px-0">
-                                    <div class="col man_search d-flex justify-content-center px-0">
-                                        <input type="search" name="man_search_box" class="man_search_box" placeholder="Quick Search">
-                                        <select class="man_select mr-3">
-                                            <option class="">categories</option>
-                                            <option class="">all</option>
-                                            <option class="">musics</option>
-                                            <option class="">videos</option>
-                                            <option class="">news</option>
-                                            <option class="">status</option>
-                                            <option class="">stories</option>
-                                        </select>
-                                        <button type="submit" class="man_sub_btn"> <i class="fa fa-arrow-right"></i> </button>
-                                    </div>
-                                </form>
-                            </div>
-                            <table class="table table-striped table-bordered">
-                                <thead>
-                                <tr>
-                                    <th class="tbl_header"> <input type="checkbox" class="tbl_check align-self-center"> </th>
-                                    <th class="tbl_header">ID</th>
-                                    <th class="tbl_header">username</th>
-                                    <th class="tbl_header">biograph</th>
-                                    <th class="tbl_header">Date / Time</th>
-                                    <th class="tbl_header">manage</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php
-                                $query = "SELECT * FROM users ORDER BY user_id DESC ";
-                                if ($query_run = mysqli_query($conn, $query)){
-                                    while ($query_row = mysqli_fetch_assoc($query_run)){
-                                        $id = $query_row['user_id'];
-                                        $username = $query_row['username'];
-                                        $email = $query_row['email'];
-                                        $date = $query_row['up_date'];
-                                        ?>
 
-                                        <tr>
-                                            <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                            <td class="tbl_head"> <?Php echo $id?> </td>
-                                            <td class="tbl_title"> <?Php echo $username?> </td>
-                                            <td class="tbl_data"> <?Php echo $email?> </td>
-                                            <td class="tbl_data"> <?Php echo $date?> </td>
-                                            <td class="tbl_data d-flex border-0">
-                                                <a href="useredit.php?edit=<?php if (isset($id)) echo $id; ?>" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                                <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                                <a href="user.php?id=<?php if (isset($id)) echo $id; ?>" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                            </td>
-                                        </tr>
-
-                                        <?php
-                                    }
-                                }
-                                ?>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

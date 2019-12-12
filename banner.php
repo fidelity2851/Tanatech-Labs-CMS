@@ -9,10 +9,54 @@ if(!$userid){
     header("location: index.php");
 }
 
+//collecting form data
+if (isset($_POST['banner_sub_btn'])){
+    $webpage = mysqli_real_escape_string($conn, $_POST['webpage']);
 
+    $banner_img = $_FILES['banner_img']['name'];
+    $upload_folder = 'uploads/'.$banner_img;
+    move_uploaded_file($_FILES['banner_img']['tmp_name'],$upload_folder);
 
+    $banner_title = mysqli_real_escape_string($conn, $_POST['banner_title']);
+    $banner_desc = mysqli_real_escape_string($conn, $_POST['banner_desc']);
+
+    //sending date to datebase
+    $send_to_db = "INSERT INTO banner (webpage, banner_img, banner_header, banner_description, crt_date, up_date)
+VALUES ('{$webpage}', '{$banner_img}', '{$banner_title}', '{$banner_desc}', now(), now())";
+    $send_db = mysqli_query($conn, $send_to_db);
+
+    if (!$send_db){
+        $failed = "failed to create your post" . mysqli_error($conn);
+    }
+    else {
+        $success = "post created successfully";
+    }
+
+}
 
 ?>
+
+<?php
+//delecting data from database
+
+if(isset($_GET['id'])){
+
+    //get delete variable
+    $dodelete = $_GET['id'];
+
+    //perform delete
+    $sql = mysqli_query($conn,"DELETE FROM banner WHERE banner_id='$dodelete'");
+    if (!$sql){
+        $failed = "failed to delect your banner" . mysqli_error($conn);
+    }
+    else {
+        $success = "banner delected successfully";
+        //header("location: banner.php");
+    }
+}
+?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -32,6 +76,7 @@ if(!$userid){
 <body>
 <!--housing div-->
 <div class="housing">
+
     <!--header container-->
     <div class="header_con sticky-top">
         <div class="row header d-flex justify-content-center mx-0">
@@ -67,7 +112,7 @@ if(!$userid){
                             <p class="dash_link">home</p>
                         </div>
                     </a>
-                    <a href="categories.php" class="text-decoration-none">
+                    <a href="category.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-tags"></i> </span>
                             <p class="dash_link">categories</p>
@@ -119,6 +164,45 @@ if(!$userid){
                 <p class="power mt-auto">powered by: <span class="power_name">Tanatech Labs</span> </p>
             </div>
             <div class="col dashboard_display_con px-0">
+                <?php
+                if (isset($success)){
+                    ?>
+                    <div class="succ_msg">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <?php
+                            if (isset($success)){
+                                echo " <strong>" . $success . "</strong>";
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
+
+                <?php
+                if (isset($failed)){
+                    ?>
+                    <div class="succ_msg">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <?php
+                            if (isset($failed)){
+                                echo " <strong>" . $failed . "</strong>";
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
                 <nav class="tab_con">
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <a class="nav-item nav-link active" data-toggle="tab" href="#nav-create" aria-selected="true">
@@ -137,31 +221,31 @@ if(!$userid){
                                     <div class="post_form_1">
                                         <div class="">
                                             <label class="form_label">web page:</label>
-                                            <select class="full">
-                                                <option class="form_opt"></option>
-                                                <option class="form_opt">homepage</option>
-                                                <option class="form_opt">about us page</option>
-                                                <option class="form_opt">gallery page</option>
-                                                <option class="form_opt">contact page</option>
-                                                <option class="form_opt">products page</option>
+                                            <select name="webpage" class="full">
+                                                <option class="form_opt" selected disabled>Select a page</option>
+                                                <option class="form_opt" value="homepage">homepage</option>
+                                                <option class="form_opt" value="about us page">about us page</option>
+                                                <option class="form_opt" value="gallery">gallery page</option>
+                                                <option class="form_opt" value="contact page">contact page</option>
+                                                <option class="form_opt" value="products page">products page</option>
                                             </select>
                                         </div>
                                         <div class="">
                                             <label class="form_label">banner image:</label> <br>
-                                            <input type="file" class="full" name="banner_image" required>
+                                            <input type="file" class="full" name="banner_img" required>
                                         </div>
                                         <div class="">
                                             <label class="form_label">banner header:</label> <br>
-                                            <input type="text" class="full" name="title" required>
+                                            <input type="text" class="full" name="banner_title" required>
                                         </div>
                                         <div class="d-flex justify-content-between">
                                             <div class="col px-0">
                                                 <label class="form_label">banner description:</label> <br>
-                                                <textarea name="banner_description" class="full_sum" required></textarea>
+                                                <textarea name="banner_desc" class="full_sum" required></textarea>
                                             </div>
                                         </div>
-                                        <button type="reset" class="post_reset_btn mr-3">reset post</button>
-                                        <button type="submit" class="post_sub_btn">create post</button>
+                                        <button type="reset" name="banner_reset_btn" class="post_reset_btn mr-3">reset banner</button>
+                                        <button type="submit" name="banner_sub_btn" class="post_sub_btn">create banner</button>
                                     </div>
                                 </div>
                             </form>
@@ -198,66 +282,31 @@ if(!$userid){
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">1</th>
-                                    <td class="tbl_title">we are tanatech labd LTD</td>
-                                    <td class="tbl_data">slider 1.jpg</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">2</th>
-                                    <td class="tbl_title">we are tanatech labd LTD</td>
-                                    <td class="tbl_data">slider 1.jpg</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">3</th>
-                                    <td class="tbl_title">we are tanatech labd LTD</td>
-                                    <td class="tbl_data">slider 1.jpg</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">4</th>
-                                    <td class="tbl_title">we are tanatech labd LTD</td>
-                                    <td class="tbl_data">slider 1.jpg</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <th class="tbl_head">5</th>
-                                    <td class="tbl_title">we are tanatech labd LTD</td>
-                                    <td class="tbl_data">slider 1.jpg</td>
-                                    <td class="tbl_data">12:48pm - 19/10/2019</td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="#" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
+                                <?php
+                                $query = "SELECT * FROM banner ORDER BY banner_id DESC";
+                                if ($query_run = mysqli_query($conn, $query)){
+                                    while ($query_row = mysqli_fetch_assoc($query_run)){
+                                        $banner_id =  $query_row['banner_id'];
+                                        $banner_header = $query_row['banner_header'];
+                                        $banner_image =  $query_row['banner_img'];
+                                        $up_date =  $query_row['up_date'];
+                                ?>
+                                        <tr>
+                                            <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
+                                            <th class="tbl_head"> <?php echo $banner_id; ?> </th>
+                                            <td class="tbl_title"> <?php echo $banner_header; ?> </td>
+                                            <td class="tbl_data"> <img src="uploads/<?php if(isset($banner_image)) echo $banner_image; ?>" width="50" height="50"> <?php echo $banner_image; ?> </td>
+                                            <td class="tbl_data"> <?php echo $up_date; ?> </td>
+                                            <td class="tbl_data d-flex border-0">
+                                                <a href="banneredit.php?edit=<?php if(isset($banner_id)) echo $banner_id; ?>" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
+                                                <a href="banner_edit.php?id=<?php if(isset($banner_id)) echo $banner_id; ?>" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
+                                                <a href="banner.php?id=<?php if(isset($banner_id)) echo $banner_id; ?>" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                <?php
+                                    }
+                                }
+                                ?>
                                 </tbody>
                             </table>
                         </div>

@@ -2,64 +2,83 @@
 include_once ("backend_script/connection.php");
 $conn = mysqli_connect($server, $username, $password, $db_name);
 
+//setting your session
 session_start();
 $userid = $_SESSION["cool"];
 if(!$userid){
     header("location: index.php");
 }
-//collecting form data
-if (isset($_POST['post_sub_btn'])){
-    //collect form values
-    $user_name = mysqli_real_escape_string($conn, $_POST['username']);
-    $email = mysqli_real_escape_string($conn,  $_POST['email']);
 
-    //processing image
-    $profile_pic = $_FILES['profile_image']['name'];
-    $folder = "uploads/.$profile_pic";
-    move_uploaded_file($_FILES['profile_image']['tmp_name'],$folder);
+//geting data from database
+if (isset($_GET['edit'])) {
+    $edit = $_GET['edit'];
 
-    $biograph = mysqli_real_escape_string($conn, $_POST['biograph']);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
-    $comfirm_password = mysqli_real_escape_string($conn, $_POST['comfirm_password']);
+    $edit_query = "SELECT * FROM banner WHERE banner_id = '$edit'";
+    if ($edit_query_run = mysqli_query($conn, $edit_query)) {
+        $edit_query_row = mysqli_fetch_assoc($edit_query_run);
 
-    //sending values to database
-    $send_to_db = "INSERT INTO users(username, email, password, profile_img, biograph, crt_date, up_date)
-    VALUE ('{$user_name}', '{$email}', '{$password}', '{$profile_pic}', '{$biograph}',  now(), now())";
-    $send_db  = mysqli_query($conn, $send_to_db);
-    if (!$send_db){
-        $failed = "failed to create your user";
-    }
-    else {
-        $success = "user created successfully";
+        $page_edit = $edit_query_row['webpage'];
+        $img_edit = $edit_query_row['banner_img'];
+        $header_edit = $edit_query_row['banner_header'];
+        $desc_edit = $edit_query_row['banner_description'];
     }
 }
 
+//collecting form data
+if (isset($_POST['banner_sub_btn'])){
+    $webpage = $_POST['webpage'];
 
+    $banner_img = $_FILES['banner_img']['name'];
+    $upload_folder = 'uploads/'.$banner_img;
+    move_uploaded_file($_FILES['banner_img']['tmp_name'],$upload_folder);
+
+    $banner_title = $_POST['banner_title'];
+    $banner_desc = $_POST['banner_desc'];
+
+    //sending date to datebase
+    $send_to_db = "UPDATE banner SET webpage = '{$webpage}', banner_img = '{$banner_img}', banner_header = '{$banner_title}', banner_description = '{$banner_desc}', up_date = now() WHERE banner_id = '$edit'";
+    $send_db = mysqli_query($conn, $send_to_db);
+
+    if (!$send_db){
+        $failed = "failed to create your post" . mysqli_error($conn);
+    }
+    else {
+        $success = "post created successfully";
+        header("location:banneredit.php?edit=$edit");
+    }
+
+}
+
+?>
+
+<?php
 //delecting data from database
 
-if (isset($_GET['id'])) {
+if(isset($_GET['id'])){
 
     //get delete variable
     $dodelete = $_GET['id'];
 
     //perform delete
-    $sql = mysqli_query($conn, "DELETE FROM users WHERE user_id='$dodelete'");
-    if (!$sql) {
-        $failed = "failed to delect your user" . mysqli_error($conn);
-    } else {
-        $success = "user delected successfully";
+    $sql = mysqli_query($conn,"DELETE FROM banner WHERE banner_id='$dodelete'");
+    if (!$sql){
+        $failed = "failed to delect your banner" . mysqli_error($conn);
+    }
+    else {
+        $success = "banner delected successfully";
+        //header("location: banner.php");
     }
 }
-
-
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
+
+
+    <!DOCTYPE html>
+    <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tanatech Labs CMS</title>
+    <title>Tanatech Labs CMS / banner</title>
     <!--google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Lato|Roboto&display=swap" rel="stylesheet">
 
@@ -72,6 +91,7 @@ if (isset($_GET['id'])) {
 <body>
 <!--housing div-->
 <div class="housing">
+
     <!--header container-->
     <div class="header_con sticky-top">
         <div class="row header d-flex justify-content-center mx-0">
@@ -120,7 +140,7 @@ if (isset($_GET['id'])) {
                         </div>
                     </a>
                     <a href="banner.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
+                        <div class="dash_link_con dash_link_active d-flex">
                             <span class="dash_icon"> <i class="fa fa-sliders"></i> </span>
                             <p class="dash_link">slider / Banner</p>
                         </div>
@@ -144,7 +164,7 @@ if (isset($_GET['id'])) {
                         </div>
                     </a>
                     <a href="user.php" class="text-decoration-none">
-                        <div class="dash_link_con dash_link_active d-flex">
+                        <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-users" aria-hidden="true"></i> </span>
                             <p class="dash_link">users</p>
                         </div>
@@ -200,116 +220,45 @@ if (isset($_GET['id'])) {
                 ?>
                 <nav class="tab_con">
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a href="banner.php" class="text-decoration-none"> <img src="images/back_btn.png" class="back_btn"> </a>
                         <a class="nav-item nav-link active" data-toggle="tab" href="#nav-create" aria-selected="true">
-                            <p class="tab_link">create new user</p>
-                        </a>
-                        <a class="nav-item nav-link" data-toggle="tab" href="#nav-manage" aria-selected="false">
-                            <p class="tab_link">manage your users</p>
+                            <p class="tab_link">create new banner</p>
                         </a>
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-create" aria-labelledby="nav-create-tab">
                         <div class="tab_content">
-                            <form action="" enctype="multipart/form-data" method="post" class="d-flex justify-content-between">
+                            <form action="#" enctype="multipart/form-data" method="post" class="d-flex justify-content-center">
                                 <div class="col post_1 mr-3 px-0">
                                     <div class="post_form_1">
                                         <div class="">
-                                            <label class="form_label">username:</label> <br>
-                                            <input type="text" class="full" name="username" required>
+                                            <label class="form_label">web page:</label>
+                                            <select name="webpage" class="full">
+                                                <option class="form_opt" > <?php if (isset($page_edit)) echo $page_edit; ?> </option>
+
+                                            </select>
                                         </div>
                                         <div class="">
-                                            <label class="form_label">email:</label> <br>
-                                            <input type="email" class="full" name="email" required>
+                                            <label class="form_label">banner image:</label> <br>
+                                            <input type="file" class="full" name="banner_img" >
+                                            <img src="uploads/<?php echo ".{$img_edit}"; ?>" class="edit_img">
                                         </div>
                                         <div class="">
-                                            <label class="form_label">profile picture:</label> <br>
-                                            <input type="file" class="full" name="profile_image">
+                                            <label class="form_label">banner header:</label> <br>
+                                            <input type="text" class="full" value="<?php if (isset($header_edit)) echo $header_edit; ?>" name="banner_title" required>
                                         </div>
-                                        <div class="">
-                                            <label class="form_label">biograph:</label> <br>
-                                            <textarea name="biograph" class="full_sum" required></textarea>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="col px-0">
+                                                <label class="form_label">banner description:</label> <br>
+                                                <textarea name="banner_desc" class="full_sum" required> <?php if (isset($desc_edit)) echo $desc_edit; ?> </textarea>
+                                            </div>
                                         </div>
-                                        <button type="reset" name="post_reset_btn" class="post_reset_btn mr-3">reset post</button>
-                                        <button type="submit" name="post_sub_btn" class="post_sub_btn">create post</button>
-                                    </div>
-                                </div>
-                                <div class="col post_2 px-0">
-                                    <div class="post_form_2">
-                                        <div class="">
-                                            <label class="form_label">password:</label> <br>
-                                            <input type="password" class="full" name="password" required>
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">comfirm password:</label> <br>
-                                            <input type="password" class="full" name="comfirm_password" required>
-                                        </div>
+                                        <button type="reset" name="banner_reset_btn" class="post_reset_btn mr-3">reset banner</button>
+                                        <button type="submit" name="banner_sub_btn" class="post_sub_btn">update banner</button>
                                     </div>
                                 </div>
                             </form>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="nav-manage" aria-labelledby="nav-manage-tab">
-                        <div class="tab_content">
-                            <div class="man_search_con d-flex justify-content-start">
-                                <form class="col-4 man_search_form px-0">
-                                    <div class="col man_search d-flex justify-content-center px-0">
-                                        <input type="search" name="man_search_box" class="man_search_box" placeholder="Quick Search">
-                                        <select class="man_select mr-3">
-                                            <option class="">categories</option>
-                                            <option class="">all</option>
-                                            <option class="">musics</option>
-                                            <option class="">videos</option>
-                                            <option class="">news</option>
-                                            <option class="">status</option>
-                                            <option class="">stories</option>
-                                        </select>
-                                        <button type="submit" class="man_sub_btn"> <i class="fa fa-arrow-right"></i> </button>
-                                    </div>
-                                </form>
-                            </div>
-                            <table class="table table-striped table-bordered">
-                                <thead>
-                                <tr>
-                                    <th class="tbl_header"> <input type="checkbox" class="tbl_check align-self-center"> </th>
-                                    <th class="tbl_header">ID</th>
-                                    <th class="tbl_header">username</th>
-                                    <th class="tbl_header">biograph</th>
-                                    <th class="tbl_header">Date / Time</th>
-                                    <th class="tbl_header">manage</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php
-                                $query = "SELECT * FROM users ORDER BY user_id DESC ";
-                                if ($query_run = mysqli_query($conn, $query)){
-                                    while ($query_row = mysqli_fetch_assoc($query_run)){
-                                        $id = $query_row['user_id'];
-                                        $username = $query_row['username'];
-                                        $email = $query_row['email'];
-                                        $date = $query_row['up_date'];
-                                        ?>
-
-                                        <tr>
-                                            <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                            <td class="tbl_head"> <?Php echo $id?> </td>
-                                            <td class="tbl_title"> <?Php echo $username?> </td>
-                                            <td class="tbl_data"> <?Php echo $email?> </td>
-                                            <td class="tbl_data"> <?Php echo $date?> </td>
-                                            <td class="tbl_data d-flex border-0">
-                                                <a href="useredit.php?edit=<?php if (isset($id)) echo $id; ?>" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                                <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                                <a href="user.php?id=<?php if (isset($id)) echo $id; ?>" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                            </td>
-                                        </tr>
-
-                                        <?php
-                                    }
-                                }
-                                ?>
-
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
@@ -319,13 +268,33 @@ if (isset($_GET['id'])) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
     <!--housing div ENDS-->
 
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/banner.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
+
 </body>
 
-<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.js"></script>
-<script type="text/javascript" src="js/post.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-</html>
+    </html>

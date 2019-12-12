@@ -10,6 +10,13 @@ jQuery_3_4_1(document).ready(function() {
 
 $(document).ready(function () {
     //alert('hello');
+    $('#summernote').summernote({
+        height: 300,
+        minHeight: null,
+        maxHeight: null,
+        focus: true
+    });
+
     $('#summernote2').summernote({
         height: 300,
         minHeight: null,

@@ -7,50 +7,39 @@ $userid = $_SESSION["cool"];
 if(!$userid){
     header("location: index.php");
 }
+
+//getting data from database
+if (isset($_GET['edit'])){
+    $edit = $_GET['edit'];
+
+    $edit_query = "SELECT * FROM faq WHERE faq_id = '$edit'";
+    if ($edit_query_run = mysqli_query($conn, $edit_query)) {
+        $edit_query_row = mysqli_fetch_assoc($edit_query_run);
+
+        $ques_edit = $edit_query_row['question'];
+        $ans_edit = $edit_query_row['answer'];
+    }
+}
+
+
 //collecting form data
-if (isset($_POST['post_sub_btn'])){
-    //collect form values
-    $user_name = mysqli_real_escape_string($conn, $_POST['username']);
-    $email = mysqli_real_escape_string($conn,  $_POST['email']);
+if (isset($_POST['que_sub_btn'])){
+    $ques_edit = mysqli_real_escape_string($conn, $_POST['question']);
+    $ans_edit = mysqli_real_escape_string($conn, $_POST['question_ans']);
 
-    //processing image
-    $profile_pic = $_FILES['profile_image']['name'];
-    $folder = "uploads/.$profile_pic";
-    move_uploaded_file($_FILES['profile_image']['tmp_name'],$folder);
+    //sending date to database
+    $send_to_db = "UPDATE faq SET question = '{$ques_edit}', answer = '{$ans_edit}', up_date = now() WHERE faq_id = '$edit'";
+    $send_db = mysqli_query($conn, $send_to_db);
 
-    $biograph = mysqli_real_escape_string($conn, $_POST['biograph']);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
-    $comfirm_password = mysqli_real_escape_string($conn, $_POST['comfirm_password']);
-
-    //sending values to database
-    $send_to_db = "INSERT INTO users(username, email, password, profile_img, biograph, crt_date, up_date)
-    VALUE ('{$user_name}', '{$email}', '{$password}', '{$profile_pic}', '{$biograph}',  now(), now())";
-    $send_db  = mysqli_query($conn, $send_to_db);
     if (!$send_db){
-        $failed = "failed to create your user";
+        $failed = "failed to create your post" . mysqli_error($conn);
     }
     else {
-        $success = "user created successfully";
+        $success = "post created successfully";
+        header("location: faqedit.php?edit=$edit");
     }
+
 }
-
-
-//delecting data from database
-
-if (isset($_GET['id'])) {
-
-    //get delete variable
-    $dodelete = $_GET['id'];
-
-    //perform delete
-    $sql = mysqli_query($conn, "DELETE FROM users WHERE user_id='$dodelete'");
-    if (!$sql) {
-        $failed = "failed to delect your user" . mysqli_error($conn);
-    } else {
-        $success = "user delected successfully";
-    }
-}
-
 
 ?>
 
@@ -72,6 +61,7 @@ if (isset($_GET['id'])) {
 <body>
 <!--housing div-->
 <div class="housing">
+
     <!--header container-->
     <div class="header_con sticky-top">
         <div class="row header d-flex justify-content-center mx-0">
@@ -138,13 +128,13 @@ if (isset($_GET['id'])) {
                         </div>
                     </a>
                     <a href="faq.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
+                        <div class="dash_link_con dash_link_active d-flex">
                             <span class="dash_icon"> <i class="fa fa-question-circle"></i> </span>
                             <p class="dash_link">FAQ</p>
                         </div>
                     </a>
                     <a href="user.php" class="text-decoration-none">
-                        <div class="dash_link_con dash_link_active d-flex">
+                        <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-users" aria-hidden="true"></i> </span>
                             <p class="dash_link">users</p>
                         </div>
@@ -200,132 +190,49 @@ if (isset($_GET['id'])) {
                 ?>
                 <nav class="tab_con">
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a href="faq.php" class="text-decoration-none"> <img src="images/back_btn.png" class="back_btn"> </a>
                         <a class="nav-item nav-link active" data-toggle="tab" href="#nav-create" aria-selected="true">
-                            <p class="tab_link">create new user</p>
-                        </a>
-                        <a class="nav-item nav-link" data-toggle="tab" href="#nav-manage" aria-selected="false">
-                            <p class="tab_link">manage your users</p>
+                            <p class="tab_link">edit post</p>
                         </a>
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-create" aria-labelledby="nav-create-tab">
                         <div class="tab_content">
-                            <form action="" enctype="multipart/form-data" method="post" class="d-flex justify-content-between">
+                            <form action="#" enctype="multipart/form-data" method="post" class="d-flex justify-content-between">
                                 <div class="col post_1 mr-3 px-0">
                                     <div class="post_form_1">
                                         <div class="">
-                                            <label class="form_label">username:</label> <br>
-                                            <input type="text" class="full" name="username" required>
+                                            <label class="form_label">question:</label>
+                                            <input type="text" name="question" value="<?php if (isset($ques_edit)) echo $ques_edit?>" class="full" required>
                                         </div>
                                         <div class="">
-                                            <label class="form_label">email:</label> <br>
-                                            <input type="email" class="full" name="email" required>
+                                            <label class="form_label">question answer:</label> <br>
+                                            <textarea name="question_ans" class="full_area" required> <?php if (isset($ans_edit)) echo $ans_edit?> </textarea>
                                         </div>
                                         <div class="">
-                                            <label class="form_label">profile picture:</label> <br>
-                                            <input type="file" class="full" name="profile_image">
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">biograph:</label> <br>
-                                            <textarea name="biograph" class="full_sum" required></textarea>
-                                        </div>
-                                        <button type="reset" name="post_reset_btn" class="post_reset_btn mr-3">reset post</button>
-                                        <button type="submit" name="post_sub_btn" class="post_sub_btn">create post</button>
-                                    </div>
-                                </div>
-                                <div class="col post_2 px-0">
-                                    <div class="post_form_2">
-                                        <div class="">
-                                            <label class="form_label">password:</label> <br>
-                                            <input type="password" class="full" name="password" required>
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">comfirm password:</label> <br>
-                                            <input type="password" class="full" name="comfirm_password" required>
+                                            <button type="reset" name="que_reset_btn" class="post_reset_btn mr-3">reset question</button>
+                                            <button type="submit" name="que_sub_btn" class="post_sub_btn">create question</button>
                                         </div>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="nav-manage" aria-labelledby="nav-manage-tab">
-                        <div class="tab_content">
-                            <div class="man_search_con d-flex justify-content-start">
-                                <form class="col-4 man_search_form px-0">
-                                    <div class="col man_search d-flex justify-content-center px-0">
-                                        <input type="search" name="man_search_box" class="man_search_box" placeholder="Quick Search">
-                                        <select class="man_select mr-3">
-                                            <option class="">categories</option>
-                                            <option class="">all</option>
-                                            <option class="">musics</option>
-                                            <option class="">videos</option>
-                                            <option class="">news</option>
-                                            <option class="">status</option>
-                                            <option class="">stories</option>
-                                        </select>
-                                        <button type="submit" class="man_sub_btn"> <i class="fa fa-arrow-right"></i> </button>
-                                    </div>
-                                </form>
-                            </div>
-                            <table class="table table-striped table-bordered">
-                                <thead>
-                                <tr>
-                                    <th class="tbl_header"> <input type="checkbox" class="tbl_check align-self-center"> </th>
-                                    <th class="tbl_header">ID</th>
-                                    <th class="tbl_header">username</th>
-                                    <th class="tbl_header">biograph</th>
-                                    <th class="tbl_header">Date / Time</th>
-                                    <th class="tbl_header">manage</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php
-                                $query = "SELECT * FROM users ORDER BY user_id DESC ";
-                                if ($query_run = mysqli_query($conn, $query)){
-                                    while ($query_row = mysqli_fetch_assoc($query_run)){
-                                        $id = $query_row['user_id'];
-                                        $username = $query_row['username'];
-                                        $email = $query_row['email'];
-                                        $date = $query_row['up_date'];
-                                        ?>
 
-                                        <tr>
-                                            <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                            <td class="tbl_head"> <?Php echo $id?> </td>
-                                            <td class="tbl_title"> <?Php echo $username?> </td>
-                                            <td class="tbl_data"> <?Php echo $email?> </td>
-                                            <td class="tbl_data"> <?Php echo $date?> </td>
-                                            <td class="tbl_data d-flex border-0">
-                                                <a href="useredit.php?edit=<?php if (isset($id)) echo $id; ?>" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                                <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                                <a href="user.php?id=<?php if (isset($id)) echo $id; ?>" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                            </td>
-                                        </tr>
-
-                                        <?php
-                                    }
-                                }
-                                ?>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
-        <!--dashboard container ENDS-->
-
-
-
     </div>
-    <!--housing div ENDS-->
+    <!--dashboard container ENDS-->
+
+</div>
+<!--housing div ENDS-->
 
 </body>
 
 <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
-<script type="text/javascript" src="js/post.js"></script>
+<script type="text/javascript" src="js/faq.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 </html>

@@ -310,6 +310,10 @@ body{
     height: auto;
     padding: 10px 15px 0px;
 }
+.back_btn{
+    width: 40px;
+    height: 40px;
+}
 .tab_link{
     color: #fd7e14;
     text-transform: capitalize;
@@ -334,6 +338,10 @@ body{
     font-size: 15px;
     font-weight: 600;
     font-family: Roboto;
+}
+.edit_img{
+    width: 200px;
+    height: 200px;
 }
 .full{
     width: 100%;
