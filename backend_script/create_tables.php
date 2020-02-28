@@ -34,6 +34,13 @@ if (!$category){
     echo "error creating category tables: " . mysqli_error($conn);
 }
 
+//create sub-category
+$sub_category_tb = "CREATE TABLE IF NOT EXISTS sub_category (sub_category_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, sub_cate_name VARCHAR(255), sub_cate_desc VARCHAR(255), crt_date DATETIME, up_date DATETIME)";
+$sub_category = mysqli_query($conn, $sub_category_tb);
+if (!$sub_category){
+    echo "error creating category tables: " . mysqli_error($conn);
+}
+
 //create banner table
 $banner_tb = "CREATE TABLE IF NOT EXISTS banner (banner_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, webpage VARCHAR(255), banner_img VARCHAR(255), banner_header VARCHAR(255), banner_description TEXT, crt_date DATETIME, up_date DATETIME)";
 $banner = mysqli_query($conn, $banner_tb);

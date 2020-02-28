@@ -91,6 +91,10 @@ body{
     width: 30px;
     height: 30px;
 }
+.form_img2{
+    width: 30px;
+    height: 30px;
+}
 .login_box{
     width: 100%;
     height: auto;
@@ -339,6 +343,10 @@ body{
     font-weight: 600;
     font-family: Roboto;
 }
+.form_check{
+    padding: 5px;
+    border: 3px solid #fd7e14;
+}
 .edit_img{
     width: 200px;
     height: 200px;
@@ -520,7 +528,7 @@ body{
 
 }
 .man_search_box{
-    width: 100%;
+    width: 250px;
     height: auto;
     font-size: 14px;
     font-weight: 500;

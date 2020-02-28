@@ -9,6 +9,46 @@ if(!$userid){
     header("location: index.php");
 }
 
+
+//collecting form data
+if (isset($_POST['banner_sub_btn'])){
+    $edit = $_GET['edit'];
+    $banner_img = $_FILES['banner_img']['name'];
+    $upload_folder = 'uploads/'.$banner_img;
+    move_uploaded_file($_FILES['banner_img']['tmp_name'],$upload_folder);
+
+    $banner_title = $_POST['banner_title'];
+    $banner_desc = $_POST['banner_desc'];
+
+    if (!empty($banner_img)){
+        //sending date to datebase
+        $send_to_db = "UPDATE banner SET banner_img = '{$banner_img}', banner_header = '{$banner_title}', banner_description = '{$banner_desc}', up_date = now() WHERE banner_id = '$edit'";
+        $send_db = mysqli_query($conn, $send_to_db);
+
+        if (!$send_db){
+            $failed = "failed to edit your banner" . mysqli_error($conn);
+        }
+        else {
+            $success = "banner edited successfully";
+            header("location:banneredit.php?edit=$edit");
+        }
+    }
+    else{
+        //sending date to datebase
+        $send_to_db = "UPDATE banner SET banner_header = '{$banner_title}', banner_description = '{$banner_desc}', up_date = now() WHERE banner_id = '$edit'";
+        $send_db = mysqli_query($conn, $send_to_db);
+
+        if (!$send_db){
+            $failed = "failed to edit your banner" . mysqli_error($conn);
+        }
+        else {
+            $success = "banner edited successfully";
+            header("location:banneredit.php?edit=$edit");
+        }
+    }
+
+}
+
 //geting data from database
 if (isset($_GET['edit'])) {
     $edit = $_GET['edit'];
@@ -17,64 +57,19 @@ if (isset($_GET['edit'])) {
     if ($edit_query_run = mysqli_query($conn, $edit_query)) {
         $edit_query_row = mysqli_fetch_assoc($edit_query_run);
 
-        $page_edit = $edit_query_row['webpage'];
         $img_edit = $edit_query_row['banner_img'];
         $header_edit = $edit_query_row['banner_header'];
         $desc_edit = $edit_query_row['banner_description'];
     }
 }
 
-//collecting form data
-if (isset($_POST['banner_sub_btn'])){
-    $webpage = $_POST['webpage'];
-
-    $banner_img = $_FILES['banner_img']['name'];
-    $upload_folder = 'uploads/'.$banner_img;
-    move_uploaded_file($_FILES['banner_img']['tmp_name'],$upload_folder);
-
-    $banner_title = $_POST['banner_title'];
-    $banner_desc = $_POST['banner_desc'];
-
-    //sending date to datebase
-    $send_to_db = "UPDATE banner SET webpage = '{$webpage}', banner_img = '{$banner_img}', banner_header = '{$banner_title}', banner_description = '{$banner_desc}', up_date = now() WHERE banner_id = '$edit'";
-    $send_db = mysqli_query($conn, $send_to_db);
-
-    if (!$send_db){
-        $failed = "failed to create your post" . mysqli_error($conn);
-    }
-    else {
-        $success = "post created successfully";
-        header("location:banneredit.php?edit=$edit");
-    }
-
-}
 
 ?>
 
-<?php
-//delecting data from database
-
-if(isset($_GET['id'])){
-
-    //get delete variable
-    $dodelete = $_GET['id'];
-
-    //perform delete
-    $sql = mysqli_query($conn,"DELETE FROM banner WHERE banner_id='$dodelete'");
-    if (!$sql){
-        $failed = "failed to delect your banner" . mysqli_error($conn);
-    }
-    else {
-        $success = "banner delected successfully";
-        //header("location: banner.php");
-    }
-}
-?>
 
 
-
-    <!DOCTYPE html>
-    <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -232,21 +227,14 @@ if(isset($_GET['id'])){
                             <form action="#" enctype="multipart/form-data" method="post" class="d-flex justify-content-center">
                                 <div class="col post_1 mr-3 px-0">
                                     <div class="post_form_1">
-                                        <div class="">
-                                            <label class="form_label">web page:</label>
-                                            <select name="webpage" class="full">
-                                                <option class="form_opt" > <?php if (isset($page_edit)) echo $page_edit; ?> </option>
-
-                                            </select>
+                                        <div class="mb-3">
+                                            <label class="form_label">banner header:</label> <br>
+                                            <input type="text" class="full" value="<?php if (isset($header_edit)) echo $header_edit; ?>" name="banner_title" required>
                                         </div>
-                                        <div class="">
+                                        <div class="mb-3">
                                             <label class="form_label">banner image:</label> <br>
                                             <input type="file" class="full" name="banner_img" >
                                             <img src="uploads/<?php echo ".{$img_edit}"; ?>" class="edit_img">
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">banner header:</label> <br>
-                                            <input type="text" class="full" value="<?php if (isset($header_edit)) echo $header_edit; ?>" name="banner_title" required>
                                         </div>
                                         <div class="d-flex justify-content-between">
                                             <div class="col px-0">

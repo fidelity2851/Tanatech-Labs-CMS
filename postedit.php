@@ -8,28 +8,9 @@ if(!$userid){
     header("location: index.php");
 }
 
-//getting data from database
-if (isset($_GET['edit'])){
-    $edit = $_GET['edit'];
-
-    $edit_query = "SELECT * FROM post WHERE post_id = '$edit'";
-    if ($edit_query_run = mysqli_query($conn, $edit_query)) {
-        $edit_query_row = mysqli_fetch_assoc($edit_query_run);
-        
-        $title_edit = $edit_query_row['post_title'];
-        $url_edit = $edit_query_row['post_slug_url'];
-        $summary_edit = $edit_query_row['post_summary'];
-        $post_img = $edit_query_row['post_image'];
-        $content_edit = $edit_query_row['post_content'];
-        $author_edit = $edit_query_row['author'];
-        $category_edit = $edit_query_row['category'];
-        $sub_category_edit = $edit_query_row['sub_category'];
-        $tag_edit = $edit_query_row['tags'];
-    }
-}
-
+//collect form values
 if (isset($_POST['post_sub_btn'])){
-    //collect form values
+    $edit = $_GET['edit'];
     $title = mysqli_real_escape_string($conn,  $_POST['title']);
     $url = mysqli_real_escape_string($conn,  $_POST['url']);
     $summary = mysqli_real_escape_string($conn,  $_POST['summary']);
@@ -45,21 +26,21 @@ if (isset($_POST['post_sub_btn'])){
     $sub_category = mysqli_real_escape_string($conn, $_POST['sub_category']);
     $tags = mysqli_real_escape_string($conn, $_POST['tags']);
 
-    if (empty($_FILES['post_image'])){
+    if (empty($img)){
         //sending values to database
 
         $send_to_db = "UPDATE post SET post_title = '{$title}', post_slug_url = '{$url}', post_summary = '{$summary}', post_content = '{$content}', author = '{$author}', category = '{$category}', sub_category = '{$sub_category}', tags = '{$tags}', up_date = now() WHERE post_id = '$edit'";
 
         $send_db  = mysqli_query($conn, $send_to_db);
         if (!$send_db){
-            $failed = "failed to create your post" . mysqli_error($conn);
+            $failed = "failed to edit your post" . mysqli_error($conn);
         }
         else {
-            $success = "post created successfully";
+            $success = "post edited successfully";
             header("location: postedit.php?edit=$edit");
         }
     }
-    else if (!empty($_FILES['post_image'])){
+    else if (!empty($img)){
         //sending values to database
 
         $send_to_db = "UPDATE post SET post_title = '{$title}', post_slug_url = '{$url}', post_summary = '{$summary}', post_image = '{$img}', post_content = '{$content}', author = '{$author}', category = '{$category}', sub_category = '{$sub_category}', tags = '{$tags}', up_date = now() WHERE post_id = '$edit'";
@@ -74,37 +55,44 @@ if (isset($_POST['post_sub_btn'])){
         }
     }
 }
-/*else{
-    //collect form values
-    $title = mysqli_real_escape_string($conn,  $_POST['title']);
-    $url = mysqli_real_escape_string($conn,  $_POST['url']);
-    $summary = mysqli_real_escape_string($conn,  $_POST['summary']);
 
-    //processing image
-    $img = $_FILES['post_image']['name'];
-    $folder = "uploads/.$img";
-    move_uploaded_file($_FILES['post_image']['tmp_name'],$folder);
+//getting data from database
+if (isset($_GET['edit'])){
+    $edit = $_GET['edit'];
 
-    $content = mysqli_real_escape_string($conn,  $_POST['content']);
-    $author = mysqli_real_escape_string($conn,  $_POST['author']);
-    $category = mysqli_real_escape_string($conn,  $_POST['category']);
-    $sub_category = mysqli_real_escape_string($conn, $_POST['sub_category']);
-    $tags = mysqli_real_escape_string($conn, $_POST['tags']);
+    $edit_query = "SELECT * FROM post WHERE post_id = '$edit'";
+    if ($edit_query_run = mysqli_query($conn, $edit_query)) {
+        $edit_query_row = mysqli_fetch_assoc($edit_query_run);
 
-    //sending values to database
-
-    $send_to_db = "UPDATE post SET post_title = '{$title}', post_slug_url = '{$url}', post_summary = '{$summary}', post_content = '{$content}', author = '{$author}', category = '{$category}', sub_category = '{$sub_category}', tags = '{$tags}', up_date = now() WHERE post_id = '$edit'";
-
-    $send_db  = mysqli_query($conn, $send_to_db);
-    if (!$send_db){
-        $failed = "failed to create your post" . mysqli_error($conn);
+        $title_edit = $edit_query_row['post_title'];
+        $url_edit = $edit_query_row['post_slug_url'];
+        $summary_edit = $edit_query_row['post_summary'];
+        $post_img = $edit_query_row['post_image'];
+        $content_edit = $edit_query_row['post_content'];
+        $author_edit = $edit_query_row['author'];
+        $category_edit = $edit_query_row['category'];
+        $sub_category_edit = $edit_query_row['sub_category'];
+        $tag_edit = $edit_query_row['tags'];
     }
-    else {
-        $success = "post created successfully";
-    }
-}*/
+}
 
+//fetching writter from database
+$query1 = "SELECT * FROM users ORDER BY user_id";
+if ($query_run1 = mysqli_query($conn, $query1)) {
 
+}
+
+//fetching category from database
+$query2 = "SELECT * FROM category ORDER BY category_id";
+if ($query_run2 = mysqli_query($conn, $query2)){
+
+}
+
+//fetching sub_category from database
+$query3 = "SELECT * FROM sub_category ORDER BY sub_category_id";
+if ($query_run3 = mysqli_query($conn, $query3)){
+
+}
 
 
 ?>
@@ -311,15 +299,12 @@ if (isset($_POST['post_sub_btn'])){
                                             <select name="author" class="full">
                                                 <option class="form_opt" disabled selected>select author</option>
                                                 <?php
-                                                $query1 = "SELECT * FROM users ORDER BY user_id";
-                                                if ($query_run1 = mysqli_query($conn, $query1)){
                                                     while ($query_row1 = mysqli_fetch_assoc($query_run1)){
                                                         $user_name = $query_row1['username'];
                                                         ?>
                                                         <option class="form_opt"> <?php if (isset($user_name)) echo $user_name; ?> </option>
                                                         <?php
                                                     }
-                                                }
                                                 ?>
                                             </select>
                                         </div>
@@ -327,28 +312,29 @@ if (isset($_POST['post_sub_btn'])){
                                             <div class="col pl-0">
                                                 <label class="form_label">categories:</label>
                                                 <select name="category" class="full">
+                                                    <option class="form_opt"> <?php if (isset($category_edit)) echo $category_edit; ?> </option>
                                                     <?php
-                                                    $query1 = "SELECT * FROM category ORDER BY category_id";
-                                                    if ($query_run1 = mysqli_query($conn, $query1)){
-                                                        while ($query_row1 = mysqli_fetch_assoc($query_run1)){
-                                                            $main_cate = $query_row1['cate_name'];
+                                                        while ($query_row2 = mysqli_fetch_assoc($query_run2)){
+                                                            $main_cate = $query_row2['cate_name'];
                                                             ?>
-                                                            <option class="form_opt"> <?php if (isset($category_edit)) echo $category_edit; ?> </option>
+                                                            <option class="form_opt"> <?php if (isset($main_cate)) echo $main_cate; ?> </option>
                                                             <?php
                                                         }
-                                                    }
                                                     ?>
                                                 </select>
                                             </div>
                                             <div class="col pr-0">
                                                 <label class="form_label">sub categories:</label>
                                                 <select name="sub_category" class="full">
-                                                    <option class="form_opt"></option>
-                                                    <option class="form_opt">music</option>
-                                                    <option class="form_opt">video</option>
-                                                    <option class="form_opt">news</option>
-                                                    <option class="form_opt">status</option>
-                                                    <option class="form_opt">stories</option>
+                                                    <option class="form_opt" value=""> <?php if (isset($sub_category_edit)) echo $sub_category_edit ; ?> </option>
+                                                    <?php
+                                                    while ($query_row3 = mysqli_fetch_assoc($query_run3)){
+                                                        $sub_cate = $query_row3['sub_cate_name'];
+                                                        ?>
+                                                        <option class="form_opt" value=""> <?php if (isset($sub_cate)) echo $sub_cate ; ?> </option>
+                                                        <?php
+                                                    }
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>

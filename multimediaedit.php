@@ -35,14 +35,14 @@ if (isset($_POST['album_sub_btn'])){
     $album_url = mysqli_real_escape_string($conn, $_POST['album_url']);
     $album_desc = mysqli_real_escape_string($conn, $_POST['album_desc']);
 
-    $send_to_db = "UPDATE multimedia SET album_title = '{$album_name}', album_cover_img = '{$album_cover_img}', album_url = '{$album_url}', album_description = '{$album_desc}', up_date = now() WHERE multimedia_id = $edit";
+    $send_to_db = "UPDATE multimedia SET album_title = '{$album_name}', album_cover_img = '$album_cover_img}', album_url = '{$album_url}', album_description = '{$album_desc}', up_date = now() WHERE multimedia_id = $edit";
     $send_db = mysqli_query($conn, $send_to_db);
 
     if (!$send_db){
-        $failed = "failed to create your album" . mysqli_error($conn);
+        $failed = "failed to edit your album" . mysqli_error($conn);
     }
     else {
-        $success = "album created successfully";
+        $success = "album edited successfully";
         header("location: multimediaedit.php?edit=$edit");
     }
 
@@ -218,7 +218,7 @@ if (isset($_POST['album_sub_btn'])){
                                         <div class="">
                                             <label class="form_label">album cover image:</label> <br>
                                             <input type="file" class="full" name="album_cover_img">
-                                            <img src="uploads/<?php if (isset($edit_img)) echo ".{$edit_img}"; ?>" class="edit_img">
+                                            <img src="uploads/<?php echo ".$edit_img" ; ?>" class="edit_img">
                                         </div>
                                         <div class="">
                                             <label class="form_label">album URl:</label> <br>

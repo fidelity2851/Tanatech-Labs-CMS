@@ -7,8 +7,10 @@ $userid = $_SESSION["cool"];
 if(!$userid){
     header("location: index.php");
 }
-
 ?>
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -120,7 +122,7 @@ if(!$userid){
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <a href="setting.php" class="text-decoration-none"> <img src="images/back_btn.png" class="back_btn"> </a>
                         <a class="nav-item nav-link active" data-toggle="tab" href="#nav-manage" aria-selected="false">
-                            <p class="tab_link">manage your post</p>
+                            <p class="tab_link">manage your settings</p>
                         </a>
                     </div>
                 </nav>

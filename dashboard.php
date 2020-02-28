@@ -8,6 +8,51 @@ if(!$userid){
     header("location: index.php");
 }
 
+//fetching users from database
+$query = "SELECT count(*) AS users_row FROM users";
+if ($query_run = mysqli_query($conn, $query)) {
+    while ($query_row = mysqli_fetch_assoc($query_run)) {
+        $user_row = $query_row['users_row'];
+    }
+}
+else {
+    echo mysqli_error($conn);
+}
+
+
+//fetching post from database
+$query1 = "SELECT count(*) AS post_row FROM post";
+if ($query_run1 = mysqli_query($conn, $query1)) {
+    while ($query_row1 = mysqli_fetch_assoc($query_run1)) {
+        $post_row = $query_row1['post_row'];
+    }
+} else {
+    echo mysqli_error($conn);
+}
+
+
+//fetching category from database
+$query2 = "SELECT count(*) AS category_row FROM category";
+if ($query_run2 = mysqli_query($conn, $query2)){
+    while ($query_row2 = mysqli_fetch_assoc($query_run2)){
+        $post_row2 = $query_row2['category_row'];
+    }
+}
+else{
+    echo mysqli_error($conn);
+}
+
+
+//fetching writter from database
+$query3 = "SELECT count(*) AS writter_row FROM writter";
+if ($query_run3 = mysqli_query($conn, $query3)){
+    while ($query_row3 = mysqli_fetch_assoc($query_run3)){
+        $post_row3 = $query_row3['writter_row'];
+    }
+}
+else{
+    echo mysqli_error($conn);
+}
 ?>
 
 <!DOCTYPE html>
@@ -124,20 +169,7 @@ if(!$userid){
                                 <img src="images/user_icon.svg" class="display_content_img align-self-center">
                             </div>
                             <div class="dis_text_con">
-                                <?php
-                                $query = "SELECT count(*) AS users_row FROM users";
-                                if ($query_run = mysqli_query($conn, $query)){
-                                    while ($query_row = mysqli_fetch_assoc($query_run)){
-                                        $user_row = $query_row['users_row'];
-                                        ?>
-                                        <p class="display_content_num"> <?php echo $user_row ?> </p>
-                                        <?php
-                                    }
-                                }
-                                else{
-                                    echo mysqli_error($conn);
-                                }
-                                ?>
+                                <p class="display_content_num"> <?php if(isset($user_row)) echo $user_row ?> </p>
                                 <p class="display_content_name">users</p>
                             </div>
                         </div>
@@ -149,20 +181,7 @@ if(!$userid){
                                 <img src="images/post_icon.png" class="display_content_img align-self-center">
                             </div>
                             <div class="dis_text_con">
-                                <?php
-                                $query = "SELECT count(*) AS post_row FROM post";
-                                if ($query_run = mysqli_query($conn, $query)){
-                                    $query_row = mysqli_fetch_assoc($query_run);
-                                        $post_row = $query_row['post_row'];
-                                        ?>
-                                        <p class="display_content_num"> <?php echo $post_row ?> </p>
-                                        <?php
-
-                                }
-                                else{
-                                    echo mysqli_error($conn);
-                                }
-                                ?>
+                                <p class="display_content_num"> <?php if(isset($post_row)) echo $post_row ?> </p>
                                 <p class="display_content_name">post</p>
                             </div>
                         </div>
@@ -174,20 +193,7 @@ if(!$userid){
                                 <img src="images/categories_icon.svg" class="display_content_img align-self-center">
                             </div>
                             <div class="dis_text_con">
-                                <?php
-                                $query2 = "SELECT count(*) AS category_row FROM category";
-                                if ($query_run2 = mysqli_query($conn, $query2)){
-                                    $query_row2 = mysqli_fetch_assoc($query_run2);
-                                    $post_row2 = $query_row2['category_row'];
-                                    ?>
-                                    <p class="display_content_num"> <?php echo $post_row2 ?> </p>
-                                    <?php
-
-                                }
-                                else{
-                                    echo mysqli_error($conn);
-                                }
-                                ?>
+                                <p class="display_content_num"> <?php if(isset($post_row2)) echo $post_row2 ?> </p>
                                 <p class="display_content_name">categories</p>
                             </div>
                         </div>
@@ -199,20 +205,7 @@ if(!$userid){
                                 <img src="images/writter_icon.svg" class="display_content_img align-self-center">
                             </div>
                             <div class="dis_text_con">
-                                <?php
-                                $query3 = "SELECT count(*) AS writter_row FROM writter";
-                                if ($query_run3 = mysqli_query($conn, $query3)){
-                                    $query_row3 = mysqli_fetch_assoc($query_run3);
-                                    $post_row3 = $query_row3['writter_row'];
-                                    ?>
-                                    <p class="display_content_num"> <?php echo $post_row3 ?> </p>
-                                    <?php
-
-                                }
-                                else{
-                                    echo mysqli_error($conn);
-                                }
-                                ?>
+                                <p class="display_content_num"> <?php if(isset($post_row3)) echo $post_row3 ?> </p>
                                 <p class="display_content_name">writter</p>
                             </div>
                         </div>

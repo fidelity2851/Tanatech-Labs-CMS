@@ -7,28 +7,45 @@ $userid = $_SESSION["cool"];
 if(!$userid){
     header("location: index.php");
 }
-//collecting form values
+
+//collecting form values from main category
 if (isset($_POST['cate_sub_btn'])){
     $cate_name = mysqli_real_escape_string($conn,  $_POST['cate_name']);
-    $cate_url = mysqli_real_escape_string($conn,  $_POST['cate_url']);
-    $cate_check = mysqli_real_escape_string($conn,  $_POST['cate_check']);
     $cate_desc = mysqli_real_escape_string($conn,  $_POST['cate_desc']);
 
     //sending value to the database
-    $send_to_db = "INSERT INTO category (cate_name, cate_url, cate_check, cate_desc, crt_date, up_date) 
-    VALUES ('{$cate_name}', '{$cate_url}', '{$cate_check}', '{$cate_desc}', now(), now() )";
+    $send_to_db = "INSERT INTO category (cate_name, cate_desc, crt_date, up_date) 
+    VALUES ('{$cate_name}', '{$cate_desc}', now(), now() )";
 
     $send_db = mysqli_query($conn, $send_to_db);
 
     if (!$send_db){
-        echo $failed = "failed to create your post" . mysqli_error($conn);
+        echo $failed = "failed to create your category " . mysqli_error($conn);
     }
     else{
-        $success = "post created successfully";
+        $success = "category created successfully";
     }
 
 }
-else{
+
+//collecting form values from sub-category
+if (isset($_POST['cate_sub_sub_btn'])){
+    $cate_main_name = mysqli_real_escape_string($conn,  $_POST['main_cate']);
+    $cate_sub_name = mysqli_real_escape_string($conn,  $_POST['sub_name']);
+    $cate_sub_desc = mysqli_real_escape_string($conn,  $_POST['sub_desc']);
+
+    //sending value to the database
+    $send_to_db1 = "INSERT INTO sub_category (sub_cate_name, sub_cate_desc, crt_date, up_date) 
+    VALUES ('{$cate_sub_name}', '{$cate_sub_desc}', now(), now() )";
+
+    $send_db1 = mysqli_query($conn, $send_to_db1);
+
+    if (!$send_db1){
+        echo $failed = "failed to create your sub_category" . mysqli_error($conn);
+    }
+    else{
+        $success = "sub_category created successfully";
+    }
 
 }
 
@@ -36,11 +53,10 @@ else{
 
 <?php
 //delecting data from database
-
-if(isset($_GET['id'])){
+if(isset($_GET['del'])){
 
     //get delete variable
-    $dodelete = $_GET['id'];
+    $dodelete = $_GET['del'];
 
     //perform delete
     $sql = mysqli_query($conn,"DELETE FROM category WHERE category_id='$dodelete'");
@@ -52,7 +68,24 @@ if(isset($_GET['id'])){
         //header("location: banner.php");
     }
 }
+
 ?>
+
+
+<?php
+//fetching main category from database for editing
+$query = "SELECT * FROM category ORDER BY category_id DESC ";
+if ($query_run = mysqli_query($conn, $query)){
+
+}
+
+//fetching main category from database
+$query1 = "SELECT * FROM category ORDER BY category_id";
+if ($query_run1 = mysqli_query($conn, $query1)){
+
+}
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -216,15 +249,10 @@ if(isset($_GET['id'])){
                                     <form action="#" enctype="multipart/form-data" method="post" class="col d-flex justify-content-center px-0">
                                         <div class="col post_1 mr-3 px-0">
                                             <div class="post_form_1">
-                                                <div class="">
+                                                <div class="mb-3">
                                                     <label class="form_label">category name:</label> <br>
                                                     <input type="text" class="full" name="cate_name" required>
                                                 </div>
-                                                <div class="mb-2">
-                                                    <label class="form_label">link to:</label> <br>
-                                                    <input type="url" class="full" name="cate_url" required>
-                                                </div>
-                                                <label class="form_label"> <input type="checkbox" name="cate_check" value="1" class="form_check" checked> dropdown icon</label> <br>
                                                 <div class="d-flex justify-content-between">
                                                     <div class="col px-0">
                                                         <label class="form_label">description: (optional)</label> <br>
@@ -239,39 +267,32 @@ if(isset($_GET['id'])){
                                     <form action="#" enctype="multipart/form-data" method="post" class="col d-flex justify-content-center px-0">
                                         <div class="col post_2 ml-3 px-0">
                                             <div class="post_form_2">
-                                                <label class="form_label">add sub category: (optional)</label>
+                                                <label class="form_label">add sub-category: (optional)</label>
                                                 <div class="col border py-3">
-                                                    <div class="">
+                                                    <div class="mb-3">
                                                         <label class="form_label">main categories:</label>
-                                                        <select name="category" class="full">
+                                                        <select name="main_cate" class="full">
                                                             <option class="form_opt" disabled selected>select main category</option>
                                                             <?php
-                                                            $query1 = "SELECT * FROM category ORDER BY category_id";
-                                                            if ($query_run1 = mysqli_query($conn, $query1)){
-                                                                while ($query_row1 = mysqli_fetch_assoc($query_run1)){
+                                                                while ($query_row1 = mysqli_fetch_assoc($query_run1)) {
                                                                     $main_menu = $query_row1['cate_name'];
-                                                            ?>
-                                                                    <option class="form_opt"> <?php if (isset($main_menu)) echo $main_menu; ?> </option>
-                                                            <?php
+                                                                    ?>
+                                                                    <option class="form_opt" value=" <?php if (isset($main_menu)) echo $main_menu; ?> "> <?php if (isset($main_menu)) echo $main_menu; ?> </option>
+                                                                    <?php
                                                                 }
-                                                            }
                                                             ?>
                                                         </select>
                                                     </div>
-                                                    <div class="">
+                                                    <div class="mb-3">
                                                         <label class="form_label">sub category:</label>
-                                                        <input type="text" name="author" class="full" required>
+                                                        <input type="text" name="sub_name" class="full" required>
                                                     </div>
-                                                    <div class="mb-2">
-                                                        <label class="form_label">link to:</label> <br>
-                                                        <input type="url" class="full" name="URl" required>
-                                                    </div>
-                                                    <div class="">
+                                                    <div class="mb-3">
                                                         <label class="form_label">description: (optional)</label> <br>
-                                                        <textarea name="tags" class="full_sum"></textarea>
+                                                        <textarea name="sub_desc" class="full_sum"></textarea>
                                                     </div>
-                                                    <button type="reset" class="post_reset_btn mr-3">reset sub category</button>
-                                                    <button type="submit" class="post_sub_btn">create sub category</button>
+                                                    <button type="reset" name="cate_sub_reset_btn" class="post_reset_btn mr-3">reset sub category</button>
+                                                    <button type="submit" name="cate_sub_sub_btn" class="post_sub_btn">create sub category</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -285,13 +306,7 @@ if(isset($_GET['id'])){
                                             <div class="col man_search d-flex justify-content-center px-0">
                                                 <input type="search" name="man_search_box" class="man_search_box" placeholder="Quick Search">
                                                 <select class="man_select mr-3">
-                                                    <option class="">categories</option>
-                                                    <option class="">all</option>
-                                                    <option class="">musics</option>
-                                                    <option class="">videos</option>
-                                                    <option class="">news</option>
-                                                    <option class="">status</option>
-                                                    <option class="">stories</option>
+                                                    <option class="" disabled selected>categories</option>
                                                 </select>
                                                 <button type="submit" class="man_sub_btn"> <i class="fa fa-arrow-right"></i> </button>
                                             </div>
@@ -303,21 +318,17 @@ if(isset($_GET['id'])){
                                             <th class="tbl_header"></th>
                                             <th class="tbl_header">ID</th>
                                             <th class="tbl_header">category name</th>
-                                            <th class="tbl_header">link</th>
-                                            <th class="tbl_header">Description</th>
+                                            <th class="tbl_header">sub_category names</th>
                                             <th class="tbl_header">date / time</th>
                                             <th class="tbl_header">manage</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <?php
-                                        $query = "SELECT * FROM category ORDER BY category_id DESC ";
-                                        if ($query_run = mysqli_query($conn, $query)){
                                             while ($query_row = mysqli_fetch_assoc($query_run)){
                                                 $id = $query_row['category_id'];
                                                 $name = $query_row['cate_name'];
                                                 $url = $query_row['cate_url'];
-                                                $desc = $query_row['cate_desc'];
                                                 $date = $query_row['up_date'];
                                                 ?>
                                                 <tr>
@@ -325,18 +336,15 @@ if(isset($_GET['id'])){
                                                     <th class="tbl_head"> <?php if (isset($id)) echo $id; ?> </th>
                                                     <td class="tbl_title"> <?php if (isset($name)) echo $name; ?> </td>
                                                     <td class="tbl_data"> <?php if (isset($url)) echo $url; ?> </td>
-                                                    <td class="tbl_data"> <?php if (isset($desc)) echo $desc; ?> </td>
                                                     <td class="tbl_data"> <?php if (isset($date)) echo $date; ?> </td>
                                                     <td class="tbl_data d-flex border-0">
                                                         <a href="categoryedit.php?edit=<?php if (isset($id)) echo $id; ?>" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
                                                         <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i> </a>
-                                                        <a href="category.php?id=<?php if (isset($id)) echo $id; ?>" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
+                                                        <a href="category.php?del=<?php if (isset($id)) echo $id; ?>" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
                                                     </td>
                                                 </tr>
                                                 <?php
                                             }
-                                        }
-
                                         ?>
                                         </tbody>
                                     </table>

@@ -38,18 +38,14 @@ VALUE ('{$title}', '{$url}', '{$summary}', '{$img}', '{$content}', '{$author}', 
     }
 }
 
-
-
 ?>
 
 
 <?php
 //delecting data from database
-
-if(isset($_GET['id'])){
-
+if(isset($_GET['del'])){
     //get delete variable
-    $dodelete = $_GET['id'];
+    $dodelete = $_GET['del'];
 
     //perform delete
     $sql = mysqli_query($conn,"DELETE FROM post WHERE post_id='$dodelete'");
@@ -58,9 +54,33 @@ if(isset($_GET['id'])){
     }
     else {
         $success = "post delected successfully";
-        //header("location: banner.php");
     }
 }
+
+//fetching category from database
+$query1 = "SELECT * FROM category ORDER BY category_id";
+if ($query_run1 = mysqli_query($conn, $query1)){
+
+}
+
+//fetching sub_category from database
+$query3 = "SELECT * FROM sub_category ORDER BY sub_category_id";
+if ($query_run3 = mysqli_query($conn, $query3)){
+
+}
+
+//fetching writter from database
+$query2 = "SELECT * FROM writter ORDER BY writter_id";
+if ($query_run2 = mysqli_query($conn, $query2)){
+
+}
+
+//fetching posts from database
+$query = "SELECT * FROM post ORDER BY post_id DESC ";
+if ($query_run = mysqli_query($conn, $query)){
+
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -244,8 +264,8 @@ if(isset($_GET['id'])){
                                             <input type="url" class="full" name="url" >
                                         </div>
                                         <div class="">
-                                            <label class="form_label">summary:</label> <br>
-                                            <textarea name="summary" class="full_sum" required></textarea>
+                                            <label class="form_label">summary: (optional)</label> <br>
+                                            <textarea name="summary" class="full_sum"></textarea>
                                         </div>
                                         <div class="">
                                             <label class="form_label">post image:</label> <br>
@@ -266,15 +286,12 @@ if(isset($_GET['id'])){
                                             <select name="author" class="full" >
                                                 <option class="form_opt" disabled selected>select author</option>
                                                 <?php
-                                                $query1 = "SELECT * FROM users ORDER BY user_id";
-                                                if ($query_run1 = mysqli_query($conn, $query1)){
-                                                    while ($query_row1 = mysqli_fetch_assoc($query_run1)){
-                                                        $user_name = $query_row1['username'];
+                                                    while ($query_row2 = mysqli_fetch_assoc($query_run2)){
+                                                        $user_name = $query_row2['username'];
                                                         ?>
                                                         <option class="form_opt"> <?php if (isset($user_name)) echo $user_name; ?> </option>
                                                         <?php
                                                     }
-                                                }
                                                 ?>
                                             </select>
                                         </div>
@@ -282,28 +299,29 @@ if(isset($_GET['id'])){
                                             <div class="col pl-0">
                                                 <label class="form_label">categories:</label>
                                                 <select name="category" class="full">
+                                                    <option class="form_opt" disabled selected>select category</option>
                                                     <?php
-                                                    $query1 = "SELECT * FROM category ORDER BY category_id";
-                                                    if ($query_run1 = mysqli_query($conn, $query1)){
                                                         while ($query_row1 = mysqli_fetch_assoc($query_run1)){
                                                             $main_cate = $query_row1['cate_name'];
                                                     ?>
                                                             <option class="form_opt"> <?php if (isset($main_cate)) echo $main_cate ; ?> </option>
                                                     <?php
                                                         }
-                                                    }
                                                     ?>
                                                 </select>
                                             </div>
                                             <div class="col pr-0">
                                                 <label class="form_label">sub categories:</label>
                                                 <select name="sub_category" class="full">
-                                                    <option class="form_opt"></option>
-                                                    <option class="form_opt">music</option>
-                                                    <option class="form_opt">video</option>
-                                                    <option class="form_opt">news</option>
-                                                    <option class="form_opt">status</option>
-                                                    <option class="form_opt">stories</option>
+                                                    <option class="form_opt" disabled selected></option>
+                                                    <?php
+                                                    while ($query_row3 = mysqli_fetch_assoc($query_run3)){
+                                                        $sub_cate = $query_row3['sub_cate_name'];
+                                                        ?>
+                                                        <option class="form_opt"> <?php if (isset($sub_cate)) echo $sub_cate ; ?> </option>
+                                                        <?php
+                                                    }
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -326,14 +344,16 @@ if(isset($_GET['id'])){
                                 <form class="col-4 man_search_form px-0">
                                     <div class="col man_search d-flex justify-content-center px-0">
                                         <input type="search" name="man_search_box" class="man_search_box" placeholder="Quick Search">
-                                        <select class="man_select mr-3">
-                                            <option class="">categories</option>
-                                            <option class="">all</option>
-                                            <option class="">musics</option>
-                                            <option class="">videos</option>
-                                            <option class="">news</option>
-                                            <option class="">status</option>
-                                            <option class="">stories</option>
+                                        <select name="category" class="man_select mr-3">
+                                            <option class="form_opt" disabled selected>category</option>
+                                            <?php
+                                            while ($query_row1 = mysqli_fetch_assoc($query_run1)){
+                                                $main_cate = $query_row1['cate_name'];
+                                                ?>
+                                                <option class="form_opt"> <?php if (isset($main_cate)) echo $main_cate ; ?> </option>
+                                                <?php
+                                            }
+                                            ?>
                                         </select>
                                         <button type="submit" class="man_sub_btn"> <i class="fa fa-arrow-right"></i> </button>
                                     </div>
@@ -352,30 +372,25 @@ if(isset($_GET['id'])){
                                 </thead>
                                 <tbody>
                                 <?php
-                                $query = "SELECT * FROM post ORDER BY post_id DESC ";
-                                if ($query_run = mysqli_query($conn, $query)){
-                                    while ($query_row = mysqli_fetch_assoc($query_run)){
-                                        $id = $query_row['post_id'];
-                                        $title = $query_row['post_title'];
-                                        $cate = $query_row['category'];
-                                        $date = $query_row['up_date'];
-                                        ?>
-
-                                <tr>
-                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                    <td class="tbl_head"> <?Php echo $id?> </td>
-                                    <td class="tbl_title"> <?Php echo $title?> </td>
-                                    <td class="tbl_data"> <?Php echo $cate?> </td>
-                                    <td class="tbl_data"> <?Php echo $date?> </td>
-                                    <td class="tbl_data d-flex border-0">
-                                        <a href="postedit.php?edit=<?php if (isset($id)) echo $id; ?>"  class="text-decoration-none edit_btn"> <i class="fa fa-edit"></i></a>
-                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                        <a href="post.php?id=<?php if (isset($id)) echo $id; ?>" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-
-                                <?php
-                                }
+                                while ($query_row = mysqli_fetch_assoc($query_run)){
+                                    $id = $query_row['post_id'];
+                                    $title = $query_row['post_title'];
+                                    $cate = $query_row['category'];
+                                    $date = $query_row['up_date'];
+                                    ?>
+                                    <tr>
+                                        <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
+                                        <td class="tbl_head"> <?Php echo $id?> </td>
+                                        <td class="tbl_title"> <?Php echo $title?> </td>
+                                        <td class="tbl_data"> <?Php echo $cate?> </td>
+                                        <td class="tbl_data"> <?Php echo $date?> </td>
+                                        <td class="tbl_data d-flex border-0">
+                                            <a href="postedit.php?edit=<?php if (isset($id)) echo $id; ?>"  class="text-decoration-none edit_btn"> <i class="fa fa-edit"></i></a>
+                                            <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
+                                            <a href="post.php?del=<?php if (isset($id)) echo $id; ?>" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    <?php
                                 }
                                 ?>
 
@@ -386,12 +401,9 @@ if(isset($_GET['id'])){
                 </div>
             </div>
     </div>
+    </div>
     <!--dashboard container ENDS-->
 
-
-
-</div>
-    <!--dashboard container-->
 
 </div>
 <!--housing div ENDS-->

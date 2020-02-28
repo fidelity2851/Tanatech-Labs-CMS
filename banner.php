@@ -11,7 +11,6 @@ if(!$userid){
 
 //collecting form data
 if (isset($_POST['banner_sub_btn'])){
-    $webpage = mysqli_real_escape_string($conn, $_POST['webpage']);
 
     $banner_img = $_FILES['banner_img']['name'];
     $upload_folder = 'uploads/'.$banner_img;
@@ -21,15 +20,16 @@ if (isset($_POST['banner_sub_btn'])){
     $banner_desc = mysqli_real_escape_string($conn, $_POST['banner_desc']);
 
     //sending date to datebase
-    $send_to_db = "INSERT INTO banner (webpage, banner_img, banner_header, banner_description, crt_date, up_date)
-VALUES ('{$webpage}', '{$banner_img}', '{$banner_title}', '{$banner_desc}', now(), now())";
+    $send_to_db = "INSERT INTO banner (banner_img, banner_header, banner_description, crt_date, up_date)
+VALUES ('{$banner_img}', '{$banner_title}', '{$banner_desc}', now(), now())";
+
     $send_db = mysqli_query($conn, $send_to_db);
 
     if (!$send_db){
-        $failed = "failed to create your post" . mysqli_error($conn);
+        $failed = "failed to create your banner " . mysqli_error($conn);
     }
     else {
-        $success = "post created successfully";
+        $success = "banner created successfully";
     }
 
 }
@@ -38,11 +38,10 @@ VALUES ('{$webpage}', '{$banner_img}', '{$banner_title}', '{$banner_desc}', now(
 
 <?php
 //delecting data from database
-
-if(isset($_GET['id'])){
+if(isset($_GET['del'])){
 
     //get delete variable
-    $dodelete = $_GET['id'];
+    $dodelete = $_GET['del'];
 
     //perform delete
     $sql = mysqli_query($conn,"DELETE FROM banner WHERE banner_id='$dodelete'");
@@ -54,9 +53,20 @@ if(isset($_GET['id'])){
         //header("location: banner.php");
     }
 }
+
+//fetching category from database
+$query1 = "SELECT * FROM category ORDER BY category_id";
+if ($query_run1 = mysqli_query($conn, $query1)){
+
+}
+
+//fetching banner from database
+$query = "SELECT * FROM banner ORDER BY banner_id DESC";
+if ($query_run = mysqli_query($conn, $query)){
+
+}
+
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -219,26 +229,15 @@ if(isset($_GET['id'])){
                             <form action="#" enctype="multipart/form-data" method="post" class="d-flex justify-content-center">
                                 <div class="col post_1 mr-3 px-0">
                                     <div class="post_form_1">
-                                        <div class="">
-                                            <label class="form_label">web page:</label>
-                                            <select name="webpage" class="full">
-                                                <option class="form_opt" selected disabled>Select a page</option>
-                                                <option class="form_opt" value="homepage">homepage</option>
-                                                <option class="form_opt" value="about us page">about us page</option>
-                                                <option class="form_opt" value="gallery">gallery page</option>
-                                                <option class="form_opt" value="contact page">contact page</option>
-                                                <option class="form_opt" value="products page">products page</option>
-                                            </select>
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">banner image:</label> <br>
-                                            <input type="file" class="full" name="banner_img" required>
-                                        </div>
-                                        <div class="">
+                                        <div class="mb-3">
                                             <label class="form_label">banner header:</label> <br>
                                             <input type="text" class="full" name="banner_title" required>
                                         </div>
-                                        <div class="d-flex justify-content-between">
+                                        <div class="mb-3">
+                                            <label class="form_label">banner image:</label> <br>
+                                            <input type="file" class="full" name="banner_img" required>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-3">
                                             <div class="col px-0">
                                                 <label class="form_label">banner description:</label> <br>
                                                 <textarea name="banner_desc" class="full_sum" required></textarea>
@@ -254,17 +253,20 @@ if(isset($_GET['id'])){
                     <div class="tab-pane fade" id="nav-manage" aria-labelledby="nav-manage-tab">
                         <div class="tab_content">
                             <div class="man_search_con d-flex justify-content-start">
-                                <form class="col-4 man_search_form px-0">
+                                <form class=" man_search_form px-0">
                                     <div class="col man_search d-flex justify-content-center px-0">
                                         <input type="search" name="man_search_box" class="man_search_box" placeholder="Quick Search">
                                         <select class="man_select mr-3">
-                                            <option class="">categories</option>
-                                            <option class="">all</option>
-                                            <option class="">musics</option>
-                                            <option class="">videos</option>
-                                            <option class="">news</option>
-                                            <option class="">status</option>
-                                            <option class="">stories</option>
+                                            <option class="" disabled selected>categories</option>
+                                            <?php
+                                            while ($query_row1 = mysqli_fetch_assoc($query_run1)){
+                                                $cate_name = $query_row1['cate_name'];
+                                                ?>
+                                                <option class=""> <?php if (isset($cate_name)) echo $cate_name; ?> </option>
+                                                <?php
+                                            }
+                                            ?>
+
                                         </select>
                                         <button type="submit" class="man_sub_btn"> <i class="fa fa-arrow-right"></i> </button>
                                     </div>
@@ -283,28 +285,25 @@ if(isset($_GET['id'])){
                                 </thead>
                                 <tbody>
                                 <?php
-                                $query = "SELECT * FROM banner ORDER BY banner_id DESC";
-                                if ($query_run = mysqli_query($conn, $query)){
-                                    while ($query_row = mysqli_fetch_assoc($query_run)){
-                                        $banner_id =  $query_row['banner_id'];
-                                        $banner_header = $query_row['banner_header'];
-                                        $banner_image =  $query_row['banner_img'];
-                                        $up_date =  $query_row['up_date'];
-                                ?>
-                                        <tr>
-                                            <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                            <th class="tbl_head"> <?php echo $banner_id; ?> </th>
-                                            <td class="tbl_title"> <?php echo $banner_header; ?> </td>
-                                            <td class="tbl_data"> <img src="uploads/<?php if(isset($banner_image)) echo $banner_image; ?>" width="50" height="50"> <?php echo $banner_image; ?> </td>
-                                            <td class="tbl_data"> <?php echo $up_date; ?> </td>
-                                            <td class="tbl_data d-flex border-0">
-                                                <a href="banneredit.php?edit=<?php if(isset($banner_id)) echo $banner_id; ?>" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
-                                                <a href="banner_edit.php?id=<?php if(isset($banner_id)) echo $banner_id; ?>" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                                <a href="banner.php?id=<?php if(isset($banner_id)) echo $banner_id; ?>" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                            </td>
-                                        </tr>
-                                <?php
-                                    }
+                                while ($query_row = mysqli_fetch_assoc($query_run)){
+                                    $banner_id =  $query_row['banner_id'];
+                                    $banner_header = $query_row['banner_header'];
+                                    $banner_image =  $query_row['banner_img'];
+                                    $up_date =  $query_row['up_date'];
+                                    ?>
+                                    <tr>
+                                        <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
+                                        <th class="tbl_head"> <?php echo $banner_id; ?> </th>
+                                        <td class="tbl_title"> <?php echo $banner_header; ?> </td>
+                                        <td class="tbl_data"> <img src="uploads/<?php if(isset($banner_image)) echo $banner_image; ?>" width="75" height="50"> <?php echo $banner_image; ?> </td>
+                                        <td class="tbl_data"> <?php echo $up_date; ?> </td>
+                                        <td class="tbl_data d-flex border-0">
+                                            <a href="banneredit.php?edit=<?php if(isset($banner_id)) echo $banner_id; ?>" class="text-decoration-none"> <i class="fa fa-edit"></i></a>
+                                            <a href="banner_edit.php?id=<?php if(isset($banner_id)) echo $banner_id; ?>" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
+                                            <a href="banner.php?del=<?php if(isset($banner_id)) echo $banner_id; ?>" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    <?php
                                 }
                                 ?>
                                 </tbody>
