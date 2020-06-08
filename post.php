@@ -8,33 +8,41 @@ if(!$userid){
     header("location: index.php");
 }
 
+//active link
+$pact = 1;
+$query = mysqli_query($conn, "SELECT * FROM user WHERE id = $userid");
+while ($query_run = mysqli_fetch_assoc($query)) {
+    $user_id = $query_run['id'];
+    $uname = $query_run['username'];
+    $user_img = $query_run['image'];
+}
+
 if (isset($_POST['post_sub_btn'])){
     //collect form values
-    $title = $_POST['title'];
-    $url = $_POST['url'];
-    $summary = $_POST['summary'];
+    $title = mysqli_real_escape_string($conn, $_POST['title']);
+    $url = mysqli_real_escape_string($conn, $_POST['url']);
+    $summary = mysqli_real_escape_string($conn, $_POST['summary']);
+    $content = mysqli_real_escape_string($conn, $_POST['content']);
 
     //processing image
     $img = $_FILES['post_image']['name'];
     $folder = "uploads/.$img";
     move_uploaded_file($_FILES['post_image']['tmp_name'],$folder);
 
-    $content = $_POST['content'];
-    $author = $_POST['author'];
-    $category = $_POST['category'];
-    $sub_category = $_POST['sub_category'];
-    $tags = $_POST['tags'];
-    $crt_date = $_POST['date'];
+    $cate_id = mysqli_real_escape_string($conn, $_POST['category']);
+    $sub_cate_id = mysqli_real_escape_string($conn, $_POST['sub_category']);
+    $tags = mysqli_real_escape_string($conn, $_POST['tags']);
+    $pub_date = mysqli_real_escape_string($conn, $_POST['date']);
 
 //sending values to database
-    $send_to_db = "INSERT INTO post(post_title, post_slug_url, post_summary, post_image, post_content, author, category, sub_category, tags, crt_date, up_date)
-VALUE ('{$title}', '{$url}', '{$summary}', '{$img}', '{$content}', '{$author}', '{$category}', '{$sub_category}', '{$tags}', '{$crt_date}', now())";
+    $send_to_db = "INSERT INTO post(user_id, category_id, subcategory_id, title, slug, summary, image, content, status, pub_date, crt_date, up_date)
+VALUE ('$user_id', '$cate_id', '$sub_cate_id', '$title', '$url', '$summary', '$img', '$content', 1, '$pub_date', now(), now())";
     $send_db  = mysqli_query($conn, $send_to_db);
     if (!$send_db){
-        $failed = "failed to create your post" . mysqli_error($conn);
+        $failed = "failed to create your post " . mysqli_error($conn);
     }
     else {
-        $success = "post created successfully";
+        $success = "post created successfully ";
     }
 }
 
@@ -48,7 +56,7 @@ if(isset($_GET['del'])){
     $dodelete = $_GET['del'];
 
     //perform delete
-    $sql = mysqli_query($conn,"DELETE FROM post WHERE post_id='$dodelete'");
+    $sql = mysqli_query($conn,"DELETE FROM post WHERE id='$dodelete' AND DELETE FROM tags where post_id = $dodelete");
     if (!$sql){
         $failed = "failed to delect your post" . mysqli_error($conn);
     }
@@ -58,25 +66,19 @@ if(isset($_GET['del'])){
 }
 
 //fetching category from database
-$query1 = "SELECT * FROM category ORDER BY category_id";
+$query1 = "SELECT * FROM category ORDER BY id";
 if ($query_run1 = mysqli_query($conn, $query1)){
 
 }
 
 //fetching sub_category from database
-$query3 = "SELECT * FROM sub_category ORDER BY sub_category_id";
+$query3 = "SELECT * FROM subcategory ORDER BY id";
 if ($query_run3 = mysqli_query($conn, $query3)){
 
 }
 
-//fetching writter from database
-$query2 = "SELECT * FROM writter ORDER BY writter_id";
-if ($query_run2 = mysqli_query($conn, $query2)){
-
-}
-
 //fetching posts from database
-$query = "SELECT * FROM post ORDER BY post_id DESC ";
+$query = "SELECT * FROM post ORDER BY id DESC ";
 if ($query_run = mysqli_query($conn, $query)){
 
 }
@@ -88,12 +90,12 @@ if ($query_run = mysqli_query($conn, $query)){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tanatech Labs CMS</title>
+    <title>Tanatech Labs CMS / Post</title>
 
     <!--google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Lato|Roboto&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/stylesheet.css">
+    <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <!-- reference your copy Font Awesome here (from our CDN or by hosting yourself) -->
@@ -108,101 +110,22 @@ if ($query_run = mysqli_query($conn, $query)){
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
 
+
 </head>
 <body>
 <!--housing div-->
 <div class="housing">
 
-    <!--header container-->
-    <div class="header_con">
-        <div class="row header d-flex justify-content-center mx-0">
-            <div class="col-2 logo_con align-self-center px-0">
-                <img src="images/logo.fw.png" class="logo">
-            </div>
-            <div class="col header_text_con mx-auto align-self-center px-0">
+    <!--dashboard container-->
+    <div class="dashboard position-absolute d-flex justify-content-between mx-0">
+        <?php include("header.php") ?>
+        <div class="col-10 dashboard_display_con position-absolute px-0">
+            <div class="col header px-0">
                 <p class="header_text">welcome to Tanatech Labs LTD CMS</p>
             </div>
-        </div>
-    </div>
-    <!--header container ENDS-->
-
-    <!--dashboard container-->
-    <div class="dashboard_con">
-        <div class="row dashboard d-flex justify-content-between mx-0">
-            <div class="col-2 dashboard_link_con d-flex flex-column px-0">
-                <div class="dash_header_con d-flex justify-content-around">
-                    <div class="dash_header_icon align-self-center"> <img src="images/user.png" class="dash_header_img"> </div>
-                    <div class="align-self-center drop position-relative">
-                        <p class="dash_header">Tanatech admin <span class="dash_header_icon2"> <i class="fa fa-angle-down"></i> </span> </p>
-                        <div class="drop_con">
-                            <a href="logout.php" class="text-decoration-none">
-                                <p class="drop_link"> <i class="fa fa-power-off"></i> log out</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="">
-                    <a href="dashboard.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-home"></i> </span>
-                            <p class="dash_link">home</p>
-                        </div>
-                    </a>
-                    <a href="category.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-tags"></i> </span>
-                            <p class="dash_link">categories</p>
-                        </div>
-                    </a>
-                    <a href="post.php" class="text-decoration-none">
-                        <div class="dash_link_con dash_link_active d-flex">
-                            <span class="dash_icon"> <i class="fa fa-podcast"></i> </span>
-                            <p class="dash_link">post</p>
-                        </div>
-                    </a>
-                    <a href="banner.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-sliders"></i> </span>
-                            <p class="dash_link">slider / Banner</p>
-                        </div>
-                    </a>
-                    <a href="page.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-book"></i> </span>
-                            <p class="dash_link">pages</p>
-                        </div>
-                    </a>
-                    <a href="multimedia.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-picture-o"></i> </span>
-                            <p class="dash_link">multimedia</p>
-                        </div>
-                    </a>
-                    <a href="faq.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-question-circle"></i> </span>
-                            <p class="dash_link">FAQ</p>
-                        </div>
-                    </a>
-                    <a href="user.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-users" aria-hidden="true"></i> </span>
-                            <p class="dash_link">users</p>
-                        </div>
-                    </a>
-                    <a href="setting.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-cogs" aria-hidden="true"></i> </span>
-                            <p class="dash_link">settings</p>
-                        </div>
-                    </a>
-                </div>
-                <p class="power mt-auto">powered by: <span class="power_name">Tanatech Labs</span> </p>
-            </div>
-            <div class="col dashboard_display_con px-0">
-                <?php
-                if (isset($success)){
-                    ?>
+            <?php
+            if (isset($success)){
+                ?>
                 <div class="succ_msg">
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -211,196 +134,201 @@ if ($query_run = mysqli_query($conn, $query)){
                         </button>
                         <?php
                         if (isset($success)){
-                        echo " <strong>" . $success . "</strong>";
+                            echo " <strong>" . $success . "</strong>";
                         }
                         ?>
                     </div>
                 </div>
                 <?php
-                }
-                ?>
+            }
+            ?>
 
-                <?php
-                if (isset($failed)){
-                    ?>
-                    <div class="succ_msg">
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                <span class="sr-only">Close</span>
-                            </button>
-                            <?php
-                            if (isset($failed)){
-                                echo " <strong>" . $failed . "</strong>";
-                            }
-                            ?>
-                        </div>
-                    </div>
-                    <?php
-                }
+            <?php
+            if (isset($failed)){
                 ?>
-                <nav class="tab_con">
-                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active" data-toggle="tab" href="#nav-create" aria-selected="true">
-                            <p class="tab_link">create new post</p>
-                        </a>
-                        <a class="nav-item nav-link" data-toggle="tab" href="#nav-manage" aria-selected="false">
-                            <p class="tab_link">manage your post</p>
-                        </a>
+                <div class="succ_msg">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <?php
+                        if (isset($failed)){
+                            echo " <strong>" . $failed . "</strong>";
+                        }
+                        ?>
                     </div>
-                </nav>
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-create" aria-labelledby="nav-create-tab">
-                        <div class="tab_content">
-                            <form action="" enctype="multipart/form-data" method="post" class="d-flex justify-content-between">
-                                <div class="col-8 post_1 mr-3 px-0">
-                                    <div class="post_form_1">
-                                        <div class="">
-                                            <label class="form_label">title:</label> <br>
-                                            <input type="text" class="full" name="title" required>
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">slug / URl: (optional)</label> <br>
-                                            <input type="url" class="full" name="url" >
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">summary: (optional)</label> <br>
-                                            <textarea name="summary" class="full_sum"></textarea>
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">post image:</label> <br>
-                                            <input type="file" class="full" name="post_image">
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">content:</label> <br>
-                                            <textarea class="full_area" id="summernote" name="content"></textarea>
-                                        </div>
-                                        <button type="reset" name="post_reset_btn" class="post_reset_btn mr-3">reset post</button>
-                                        <button type="submit" name="post_sub_btn" class="post_sub_btn">create post</button>
+                </div>
+                <?php
+            }
+            ?>
+            <nav class="tab_con">
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" data-toggle="tab" href="#nav-create" aria-selected="true">
+                        <p class="tab_link">create new post</p>
+                    </a>
+                    <a class="nav-item nav-link" data-toggle="tab" href="#nav-manage" aria-selected="false">
+                        <p class="tab_link">manage your post</p>
+                    </a>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-create" aria-labelledby="nav-create-tab">
+                    <div class="tab_content">
+                        <form action="" enctype="multipart/form-data" method="post" class="d-flex justify-content-between">
+                            <div class="col-7 post_1 mr-3 px-0">
+                                <div class="post_form_1">
+                                    <div class="">
+                                        <label class="form_label">title:</label> <br>
+                                        <input type="text" class="full" name="title" required>
                                     </div>
+                                    <div class="">
+                                        <label class="form_label">slug / URl: (optional)</label> <br>
+                                        <input type="url" class="full" name="url" >
+                                    </div>
+                                    <div class="">
+                                        <label class="form_label">summary: (optional)</label> <br>
+                                        <textarea name="summary" class="full_sum"></textarea>
+                                    </div>
+                                    <div class="">
+                                        <label class="form_label">post image:</label> <br>
+                                        <input type="file" class="full" name="post_image">
+                                    </div>
+                                    <div class="">
+                                        <label class="form_label">content:</label> <br>
+                                        <textarea class="full_area" id="summernote" name="content"></textarea>
+                                    </div>
+                                    <button type="reset" name="post_reset_btn" class="post_reset_btn mr-3">reset</button>
+                                    <button type="submit" name="post_sub_btn" class="post_sub_btn">create</button>
                                 </div>
-                                <div class="col post_2 px-0">
-                                    <div class="post_form_2">
-                                        <div class="">
+                            </div>
+                            <div class="col post_2 px-0">
+                                <div class="post_form_2">
+                                    <!--<div class="">
                                             <label class="form_label">author:</label>
                                             <select name="author" class="full" >
                                                 <option class="form_opt" disabled selected>select author</option>
                                                 <?php
-                                                    while ($query_row2 = mysqli_fetch_assoc($query_run2)){
-                                                        $user_name = $query_row2['username'];
-                                                        ?>
-                                                        <option class="form_opt"> <?php if (isset($user_name)) echo $user_name; ?> </option>
+                                    /*                                                    while ($query_row2 = mysqli_fetch_assoc($query_run2)){
+                                                                                            $user_name = $query_row2['username'];
+                                                                                            */?>
+                                                        <option class="form_opt"> <?php /*if (isset($user_name)) echo $user_name; */?> </option>
                                                         <?php
-                                                    }
+                                    /*                                                    }
+                                                                                    */?>
+                                            </select>
+                                        </div>-->
+                                    <div class="d-flex justify-content-between mb-3">
+                                        <div class="col pl-0">
+                                            <label class="form_label">categories:</label>
+                                            <select name="category" class="full">
+                                                <option class="form_opt" disabled selected>select category</option>
+                                                <?php
+                                                while ($query_row1 = mysqli_fetch_assoc($query_run1)){
+                                                    $id = $query_row1['id'];
+                                                    $main_cate = $query_row1['name'];
+                                                    ?>
+                                                    <option class="form_opt" value="<?php if (isset($id)) echo $id ; ?>"> <?php if (isset($main_cate)) echo $main_cate ; ?> </option>
+                                                    <?php
+                                                }
                                                 ?>
                                             </select>
                                         </div>
-                                        <div class="d-flex justify-content-between">
-                                            <div class="col pl-0">
-                                                <label class="form_label">categories:</label>
-                                                <select name="category" class="full">
-                                                    <option class="form_opt" disabled selected>select category</option>
-                                                    <?php
-                                                        while ($query_row1 = mysqli_fetch_assoc($query_run1)){
-                                                            $main_cate = $query_row1['cate_name'];
+                                        <div class="col pr-0">
+                                            <label class="form_label">sub categories:</label>
+                                            <select name="sub_category" class="full">
+                                                <option class="form_opt" disabled selected>Select sub category</option>
+                                                <?php
+                                                while ($query_row3 = mysqli_fetch_assoc($query_run3)){
+                                                    $id = $query_row3['id'];
+                                                    $sub_cate = $query_row3['name'];
                                                     ?>
-                                                            <option class="form_opt"> <?php if (isset($main_cate)) echo $main_cate ; ?> </option>
+                                                    <option class="form_opt" value="<?php if (isset($id)) echo $id ; ?> "> <?php if (isset($sub_cate)) echo $sub_cate ; ?> </option>
                                                     <?php
-                                                        }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                            <div class="col pr-0">
-                                                <label class="form_label">sub categories:</label>
-                                                <select name="sub_category" class="full">
-                                                    <option class="form_opt" disabled selected></option>
-                                                    <?php
-                                                    while ($query_row3 = mysqli_fetch_assoc($query_run3)){
-                                                        $sub_cate = $query_row3['sub_cate_name'];
-                                                        ?>
-                                                        <option class="form_opt"> <?php if (isset($sub_cate)) echo $sub_cate ; ?> </option>
-                                                        <?php
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">tags:</label> <br>
-                                            <textarea name="tags" class="full_sum"></textarea>
-                                        </div>
-                                        <div class="">
-                                            <label class="form_label">date:</label> <br>
-                                            <input type="date" name="date" class="full">
+                                                }
+                                                ?>
+                                            </select>
                                         </div>
                                     </div>
+                                    <div class="mb-3">
+                                        <label class="form_label">tags: (Seprate with commas)</label> <br>
+                                        <input type="text" name="tags" class="full" data-role="tagsinput">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form_label">Featured Date </label> <br>
+                                        <input type="date" name="date" class="full">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-manage" aria-labelledby="nav-manage-tab">
+                    <div class="tab_content">
+                        <div class="man_search_con d-flex justify-content-start">
+                            <form class="col-4 man_search_form px-0">
+                                <div class="col man_search d-flex justify-content-center px-0">
+                                    <input type="search" name="man_search_box" class="man_search_box" placeholder="Quick Search">
+                                    <select name="category" class="man_select mr-3">
+                                        <option class="form_opt" disabled selected>category</option>
+                                        <?php
+                                        while ($query_row1 = mysqli_fetch_assoc($query_run1)){
+                                            $id = $query_row1['id'];
+                                            $main_cate = $query_row1['name'];
+                                            ?>
+                                            <option class="form_opt" value="<?php if (isset($id)) echo $id ; ?>"> <?php if (isset($main_cate)) echo $main_cate ; ?> </option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                    <button type="submit" class="man_sub_btn"> <i class="fa fa-arrow-right"></i> </button>
                                 </div>
                             </form>
                         </div>
-                    </div>
-                    <div class="tab-pane fade" id="nav-manage" aria-labelledby="nav-manage-tab">
-                        <div class="tab_content">
-                            <div class="man_search_con d-flex justify-content-start">
-                                <form class="col-4 man_search_form px-0">
-                                    <div class="col man_search d-flex justify-content-center px-0">
-                                        <input type="search" name="man_search_box" class="man_search_box" placeholder="Quick Search">
-                                        <select name="category" class="man_select mr-3">
-                                            <option class="form_opt" disabled selected>category</option>
-                                            <?php
-                                            while ($query_row1 = mysqli_fetch_assoc($query_run1)){
-                                                $main_cate = $query_row1['cate_name'];
-                                                ?>
-                                                <option class="form_opt"> <?php if (isset($main_cate)) echo $main_cate ; ?> </option>
-                                                <?php
-                                            }
-                                            ?>
-                                        </select>
-                                        <button type="submit" class="man_sub_btn"> <i class="fa fa-arrow-right"></i> </button>
-                                    </div>
-                                </form>
-                            </div>
-                            <table class="table table-striped table-bordered">
-                                <thead>
-                                <tr>
-                                    <th class="tbl_header"> <input type="checkbox" class="tbl_check align-self-center"> </th>
-                                    <th class="tbl_header">ID</th>
-                                    <th class="tbl_header">Title</th>
-                                    <th class="tbl_header">Category</th>
-                                    <th class="tbl_header">Date / Time</th>
-                                    <th class="tbl_header">manage</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php
-                                while ($query_row = mysqli_fetch_assoc($query_run)){
-                                    $id = $query_row['post_id'];
-                                    $title = $query_row['post_title'];
-                                    $cate = $query_row['category'];
-                                    $date = $query_row['up_date'];
-                                    ?>
-                                    <tr>
-                                        <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
-                                        <td class="tbl_head"> <?Php echo $id?> </td>
-                                        <td class="tbl_title"> <?Php echo $title?> </td>
-                                        <td class="tbl_data"> <?Php echo $cate?> </td>
-                                        <td class="tbl_data"> <?Php echo $date?> </td>
-                                        <td class="tbl_data d-flex border-0">
-                                            <a href="postedit.php?edit=<?php if (isset($id)) echo $id; ?>"  class="text-decoration-none edit_btn"> <i class="fa fa-edit"></i></a>
-                                            <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
-                                            <a href="post.php?del=<?php if (isset($id)) echo $id; ?>" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    <?php
-                                }
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                            <tr>
+                                <th class="tbl_header"> <input type="checkbox" class="tbl_check align-self-center"> </th>
+                                <th class="tbl_header">ID</th>
+                                <th class="tbl_header">Title</th>
+                                <th class="tbl_header">Category</th>
+                                <th class="tbl_header">Status</th>
+                                <th class="tbl_header">Date / Time</th>
+                                <th class="tbl_header">manage</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            while ($query_row = mysqli_fetch_assoc($query_run)){
+                                $id = $query_row['id'];
+                                $title = $query_row['title'];
+                                $summary = $query_row['summary'];
+                                $status = $query_row['status'];
+                                $date = $query_row['crt_date'];
                                 ?>
+                                <tr>
+                                    <td class="tbl_data"> <input type="checkbox" class="tbl_check align-self-center"> </td>
+                                    <td class="tbl_head"> <?Php echo $id?> </td>
+                                    <td class="tbl_title"> <?Php echo $title?> </td>
+                                    <td class="tbl_title"> <?Php echo $summary?> </td>
+                                    <td class="tbl_data"> <?Php if ($status==1){echo "Active";} else{echo "Inactive";}?> </td>
+                                    <td class="tbl_data"> <?Php echo $date?> </td>
+                                    <td class="tbl_data d-flex border-0">
+                                        <a href="postedit.php?edit=<?php if (isset($id)) echo $id; ?>"  class="text-decoration-none edit_btn"> <i class="fa fa-edit"></i></a>
+                                        <a href="#" class="text-decoration-none mx-2"> <i class="fa fa-eye"></i></a>
+                                        <a href="post.php?del=<?php if (isset($id)) echo $id; ?>" class="text-decoration-none"> <i class="fa fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                                <?php
+                            }
+                            ?>
 
-                                </tbody>
-                            </table>
-                        </div>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-    </div>
+        </div>
     </div>
     <!--dashboard container ENDS-->
 

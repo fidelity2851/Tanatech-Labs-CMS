@@ -8,18 +8,21 @@ if (isset($_POST['login_sub_btn'])){
     $password = mysqli_real_escape_string($conn, $_POST['password']);
 
     //query out data from DB
-    $query = "SELECT * FROM admin ";
-    if ($query_run = mysqli_query($conn, $query)){
-        $query_row = mysqli_fetch_assoc($query_run);
-        $user_id = $query_row['admin_id'];
-        $email_db = $query_row['email'];
-        $password_db = $query_row['password'];
+    $count=0;
+    $query_run = mysqli_query($conn, "SELECT * FROM user ");
+        while ($query_row = mysqli_fetch_assoc($query_run)){
+            $user_id[] = $query_row['id'];
+            $email_db[] = $query_row['username'];
+            $password_db[] = $query_row['password'];
+            $count++;
+        }
 
-        if ($email == $email_db && $password == $password_db){
+    for($i=0;$i<$count;$i++)
+        if ($email == $email_db[$i] && $password == $password_db[$i]){
             $success = "Login Done Successfully";
             //create a section
             session_start();
-            $_SESSION["cool"] = $user_id;
+            $_SESSION["cool"] = $user_id[$i];
 
             //redirect to dashboard
             header("location: dashboard.php");
@@ -27,7 +30,7 @@ if (isset($_POST['login_sub_btn'])){
         else {
             $failed = "Incorrect User Details";
         }
-    }
+
 
 }
 
@@ -44,7 +47,7 @@ if (isset($_POST['login_sub_btn'])){
     <!--google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Lato|Roboto&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/stylesheet.css">
+    <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <!-- reference your copy Font Awesome here (from our CDN or by hosting yourself) -->
@@ -52,12 +55,12 @@ if (isset($_POST['login_sub_btn'])){
 </head>
 <body>
 
-<div class="housing">
+<div class="">
     <?php
     if (isset($success))
     {
     ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <div class="alert alert-success alert-dismissible fade show position-fixed" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 <span class="sr-only">Close</span>
@@ -76,7 +79,7 @@ if (isset($_POST['login_sub_btn'])){
     if (isset($failed))
     {
         ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <div class="alert alert-danger alert-dismissible fade show position-fixed" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 <span class="sr-only">Close</span>
@@ -104,14 +107,14 @@ if (isset($_POST['login_sub_btn'])){
                           <label class="login_label">email:</label>
                           <div class="d-flex">
                               <span class="login_icon"> <img src="images/user.png" class="form_img"> </span>
-                              <input type="email" name="email" class="login_box" required>
+                              <input type="text" name="email" class="login_box" required>
                           </div>
                       </div>
                       <div class="mb-2">
                           <label class="login_label">password:</label>
                           <div class="d-flex">
                               <span class="login_icon"> <img src="images/password.svg" class="form_img"> </span>
-                              <input type="password" name="password" class="login_box" required>
+                              <input type="password" name="password" class="login_box" >
                           </div>
                       </div>
                       <div class="">

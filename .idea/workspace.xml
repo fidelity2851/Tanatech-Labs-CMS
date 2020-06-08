@@ -2,26 +2,57 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bd2363e8-3909-46d0-9ec6-23a56e53685d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/._MG_2396.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/.{8E8472C5-4FB3-4847-8F68-8AA73D422924}.png.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/.{E808B5A3-A6A1-48E9-8BE8-FBCA6DEC52A5}.png.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/BeautyPlus_20190104130430056_save.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/_MG_2396.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/me and my class mate.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/{E808B5A3-A6A1-48E9-8BE8-FBCA6DEC52A5}.png.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/header.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/bootstrap-tagsinput-angular.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/bootstrap-tagsinput.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mediaedit.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/subcategoryedit.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend_script/connection.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend_script/connection.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend_script/create_db.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend_script/create_db.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend_script/create_tables.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend_script/create_tables.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/banner.php" beforeDir="false" afterPath="$PROJECT_DIR$/banner.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/banneredit.php" beforeDir="false" afterPath="$PROJECT_DIR$/banneredit.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/category.php" beforeDir="false" afterPath="$PROJECT_DIR$/category.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/categoryedit.php" beforeDir="false" afterPath="$PROJECT_DIR$/categoryedit.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/stylesheet.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/stylesheet.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/stylesheet.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/dashboard.php" beforeDir="false" afterPath="$PROJECT_DIR$/dashboard.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multimediaedit.php" beforeDir="false" afterPath="$PROJECT_DIR$/multimediaedit.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/edit.php" beforeDir="false" afterPath="$PROJECT_DIR$/edit.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/faq.php" beforeDir="false" afterPath="$PROJECT_DIR$/faq.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/faqedit.php" beforeDir="false" afterPath="$PROJECT_DIR$/faqedit.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/multimedia.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/multimediaedit.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/page.php" beforeDir="false" afterPath="$PROJECT_DIR$/page.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pageedit.php" beforeDir="false" afterPath="$PROJECT_DIR$/pageedit.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/post.php" beforeDir="false" afterPath="$PROJECT_DIR$/post.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/postedit.php" beforeDir="false" afterPath="$PROJECT_DIR$/postedit.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setting.php" beforeDir="false" afterPath="$PROJECT_DIR$/setting.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/settingedit.php" beforeDir="false" afterPath="$PROJECT_DIR$/settingedit.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/._MG_2396.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/.back_btn.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/.categories_icon.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/.email.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/.home_hero_front.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/.logo.fw.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/.password.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/.post_icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/.user.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/.writter_icon.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/.{8E8472C5-4FB3-4847-8F68-8AA73D422924}.png.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/.{E808B5A3-A6A1-48E9-8BE8-FBCA6DEC52A5}.png.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/BeautyPlus_20190104130430056_save.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/_MG_2396.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/home_hero_front.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/me and my class mate.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/password.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/post_icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/user.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/{E808B5A3-A6A1-48E9-8BE8-FBCA6DEC52A5}.png.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user.php" beforeDir="false" afterPath="$PROJECT_DIR$/user.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/useredit.php" beforeDir="false" afterPath="$PROJECT_DIR$/useredit.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,7 +153,22 @@
       <workItem from="1577959400434" duration="368000" />
       <workItem from="1582826167347" duration="1188000" />
       <workItem from="1582836353036" duration="13317000" />
-      <workItem from="1582887859182" duration="7586000" />
+      <workItem from="1582887859182" duration="8278000" />
+      <workItem from="1587670833465" duration="10514000" />
+      <workItem from="1587845807568" duration="2499000" />
+      <workItem from="1587931715250" duration="648000" />
+      <workItem from="1587986140579" duration="59000" />
+      <workItem from="1587986440495" duration="15994000" />
+      <workItem from="1588162970080" duration="14133000" />
+      <workItem from="1588231768518" duration="289000" />
+      <workItem from="1588779492177" duration="10668000" />
+      <workItem from="1588860625666" duration="8127000" />
+      <workItem from="1589812594492" duration="387000" />
+      <workItem from="1591022849957" duration="1099000" />
+      <workItem from="1591123291279" duration="35010000" />
+      <workItem from="1591454671135" duration="5774000" />
+      <workItem from="1591476049869" duration="2236000" />
+      <workItem from="1591644542352" duration="444000" />
     </task>
     <task id="LOCAL-00001" summary="cms">
       <created>1573568226399</created>
@@ -159,7 +205,14 @@
       <option name="project" value="LOCAL" />
       <updated>1576182969741</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="cms">
+      <created>1582910428886</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1582910428886</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -184,24 +237,43 @@
     <option name="LAST_COMMIT_MESSAGE" value="cms" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="265" y="0" key="CommitChangelistDialog2" timestamp="1576182955898">
+    <state x="265" y="0" key="CommitChangelistDialog2" timestamp="1582910423887">
       <screen x="0" y="0" width="1280" height="770" />
     </state>
-    <state x="265" y="0" key="CommitChangelistDialog2/0.0.1280.770/-1440.-340.1440.900@0.0.1280.770" timestamp="1576182955898" />
-    <state x="232" y="117" key="Vcs.Push.Dialog.v2" timestamp="1582910107546">
+    <state x="265" y="0" key="CommitChangelistDialog2/0.0.1280.770/-1920.-149.1920.1080@0.0.1280.770" timestamp="1582910423887" />
+    <state x="420" y="139" key="FileChooserDialogImpl" timestamp="1591128584056">
       <screen x="0" y="0" width="1280" height="770" />
     </state>
-    <state x="232" y="117" key="Vcs.Push.Dialog.v2/0.0.1280.770/-1920.-149.1920.1080@0.0.1280.770" timestamp="1582910107546" />
-    <state x="232" y="117" key="Vcs.Push.Dialog.v2/0.0.1280.770@0.0.1280.770" timestamp="1577959535136" />
-    <state x="335" y="207" key="com.intellij.ide.util.TipDialog" timestamp="1582826167044">
+    <state x="420" y="139" key="FileChooserDialogImpl/0.0.1280.770/-1440.-166.1440.870@0.0.1280.770" timestamp="1588780554137" />
+    <state x="420" y="139" key="FileChooserDialogImpl/0.0.1280.770/-1440.-81.1440.870@0.0.1280.770" timestamp="1591128584056" />
+    <state x="474" y="308" key="NewPhpFileDialog" timestamp="1591249725876">
       <screen x="0" y="0" width="1280" height="770" />
     </state>
-    <state x="335" y="207" key="com.intellij.ide.util.TipDialog/0.0.1280.770@0.0.1280.770" timestamp="1582826167044" />
-    <state x="303" y="91" width="672" height="678" key="search.everywhere.popup" timestamp="1582909140236">
+    <state x="474" y="308" key="NewPhpFileDialog/0.0.1280.770/-1440.-166.1440.870@0.0.1280.770" timestamp="1587679417819" />
+    <state x="474" y="308" key="NewPhpFileDialog/0.0.1280.770/-1440.-81.1440.870@0.0.1280.770" timestamp="1591249725876" />
+    <state x="232" y="117" key="Vcs.Push.Dialog.v2" timestamp="1582910458562">
       <screen x="0" y="0" width="1280" height="770" />
     </state>
+    <state x="232" y="117" key="Vcs.Push.Dialog.v2/0.0.1280.770/-1920.-149.1920.1080@0.0.1280.770" timestamp="1582910458562" />
+    <state x="335" y="207" key="com.intellij.ide.util.TipDialog" timestamp="1591454678306">
+      <screen x="0" y="0" width="1280" height="770" />
+    </state>
+    <state x="335" y="207" key="com.intellij.ide.util.TipDialog/0.0.1280.770/-1440.-166.1440.870@0.0.1280.770" timestamp="1588779607040" />
+    <state x="335" y="207" key="com.intellij.ide.util.TipDialog/0.0.1280.770/-1440.-81.1440.870@0.0.1280.770" timestamp="1591454678306" />
+    <state x="335" y="207" key="com.intellij.ide.util.TipDialog/0.0.1280.770/-1920.-364.1920.1050@0.0.1280.770" timestamp="1587986440719" />
+    <state x="335" y="207" key="com.intellij.ide.util.TipDialog/0.0.1280.770@0.0.1280.770" timestamp="1588163112356" />
+    <state x="336" y="122" width="737" height="526" key="find.popup" timestamp="1588867838591">
+      <screen x="0" y="0" width="1280" height="770" />
+    </state>
+    <state x="336" y="122" width="737" height="526" key="find.popup/0.0.1280.770/-1440.-166.1440.870@0.0.1280.770" timestamp="1588867838591" />
+    <state x="303" y="91" width="672" height="678" key="search.everywhere.popup" timestamp="1591454845461">
+      <screen x="0" y="0" width="1280" height="770" />
+    </state>
+    <state x="303" y="91" width="672" height="678" key="search.everywhere.popup/0.0.1280.770/-1440.-166.1440.870@0.0.1280.770" timestamp="1588868302053" />
     <state x="303" y="91" width="672" height="678" key="search.everywhere.popup/0.0.1280.770/-1440.-340.1440.900@0.0.1280.770" timestamp="1582850063059" />
+    <state x="303" y="91" width="672" height="678" key="search.everywhere.popup/0.0.1280.770/-1440.-81.1440.870@0.0.1280.770" timestamp="1591454845461" />
     <state x="303" y="91" width="672" height="678" key="search.everywhere.popup/0.0.1280.770/-1920.-149.1920.1080@0.0.1280.770" timestamp="1582909140236" />
-    <state x="303" y="91" width="672" height="678" key="search.everywhere.popup/0.0.1280.770@0.0.1280.770" timestamp="1574985215357" />
+    <state x="303" y="91" width="672" height="678" key="search.everywhere.popup/0.0.1280.770/-1920.-364.1920.1050@0.0.1280.770" timestamp="1588006771987" />
+    <state x="303" y="91" width="672" height="678" key="search.everywhere.popup/0.0.1280.770@0.0.1280.770" timestamp="1591282745971" />
   </component>
 </project>

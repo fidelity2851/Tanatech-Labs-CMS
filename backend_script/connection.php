@@ -1,8 +1,8 @@
 <?php
 $server = "localhost";
 $username = "root";
-$password = "fidelity2851";
-$db_name = "tanatechcms";
+$password = "";
+$db_name = "Tanatechcms";
 
 //sql connection
 $conn = mysqli_connect($server, $username, $password);

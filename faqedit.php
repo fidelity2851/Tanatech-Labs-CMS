@@ -8,11 +8,41 @@ if(!$userid){
     header("location: index.php");
 }
 
-//getting data from database
+//active link
+$fact = 1;
+$query = mysqli_query($conn, "SELECT * FROM user WHERE id = $userid");
+while ($query_run = mysqli_fetch_assoc($query)) {
+    $uname = $query_run['username'];
+    $user_img = $query_run['image'];
+}
+
+
+//collecting form data
+if (isset($_POST['que_sub_btn'])){
+    $edit = $_GET['edit'];
+    $ques_edit = mysqli_real_escape_string($conn, $_POST['question']);
+    $ans_edit = mysqli_real_escape_string($conn, $_POST['question_ans']);
+
+    //sending date to database
+    $send_to_db = "UPDATE faq SET question = '{$ques_edit}', answer = '{$ans_edit}', up_date = now() WHERE id = '$edit'";
+    $send_db = mysqli_query($conn, $send_to_db);
+
+    if (!$send_db){
+        $failed = "Failed to Update your FAQ" . mysqli_error($conn);
+    }
+    else {
+        $success = "FAQ Updated successfully";
+       // header("location: faqedit.php?edit=$edit");
+    }
+
+}
+
+
+//getting FAQ data from database
 if (isset($_GET['edit'])){
     $edit = $_GET['edit'];
 
-    $edit_query = "SELECT * FROM faq WHERE faq_id = '$edit'";
+    $edit_query = "SELECT * FROM faq WHERE id = '$edit'";
     if ($edit_query_run = mysqli_query($conn, $edit_query)) {
         $edit_query_row = mysqli_fetch_assoc($edit_query_run);
 
@@ -21,25 +51,6 @@ if (isset($_GET['edit'])){
     }
 }
 
-
-//collecting form data
-if (isset($_POST['que_sub_btn'])){
-    $ques_edit = mysqli_real_escape_string($conn, $_POST['question']);
-    $ans_edit = mysqli_real_escape_string($conn, $_POST['question_ans']);
-
-    //sending date to database
-    $send_to_db = "UPDATE faq SET question = '{$ques_edit}', answer = '{$ans_edit}', up_date = now() WHERE faq_id = '$edit'";
-    $send_db = mysqli_query($conn, $send_to_db);
-
-    if (!$send_db){
-        $failed = "failed to create your post" . mysqli_error($conn);
-    }
-    else {
-        $success = "post created successfully";
-        header("location: faqedit.php?edit=$edit");
-    }
-
-}
 
 ?>
 
@@ -52,7 +63,7 @@ if (isset($_POST['que_sub_btn'])){
     <!--google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Lato|Roboto&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/stylesheet.css">
+    <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <!-- reference your copy Font Awesome here (from our CDN or by hosting yourself) -->
@@ -62,93 +73,14 @@ if (isset($_POST['que_sub_btn'])){
 <!--housing div-->
 <div class="housing">
 
-    <!--header container-->
-    <div class="header_con sticky-top">
-        <div class="row header d-flex justify-content-center mx-0">
-            <div class="col-2 logo_con align-self-center px-0">
-                <img src="images/logo.fw.png" class="logo">
-            </div>
-            <div class="col header_text_con mx-auto align-self-center px-0">
-                <p class="header_text">welcome to Tanatech Labs LTD CMS</p>
-            </div>
-        </div>
-    </div>
-    <!--header container ENDS-->
-
     <!--dashboard container-->
     <div class="dashboard_con">
         <div class="row dashboard d-flex justify-content-between mx-0">
-            <div class="col-2 dashboard_link_con d-flex flex-column px-0">
-                <div class="dash_header_con d-flex justify-content-around">
-                    <div class="dash_header_icon align-self-center"> <img src="images/user.png" class="dash_header_img"> </div>
-                    <div class="align-self-center drop position-relative">
-                        <p class="dash_header">Tanatech admin <span class="dash_header_icon2"> <i class="fa fa-angle-down"></i> </span> </p>
-                        <div class="drop_con">
-                            <a href="logout.php" class="text-decoration-none">
-                                <p class="drop_link"> <i class="fa fa-power-off"></i> log out</p>
-                            </a>
-                        </div>
-                    </div>
+            <?php include("header.php") ?>
+            <div class="col-10 dashboard_display_con position-absolute px-0">
+                <div class="col header px-0">
+                    <p class="header_text">welcome to Tanatech Labs LTD CMS</p>
                 </div>
-                <div class="">
-                    <a href="dashboard.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-home"></i> </span>
-                            <p class="dash_link">home</p>
-                        </div>
-                    </a>
-                    <a href="category.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-tags"></i> </span>
-                            <p class="dash_link">categories</p>
-                        </div>
-                    </a>
-                    <a href="post.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-podcast"></i> </span>
-                            <p class="dash_link">post</p>
-                        </div>
-                    </a>
-                    <a href="banner.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-sliders"></i> </span>
-                            <p class="dash_link">slider / Banner</p>
-                        </div>
-                    </a>
-                    <a href="page.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-book"></i> </span>
-                            <p class="dash_link">pages</p>
-                        </div>
-                    </a>
-                    <a href="multimedia.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-picture-o"></i> </span>
-                            <p class="dash_link">multimedia</p>
-                        </div>
-                    </a>
-                    <a href="faq.php" class="text-decoration-none">
-                        <div class="dash_link_con dash_link_active d-flex">
-                            <span class="dash_icon"> <i class="fa fa-question-circle"></i> </span>
-                            <p class="dash_link">FAQ</p>
-                        </div>
-                    </a>
-                    <a href="user.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-users" aria-hidden="true"></i> </span>
-                            <p class="dash_link">users</p>
-                        </div>
-                    </a>
-                    <a href="setting.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-cogs" aria-hidden="true"></i> </span>
-                            <p class="dash_link">settings</p>
-                        </div>
-                    </a>
-                </div>
-                <p class="power mt-auto">powered by: <span class="power_name">Tanatech Labs</span> </p>
-            </div>
-            <div class="col dashboard_display_con px-0">
                 <?php
                 if (isset($success)){
                     ?>
@@ -211,8 +143,7 @@ if (isset($_POST['que_sub_btn'])){
                                             <textarea name="question_ans" class="full_area" required> <?php if (isset($ans_edit)) echo $ans_edit?> </textarea>
                                         </div>
                                         <div class="">
-                                            <button type="reset" name="que_reset_btn" class="post_reset_btn mr-3">reset question</button>
-                                            <button type="submit" name="que_sub_btn" class="post_sub_btn">create question</button>
+                                            <button type="submit" name="que_sub_btn" class="post_sub_btn">Update</button>
                                         </div>
                                     </div>
                                 </div>

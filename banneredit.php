@@ -9,6 +9,13 @@ if(!$userid){
     header("location: index.php");
 }
 
+//actvie link
+$bact = 1;
+$query = mysqli_query($conn, "SELECT * FROM user WHERE id = $userid");
+while ($query_run = mysqli_fetch_assoc($query)) {
+    $uname = $query_run['username'];
+    $user_img = $query_run['image'];
+}
 
 //collecting form data
 if (isset($_POST['banner_sub_btn'])){
@@ -22,7 +29,7 @@ if (isset($_POST['banner_sub_btn'])){
 
     if (!empty($banner_img)){
         //sending date to datebase
-        $send_to_db = "UPDATE banner SET banner_img = '{$banner_img}', banner_header = '{$banner_title}', banner_description = '{$banner_desc}', up_date = now() WHERE banner_id = '$edit'";
+        $send_to_db = "UPDATE banner SET image = '{$banner_img}', name = '{$banner_title}', description = '{$banner_desc}', up_date = now() WHERE id = '$edit'";
         $send_db = mysqli_query($conn, $send_to_db);
 
         if (!$send_db){
@@ -30,12 +37,12 @@ if (isset($_POST['banner_sub_btn'])){
         }
         else {
             $success = "banner edited successfully";
-            header("location:banneredit.php?edit=$edit");
+            //header("location:banneredit.php?edit=$edit");
         }
     }
     else{
         //sending date to datebase
-        $send_to_db = "UPDATE banner SET banner_header = '{$banner_title}', banner_description = '{$banner_desc}', up_date = now() WHERE banner_id = '$edit'";
+        $send_to_db = "UPDATE banner SET name = '{$banner_title}', description = '{$banner_desc}', up_date = now() WHERE id = '$edit'";
         $send_db = mysqli_query($conn, $send_to_db);
 
         if (!$send_db){
@@ -43,23 +50,23 @@ if (isset($_POST['banner_sub_btn'])){
         }
         else {
             $success = "banner edited successfully";
-            header("location:banneredit.php?edit=$edit");
+            //header("location:banneredit.php?edit=$edit");
         }
     }
 
 }
 
-//geting data from database
+//getting banner data from database
 if (isset($_GET['edit'])) {
     $edit = $_GET['edit'];
 
-    $edit_query = "SELECT * FROM banner WHERE banner_id = '$edit'";
+    $edit_query = "SELECT * FROM banner WHERE id = '$edit'";
     if ($edit_query_run = mysqli_query($conn, $edit_query)) {
         $edit_query_row = mysqli_fetch_assoc($edit_query_run);
 
-        $img_edit = $edit_query_row['banner_img'];
-        $header_edit = $edit_query_row['banner_header'];
-        $desc_edit = $edit_query_row['banner_description'];
+        $img_edit = $edit_query_row['image'];
+        $header_edit = $edit_query_row['name'];
+        $desc_edit = $edit_query_row['description'];
     }
 }
 
@@ -77,7 +84,7 @@ if (isset($_GET['edit'])) {
     <!--google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Lato|Roboto&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/stylesheet.css">
+    <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <!-- reference your copy Font Awesome here (from our CDN or by hosting yourself) -->
@@ -87,93 +94,14 @@ if (isset($_GET['edit'])) {
 <!--housing div-->
 <div class="housing">
 
-    <!--header container-->
-    <div class="header_con sticky-top">
-        <div class="row header d-flex justify-content-center mx-0">
-            <div class="col-2 logo_con align-self-center px-0">
-                <img src="images/logo.fw.png" class="logo">
-            </div>
-            <div class="col header_text_con mx-auto align-self-center px-0">
-                <p class="header_text">welcome to Tanatech Labs LTD CMS</p>
-            </div>
-        </div>
-    </div>
-    <!--header container ENDS-->
-
     <!--dashboard container-->
     <div class="dashboard_con">
         <div class="row dashboard d-flex justify-content-between mx-0">
-            <div class="col-2 dashboard_link_con d-flex flex-column px-0">
-                <div class="dash_header_con d-flex justify-content-around">
-                    <div class="dash_header_icon align-self-center"> <img src="images/user.png" class="dash_header_img"> </div>
-                    <div class="align-self-center drop position-relative">
-                        <p class="dash_header">Tanatech admin <span class="dash_header_icon2"> <i class="fa fa-angle-down"></i> </span> </p>
-                        <div class="drop_con">
-                            <a href="logout.php" class="text-decoration-none">
-                                <p class="drop_link"> <i class="fa fa-power-off"></i> log out</p>
-                            </a>
-                        </div>
-                    </div>
+            <?php include("header.php") ?>
+            <div class="col-10 dashboard_display_con position-absolute px-0">
+                <div class="col header px-0">
+                    <p class="header_text">welcome to Tanatech Labs LTD CMS</p>
                 </div>
-                <div class="">
-                    <a href="dashboard.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-home"></i> </span>
-                            <p class="dash_link">home</p>
-                        </div>
-                    </a>
-                    <a href="category.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-tags"></i> </span>
-                            <p class="dash_link">categories</p>
-                        </div>
-                    </a>
-                    <a href="post.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-podcast"></i> </span>
-                            <p class="dash_link">post</p>
-                        </div>
-                    </a>
-                    <a href="banner.php" class="text-decoration-none">
-                        <div class="dash_link_con dash_link_active d-flex">
-                            <span class="dash_icon"> <i class="fa fa-sliders"></i> </span>
-                            <p class="dash_link">slider / Banner</p>
-                        </div>
-                    </a>
-                    <a href="page.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-book"></i> </span>
-                            <p class="dash_link">pages</p>
-                        </div>
-                    </a>
-                    <a href="multimedia.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-picture-o"></i> </span>
-                            <p class="dash_link">multimedia</p>
-                        </div>
-                    </a>
-                    <a href="faq.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-question-circle"></i> </span>
-                            <p class="dash_link">FAQ</p>
-                        </div>
-                    </a>
-                    <a href="user.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-users" aria-hidden="true"></i> </span>
-                            <p class="dash_link">users</p>
-                        </div>
-                    </a>
-                    <a href="setting.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-cogs" aria-hidden="true"></i> </span>
-                            <p class="dash_link">settings</p>
-                        </div>
-                    </a>
-                </div>
-                <p class="power mt-auto">powered by: <span class="power_name">Tanatech Labs</span> </p>
-            </div>
-            <div class="col dashboard_display_con px-0">
                 <?php
                 if (isset($success)){
                     ?>
@@ -217,7 +145,7 @@ if (isset($_GET['edit'])) {
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <a href="banner.php" class="text-decoration-none"> <img src="images/back_btn.png" class="back_btn"> </a>
                         <a class="nav-item nav-link active" data-toggle="tab" href="#nav-create" aria-selected="true">
-                            <p class="tab_link">create new banner</p>
+                            <p class="tab_link">Edit banner</p>
                         </a>
                     </div>
                 </nav>
@@ -242,8 +170,7 @@ if (isset($_GET['edit'])) {
                                                 <textarea name="banner_desc" class="full_sum" required> <?php if (isset($desc_edit)) echo $desc_edit; ?> </textarea>
                                             </div>
                                         </div>
-                                        <button type="reset" name="banner_reset_btn" class="post_reset_btn mr-3">reset banner</button>
-                                        <button type="submit" name="banner_sub_btn" class="post_sub_btn">update banner</button>
+                                        <button type="submit" name="banner_sub_btn" class="post_sub_btn">Update banner</button>
                                     </div>
                                 </div>
                             </form>

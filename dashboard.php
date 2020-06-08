@@ -8,18 +8,24 @@ if(!$userid){
     header("location: index.php");
 }
 
+//active link
+$dact = 1;
+$query = mysqli_query($conn, "SELECT * FROM user WHERE id = $userid");
+while ($query_run = mysqli_fetch_assoc($query)) {
+    $uname = $query_run['username'];
+    $user_img = $query_run['image'];
+}
+
 //fetching users from database
-$query = "SELECT count(*) AS users_row FROM users";
+$query = "SELECT count(*) AS user_row FROM user";
 if ($query_run = mysqli_query($conn, $query)) {
     while ($query_row = mysqli_fetch_assoc($query_run)) {
-        $user_row = $query_row['users_row'];
+        $user_row = $query_row['user_row'];
     }
 }
 else {
     echo mysqli_error($conn);
 }
-
-
 //fetching post from database
 $query1 = "SELECT count(*) AS post_row FROM post";
 if ($query_run1 = mysqli_query($conn, $query1)) {
@@ -29,8 +35,6 @@ if ($query_run1 = mysqli_query($conn, $query1)) {
 } else {
     echo mysqli_error($conn);
 }
-
-
 //fetching category from database
 $query2 = "SELECT count(*) AS category_row FROM category";
 if ($query_run2 = mysqli_query($conn, $query2)){
@@ -41,10 +45,8 @@ if ($query_run2 = mysqli_query($conn, $query2)){
 else{
     echo mysqli_error($conn);
 }
-
-
 //fetching writter from database
-$query3 = "SELECT count(*) AS writter_row FROM writter";
+$query3 = "SELECT count(*) AS writter_row FROM user WHERE role = 'writter'";
 if ($query_run3 = mysqli_query($conn, $query3)){
     while ($query_row3 = mysqli_fetch_assoc($query_run3)){
         $post_row3 = $query_row3['writter_row'];
@@ -64,7 +66,7 @@ else{
     <!--google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Lato|Roboto&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/stylesheet.css">
+    <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <!-- reference your copy Font Awesome here (from our CDN or by hosting yourself) -->
@@ -73,168 +75,68 @@ else{
 <body>
 <!--housing div-->
 <div class="housing">
-    <!--header container-->
-    <div class="header_con sticky-top">
-        <div class="row header d-flex justify-content-center mx-0">
-            <div class="col-2 logo_con align-self-center px-0">
-                <img src="images/logo.fw.png" class="logo">
-            </div>
-            <div class="col header_text_con mx-auto align-self-center px-0">
-                <p class="header_text">welcome to Tanatech Labs LTD CMS</p>
-            </div>
-        </div>
-    </div>
-    <!--header container ENDS-->
 
     <!--dashboard container-->
-    <div class="dashboard_con">
-        <div class="row dashboard d-flex justify-content-between mx-0">
-            <div class="col-2 dashboard_link_con d-flex flex-column px-0">
-                <div class="dash_header_con d-flex justify-content-around">
-                    <div class="dash_header_icon align-self-center"> <img src="images/user.png" class="dash_header_img"> </div>
-                    <div class="align-self-center drop position-relative">
-                        <p class="dash_header">Tanatech admin <span class="dash_header_icon2"> <i class="fa fa-angle-down"></i> </span> </p>
-                        <div class="drop_con">
-                            <a href="logout.php" class="text-decoration-none">
-                                <p class="drop_link"> <i class="fa fa-power-off"></i> log out</p>
-                            </a>
+    <div class="dashboard position-absolute d-flex justify-content-between mx-0">
+        <?php include("header.php") ?>
+        <div class="col-10 dashboard_display_con position-absolute px-0">
+            <div class="col header px-0 mb-5">
+                <p class="header_text">welcome to Tanatech Labs LTD CMS</p>
+            </div>
+            <p class="display_header">dashboard <span class="display_header_small">overview</span></p>
+            <div class="display_content_con d-flex justify-content-around">
+
+                <a href="user.php" class="text-decoration-none">
+                    <div class="display_content d-flex flex-column">
+                        <div class="dis_img_con align-self-center">
+                            <img src="images/user_icon.svg" class="display_content_img align-self-center">
+                        </div>
+                        <div class="dis_text_con">
+                            <p class="display_content_num"> <?php if(isset($user_row)) echo $user_row ?> </p>
+                            <p class="display_content_name">users</p>
                         </div>
                     </div>
-                </div>
-                <div class="">
-                    <a href="dashboard.php" class="text-decoration-none">
-                        <div class="dash_link_con dash_link_active d-flex">
-                            <span class="dash_icon"> <i class="fa fa-home"></i> </span>
-                            <p class="dash_link">home</p>
-                        </div>
-                    </a>
-                    <a href="category.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-tags"></i> </span>
-                            <p class="dash_link">categories</p>
-                        </div>
-                    </a>
-                    <a href="post.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-podcast"></i> </span>
-                            <p class="dash_link">post</p>
-                        </div>
-                    </a>
-                    <a href="banner.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-sliders"></i> </span>
-                            <p class="dash_link">slider / Banner</p>
-                        </div>
-                    </a>
-                    <a href="page.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-book"></i> </span>
-                            <p class="dash_link">pages</p>
-                        </div>
-                    </a>
-                    <a href="multimedia.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-picture-o"></i> </span>
-                            <p class="dash_link">multimedia</p>
-                        </div>
-                    </a>
-                    <a href="faq.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-question-circle"></i> </span>
-                            <p class="dash_link">FAQ</p>
-                        </div>
-                    </a>
-                    <a href="user.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-users" aria-hidden="true"></i> </span>
-                            <p class="dash_link">users</p>
-                        </div>
-                    </a>
-                    <a href="setting.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-cogs" aria-hidden="true"></i> </span>
-                            <p class="dash_link">settings</p>
-                        </div>
-                    </a>
-                </div>
-                <p class="power mt-auto">powered by: <span class="power_name">Tanatech Labs</span> </p>
-            </div>
-            <div class="col dashboard_display_con">
-                <p class="display_header">dashboard <span class="display_header_small">overview</span></p>
-                <div class="display_content_con d-flex justify-content-around">
+                </a>
 
-                    <a href="user.php" class="text-decoration-none">
-                        <div class="display_content d-flex flex-column">
-                            <div class="dis_img_con align-self-center">
-                                <img src="images/user_icon.svg" class="display_content_img align-self-center">
-                            </div>
-                            <div class="dis_text_con">
-                                <p class="display_content_num"> <?php if(isset($user_row)) echo $user_row ?> </p>
-                                <p class="display_content_name">users</p>
-                            </div>
+                <a href="post.php" class="text-decoration-none">
+                    <div class="display_content d-flex flex-column">
+                        <div class="dis_img_con align-self-center">
+                            <img src="images/post_icon.png" class="display_content_img align-self-center">
                         </div>
-                    </a>
+                        <div class="dis_text_con">
+                            <p class="display_content_num"> <?php if(isset($post_row)) echo $post_row ?> </p>
+                            <p class="display_content_name">post</p>
+                        </div>
+                    </div>
+                </a>
 
-                    <a href="post.php" class="text-decoration-none">
-                        <div class="display_content d-flex flex-column">
-                            <div class="dis_img_con align-self-center">
-                                <img src="images/post_icon.png" class="display_content_img align-self-center">
-                            </div>
-                            <div class="dis_text_con">
-                                <p class="display_content_num"> <?php if(isset($post_row)) echo $post_row ?> </p>
-                                <p class="display_content_name">post</p>
-                            </div>
+                <a href="category.php" class="text-decoration-none">
+                    <div class="display_content d-flex flex-column">
+                        <div class="dis_img_con align-self-center">
+                            <img src="images/categories_icon.svg" class="display_content_img align-self-center">
                         </div>
-                    </a>
+                        <div class="dis_text_con">
+                            <p class="display_content_num"> <?php if(isset($post_row2)) echo $post_row2 ?> </p>
+                            <p class="display_content_name">categories</p>
+                        </div>
+                    </div>
+                </a>
 
-                    <a href="category.php" class="text-decoration-none">
-                        <div class="display_content d-flex flex-column">
-                            <div class="dis_img_con align-self-center">
-                                <img src="images/categories_icon.svg" class="display_content_img align-self-center">
-                            </div>
-                            <div class="dis_text_con">
-                                <p class="display_content_num"> <?php if(isset($post_row2)) echo $post_row2 ?> </p>
-                                <p class="display_content_name">categories</p>
-                            </div>
+                <a href="user.php" class="text-decoration-none">
+                    <div class="display_content d-flex flex-column">
+                        <div class="dis_img_con align-self-center">
+                            <img src="images/writter_icon.svg" class="display_content_img align-self-center">
                         </div>
-                    </a>
-
-                    <a href="writter.php" class="text-decoration-none">
-                        <div class="display_content d-flex flex-column">
-                            <div class="dis_img_con align-self-center">
-                                <img src="images/writter_icon.svg" class="display_content_img align-self-center">
-                            </div>
-                            <div class="dis_text_con">
-                                <p class="display_content_num"> <?php if(isset($post_row3)) echo $post_row3 ?> </p>
-                                <p class="display_content_name">writter</p>
-                            </div>
+                        <div class="dis_text_con">
+                            <p class="display_content_num"> <?php if(isset($post_row3)) echo $post_row3 ?> </p>
+                            <p class="display_content_name">writter</p>
                         </div>
-                    </a>
-                </div>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
     <!--dashboard container ENDS-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </div>
 <!--housing div ENDS-->

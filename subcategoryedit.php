@@ -13,24 +13,24 @@ $cact = 1;
 $query = mysqli_query($conn, "SELECT * FROM user WHERE id = $userid");
 while ($query_run = mysqli_fetch_assoc($query)) {
     $uname = $query_run['username'];
-    $user_img = $query_run['image'];
+    $img = $query_run['image'];
 }
 
 //collecting form values
 if (isset($_POST['cate_sub_btn'])){
-    $edit = $_GET['edit'];
+    $edit = $_GET['subedit'];
     $cate_name = mysqli_real_escape_string($conn, $_POST['cate_name']);
     $cate_desc = mysqli_real_escape_string($conn, $_POST['cate_desc']);
 
     //sending value to the database
-    $send_to_db = "UPDATE category SET name = '{$cate_name}', description = '{$cate_desc}', up_date = now() WHERE id = $edit";
+    $send_to_db = "UPDATE subcategory SET name = '{$cate_name}', description = '{$cate_desc}', up_date = now() WHERE id = $edit";
     $send_db = mysqli_query($conn, $send_to_db);
 
     if (!$send_db){
-        echo $failed = "failed to edit your Category" . mysqli_error($conn);
+        echo $failed = "failed to edit your Subcategory" . mysqli_error($conn);
     }
     else{
-        $success = "Category edited successfully";
+        $success = "Subcategory edited successfully";
     }
 
 }
@@ -39,42 +39,16 @@ if (isset($_POST['cate_sub_btn'])){
 
 <?php
 //get value from database
-if (isset($_GET['edit'])){
-    $edit = $_GET['edit'];
+if (isset($_GET['subedit'])){
+    $edit = $_GET['subedit'];
 
-    $query = "SELECT * FROM category WHERE id = '$edit'";
+    $query = "SELECT * FROM subcategory WHERE id = '$edit'";
     if ($query_run = mysqli_query($conn, $query)){
         $query_row = mysqli_fetch_assoc($query_run);
         $edit_name = $query_row['name'];
         $edit_desc = $query_row['description'];
     }
 }
-
-
-//deleting subcategory
-if (isset($_GET['delete'])){
-    $del = $_GET['delete'];
-    $query2 = "DELETE FROM subcategory WHERE id = $del";
-    $query_run2 = mysqli_query($conn, $query2);
-    if (!$query_run2){
-        $failed = "failed to delete your category" . mysqli_error($conn);
-    }
-    else{
-        $success = "subcategory delete successfully";
-    }
-}
-
-//get category values
-$count = 0;
-$query1 = "SELECT * FROM subcategory WHERE category_id = $edit";
-$query_run1 = mysqli_query($conn, $query1);
-
-    while ($query_row1 = mysqli_fetch_assoc($query_run1)) {
-        $id[] = $query_row1['id'];
-        $name[] = $query_row1['name'];
-        $desc[] = $query_row1['description'];
-        $count++;
-    }
 
 ?>
 
@@ -83,7 +57,7 @@ $query_run1 = mysqli_query($conn, $query1);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tanatech Labs CMS / Categories</title>
+    <title>Tanatech Labs CMS / Subcategories</title>
     <!--google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Lato|Roboto&display=swap" rel="stylesheet">
 
@@ -149,7 +123,7 @@ $query_run1 = mysqli_query($conn, $query1);
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
                             <a href="category.php" class="text-decoration-none"> <img src="images/back_btn.png" class="back_btn"> </a>
                             <a class="nav-item nav-link active" data-toggle="tab" href="#nav-create" aria-selected="true">
-                                <p class="tab_link">edit category</p>
+                                <p class="tab_link">edit Subcategory</p>
                             </a>
                         </div>
                     </nav>
@@ -173,22 +147,6 @@ $query_run1 = mysqli_query($conn, $query1);
                                         </div>
                                     </div>
                                 </form>
-                                <div class="col-4 px-0">
-                                    <h4 class="text-center mb-3">Sub category</h4>
-                                    <?php
-                                    for ($i=0; $i<$count; $i++){
-                                    ?>
-                                        <div class="d-flex justify-content-between mb-4">
-                                            <p class="form_label align-self-center m-0"> <?php if (isset($name[$i])) echo $name[$i] ?> </p>
-                                            <div class="align-self-center">
-                                                <a href="subcategoryedit.php?subedit=<?php if (isset($id[$i])) echo $id[$i] ?>" class="text-decoration-none"><span class="bg-warning text-white p-2">EDIT</span></a>
-                                                <a href="categoryedit.php?edit=<?php if (isset($edit)) echo $edit ?>&delete=<?php if (isset($id[$i])) echo $id[$i] ?>" class="text-decoration-none"><span class="bg-danger text-white p-2">DELETE</span></a>
-                                            </div>
-                                        </div>
-                                    <?php
-                                    }
-                                    ?>
-                                </div>
                             </div>
                         </div>
                     </div>

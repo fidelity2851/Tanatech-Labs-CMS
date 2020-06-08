@@ -3,9 +3,195 @@ body{
     padding: 0;
 }
 .housing{
+    position: relative;
+}
+
+/*edit container*/
+.edit_con{
     width: 100%;
     height: auto;
+    z-index: 5000;
+    display: none;
+    padding: 100px 0px;
+    background: rgba(38, 38, 38, 0.70);
 }
+.edit{
+    height: auto;
+    border-radius: 20px;
+    background: white;
+}
+.close_edit{
+    color: black;
+    font-size: 30px;
+    font-weight: 600;
+    border: none;
+    padding: 10px 20px;
+    background: none;
+}
+/*edit container ENDS*/
+
+/*login container*/
+.over_all{
+
+}
+.main_login_con{
+    height: 100%;
+    position: absolute;
+    background-image: url("../images/home_hero_front.png");
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: right;
+}
+.login_con{
+    height: auto;
+    position: relative;
+    padding: 20px 0px;
+    border: 3px dashed white;
+    border-radius: 30px;
+    background-color: rgba(18, 18, 18, 0.50);
+}
+.login_back_btn{
+    position: absolute;
+    top: 10px;
+    left: 0px;
+    color: white;
+    text-transform: capitalize;
+    font-size: 12px;
+    font-weight: 500;
+    border: none;
+    padding: 3px 5px;
+    background: rgba(0, 0, 0, 0.47);
+}
+.login_header{
+    color: #fd7e14;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 30px;
+    font-weight: 600;
+    font-family: "Maiandra GD";
+}
+.login_label{
+    color: white;
+    text-transform: capitalize;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: Roboto;
+    margin: 0px 0px 5px;
+}
+.login_icon{
+    width: auto;
+    height: auto;
+    text-align: center;
+    border-right: none;
+    border-top: 2px solid white;
+    border-left: 2px solid white;
+    border-bottom: 2px solid white;
+    border-radius: 100% 0px 0px 100%;
+}
+.form_img{
+    width: 30px;
+    height: 30px;
+}
+.form_img2{
+    width: 30px;
+    height: 30px;
+}
+.login_box{
+    width: 100%;
+    height: auto;
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    border-left: none;
+    border-top: 2px solid white;
+    border-right: 2px solid white;
+    border-bottom: 2px solid white;
+    padding: 3px 5px;
+    background: none;
+    outline: none;
+}
+.login_sub_btn{
+    width: 100%;
+    color: white;
+    text-transform: capitalize;
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+    border-radius: 3px;
+    margin: 15px 0px;
+    padding: 10px 0px;
+    background: #323286;
+}
+
+.forget_btn{
+    width: 100%;
+    height: auto;
+    color: #323286;
+    text-transform: capitalize;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    border-radius: 3px;
+    margin: 0px 0px 10px;
+    padding: 10px 0px;
+    background: white;
+}
+.forget_con{
+    display: none;
+    width: 100%;
+    padding: 10px 0px;
+    background-color: transparent;
+}
+.forget_box{
+    width: 100%;
+    height: auto;
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
+    border: 2px solid white;
+    padding: 3px 5px;
+    background: none;
+    outline: none;
+}
+.close_forget_con{
+    color: white;
+    font-size: 25px;
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    border: none;
+    background: transparent;
+}
+.forget_hint_con{
+    border-radius: 3px;
+    margin: 0px 0px 10px;
+    padding: 10px;
+    background-color: #007bff;
+}
+.forget_hint{
+    color: white;
+    text-align: center;
+    text-transform: capitalize;
+    font-size: 12px;
+    font-weight: 500;
+    margin: 0px 0px;
+
+}
+.forget_sub_btn{
+    width: 100%;
+    height: auto;
+    color: #323286;
+    text-transform: capitalize;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    border-radius: 3px;
+    margin-top: 15px;
+    padding: 10px 0px;
+    background-color: white;
+}
+/*login container ENDS*/
 
 /*header container*/
 .header_con{
@@ -14,16 +200,16 @@ body{
 }
 .header{
     height: 60px;
-    background: linear-gradient(to right, #dee2e6, #323286, #fd7e14);
+    background-color: #323286;
 }
 .logo_con{
-    height: auto;
-    display: flex;
-    justify-content: center;
+    width: 100%;
+    height: 60px;
+    background-color: white;
 }
 .logo{
     width: auto;
-    height: auto;
+    height: 50px;
 }
 .header_text_con{
     height: auto;
@@ -46,16 +232,19 @@ body{
     position: absolute;
 }
 .dashboard{
+    width: 100%;
     height: 100%;
+    position: absolute;
 }
 
 /*dashboard link container*/
 .dashboard_link_con{
     height: 100%;
+    position: absolute;
     background-color: #323286;
 }
 .dash_header_con{
-    padding: 10px 10px;
+    padding: 10px 15px;
     background-color: #fd7e14;
 }
 .dash_header_icon{
@@ -63,14 +252,20 @@ body{
     font-size: 20px;
     border: 1px solid #dee2e6;
     border-radius: 100%;
-    padding: 5px 12px;
+
+}
+.dash_header_img{
+    width: 50px;
+    height: 50px;
+    border: 1px solid white;
+    border-radius: 100%;
 }
 .dash_header_icon2{
     font-size: 18px;
 }
 .dash_header{
     color: white;
-    text-transform: uppercase;
+    text-transform: capitalize;
     font-size: 13px;
     font-weight: 700;
     font-family: Roboto;
@@ -83,17 +278,18 @@ body{
     background-color: white;
 }
 .drop_link{
-    color: gray;
+    color: #323286;
     text-transform: capitalize;
     font-size: 13px;
-    font-weight: 700;
+    font-weight: 400;
     font-family: Roboto;
+    border: none;
     margin: 0px;
-    padding: 5px 20px;
+    padding: 3px 20px;
+    background-color: white;
 }
 
 .dash_link_con{
-    border-bottom: 2px solid white;
     padding: 5px 20px;
     transition: all 0.3s ease-in-out;
 }
@@ -103,55 +299,231 @@ body{
     align-self: center;
 }
 .dash_link_active{
-    background: linear-gradient(to right, #dc3545, #323286);
+    color: #323286;
+    font-size: 17px;
+    font-weight: 600;
+    font-family: Roboto;
+    margin: 0px;
+    padding: 8px 20px;
+    background-color: white;
+    transition: all 0.3s ease-in-out;
 }
 .dash_link{
     color: white;
-    text-align: left;
-    text-transform: uppercase;
-    font-size: 13px;
-    font-weight: 700;
+    font-size: 17px;
+    font-weight: 600;
     font-family: Roboto;
-    margin: 0px 10px;
-    align-self: center;
+    margin: 0px;
+    padding: 8px 20px;
+    transition: all 0.3s ease-in-out;
 }
 
 /*dashboard link container ENDS*/
 
 /*dashboard display container*/
+.tab_con{
+    height: auto;
+    padding: 10px 15px 0px;
+}
+.back_btn{
+    width: 40px;
+    height: 40px;
+}
+.tab_link{
+    color: #fd7e14;
+    text-transform: capitalize;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: lato;
+    margin: 0px;
+}
+.tab_content{
+    height: auto;
+    padding: 25px 15px;
+}
+.post_1{
+    height: auto;
+}
+.post_form_1{
+    height: auto;
+}
+.form_head{
+    color: #444444;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: Roboto;
+}
+.form_label{
+    color: black;
+    text-transform: capitalize;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: Roboto;
+}
+.form_check{
+    padding: 5px;
+    border: 3px solid #fd7e14;
+}
+.form_sel{
+    width: 100%;
+    height: auto;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: Roboto;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 5px;
+}
+.edit_img{
+    width: auto;
+    height: 150px;
+}
+.close_btn{
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 100%;
+    padding: 0px 6px;
+    background-color: #dc3545;
+    box-shadow: 0px 0px 3px gray;
+}
+.full{
+    width: 100%;
+    height: auto;
+    text-transform: capitalize;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: Roboto;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: 0px 0px 3px #dee2e6;
+}
+.full_sum{
+    width: 100%;
+    height: 80px;
+    text-transform: capitalize;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: Roboto;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: 0px 0px 3px #dee2e6;
+}
+.full_area{
+    width: 100%;
+    height: 100px;
+    text-transform: capitalize;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: Roboto;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: 0px 0px 3px #dee2e6;
+}
+.post_reset_btn{
+    color: white;
+    text-transform: capitalize;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: lato;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 20px 0px 0px;
+    background-color: #fd7e14;
+}
+.post_sub_btn{
+    color: white;
+    text-transform: capitalize;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: lato;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 20px 0px 0px;
+    background-color: #323286;
+}
+
+
+.post_2{
+    height: auto;
+}
+.post_form_2{
+    height: auto;
+}
+
+/*dashboard display container ENDS*/
+
+/*home dashboard*/
+.succ_msg{
+    width: auto;
+    position: absolute;
+    z-index: 1200012;
+    top: 0px;
+    right: 0px;
+    padding: 10px 20px;
+}
 .dashboard_display_con{
-    height: 100%;
-    padding: 20px 0px;
+    height: auto;
+    position: absolute;
+    right: 0;
+    padding: 0px 0px 20px;
 }
 .display_header{
     color: gray;
+    text-align: center;
     text-transform: capitalize;
-    font-size: 30px;
+    font-size: 50px;
+    line-height: 50px;
     font-weight: 500;
-    font-family: "Roboto Light";
-    margin: 0px;
+    font-family: Roboto;
+}
+.display_header_small{
+    color: gray;
+    text-transform: capitalize;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: lato;
 }
 .display_content_con{
     height: auto;
     padding: 10px;
 }
 .display_content{
-    width: 200px;
-    height: 100px;
+    width: 210px;
+    height: auto;
+    border: 1px dashed #fd7e14;
     padding: 8px;
-    border: 2px solid #dee2e6;
-    border-radius: 4px;
+    padding: 20px 20px;
+}
+.dis_img_con{
+    width: auto;
+    height: auto;
+    padding: 10px;
 }
 .display_content_img{
+    width: 100px;
+    height: 100px;
+}
+.dis_text_con{
     width: 100%;
-    height: 100%;
+    height: auto;
+    border: 2px dotted #fd7e14;
 }
 .display_content_name{
-    color: gray;
+    color: #fd7e14;
     text-align: center;
-    text-transform: capitalize;
-    font-size: 20px;
-    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: 600;
     font-family: Roboto;
     margin: 0px;
 }
@@ -159,14 +531,13 @@ body{
     color: #323286;
     text-align: center;
     text-transform: capitalize;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 700;
     font-family: lato;
     margin: 0px;
 }
-.
 
-/*dashboard display container ENDS*/
+/*home dashboard*/
 
 .power{
     color: white;
@@ -186,9 +557,82 @@ body{
 
 /*dashboard container ENDS*/
 
-/*
+/*table container*/
+.man_search_con{
+    height: auto;
+    padding: 0px 0px 10px;
+}
+.man_search_form{
+    height: auto;
+}
+.man_search{
+    border: 2px solid #dee2e6;
+    border-radius: 5px 20px 20px 5px;
 
- */
+}
+.man_search_box{
+    width: 250px;
+    height: auto;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: Roboto;
+    border: none;
+    outline: none;
+    padding: 5px 10px;
+}
+.man_select{
+    height: auto;
+    text-transform: capitalize;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: Roboto;
+    border: none;
+    border-left: 2px solid #dee2e6;
+    border-right: 2px solid #dee2e6;
+    outline: none;
+    padding: 5px 15px;
+}
+.man_sub_btn{
+    color: white;
+    font-size: 14px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 100%;
+    background-color: #dee2e6;
+}
+
+.tbl_header{
+    height: auto;
+    text-transform: capitalize;
+    font-size: 17px;
+    font-weight: 600;
+    font-family: lato;
+    margin: 0px;
+    padding: 10px 10px;
+}
+.tbl_head{
+    font-size: 14px;
+    font-weight: 600;
+    font-family: lato;
+    margin: 0px;
+}
+.tbl_data{
+    text-align: center;
+    text-transform: capitalize;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: Roboto;
+    margin: 0px;
+}
+.tbl_title{
+    text-transform: capitalize;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: Roboto;
+    margin: 0px;
+}
+
+/*table container*/
 
 
 
@@ -197,22 +641,27 @@ body{
 
 
 /*hover Effects*/
-.dash_link_con:hover{
-    padding-left: 30px;
+.dash_link_active:hover{
+    color: #323286;
+    padding-left: 40px;
+    background-color: white;
+}
+.dash_link:hover{
+    color: #323286;
+    padding-left: 40px;
     background-color: white;
 }
 .dash_link_con:hover .dash_icon,
 .dash_link_con:hover .dash_link{
     color: #323286;
 }
-
 .drop:hover .drop_con{
     display: block;
 }
 .drop_link:hover{
-    color: #fd7e14;
+    color: white;
+    background-color: #323286;
 }
-
 
 
 

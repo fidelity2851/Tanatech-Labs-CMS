@@ -19,7 +19,7 @@ if(!$userid){
     <!--google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Lato|Roboto&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/stylesheet.css">
+    <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <!-- reference your copy Font Awesome here (from our CDN or by hosting yourself) -->
@@ -97,7 +97,7 @@ if(!$userid){
                             <p class="dash_link">pages</p>
                         </div>
                     </a>
-                    <a href="multimedia.php" class="text-decoration-none">
+                    <a href="media.php" class="text-decoration-none">
                         <div class="dash_link_con d-flex">
                             <span class="dash_icon"> <i class="fa fa-picture-o"></i> </span>
                             <p class="dash_link">multimedia</p>

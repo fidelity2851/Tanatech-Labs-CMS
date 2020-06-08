@@ -8,25 +8,19 @@ if(!$userid){
     header("location: index.php");
 }
 
-//getting data from database
-if (isset($_GET['edit'])){
-    $edit = $_GET['edit'];
-
-    $edit_query = "SELECT * FROM users WHERE user_id = '$edit'";
-    if ($edit_query_run = mysqli_query($conn, $edit_query)) {
-        $edit_query_row = mysqli_fetch_assoc($edit_query_run);
-
-        $user_edit = $edit_query_row['username'];
-        $email_edit = $edit_query_row['email'];
-        $img_edit = $edit_query_row['profile_img'];
-        $bio_edit = $edit_query_row['biograph'];
-        $pass_edit = $edit_query_row['password'];
-
-    }
+//active link
+$uact = 1;
+$query = mysqli_query($conn, "SELECT * FROM user WHERE id = $userid");
+while ($query_run = mysqli_fetch_assoc($query)) {
+    $uname = $query_run['username'];
+    $user_img = $query_run['image'];
 }
+
 
 //collecting form data
 if (isset($_POST['post_sub_btn'])){
+    $edit = $_GET['edit'];
+
     //collect form values
     $user_name = mysqli_real_escape_string($conn, $_POST['username']);
     $email = mysqli_real_escape_string($conn,  $_POST['email']);
@@ -37,21 +31,89 @@ if (isset($_POST['post_sub_btn'])){
     move_uploaded_file($_FILES['profile_image']['tmp_name'],$folder);
 
     $biograph = mysqli_real_escape_string($conn, $_POST['biograph']);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $role = mysqli_real_escape_string($conn, $_POST['role']);
+    $pass = mysqli_real_escape_string($conn, $_POST['password']);
+    $password = password_hash($pass,PASSWORD_DEFAULT);
 
 //sending values to database
-    $send_to_db = "UPDATE users SET username = '{$user_name}', email = '{$email}', profile_img = '{$profile_pic}', biograph = '{$biograph}', password = '{$password}', up_date = now() WHERE user_id = '$edit'";
-    $send_db  = mysqli_query($conn, $send_to_db);
-    if (!$send_db){
-        $failed = "failed to update your user";
+    if (empty($profile_pic) AND empty($password)){
+        $send_to_db = "UPDATE user SET username = '{$user_name}', biograph = '{$biograph}', role = '{$role}', up_date = now() WHERE id = '$edit'";
+        $send_db  = mysqli_query($conn, $send_to_db);
+        if (!$send_db){
+            $failed = "failed to update your user " .mysqli_error($conn);
+        }
+        else {
+            $send_to_db = "UPDATE email SET email = '{$email}', up_date = now() WHERE user_id = '$edit'";
+            mysqli_query($conn, $send_to_db);
+            $success = "user updated successfully";
+            //header("location: useredit.php?edit=$edit");
+        }
     }
-    else {
-        $success = "user updated successfully";
-        header("location: useredit.php?edit=$edit");
+    elseif (empty($profile_pic)){
+        $send_to_db = "UPDATE user SET username = '{$user_name}', biograph = '{$biograph}', password = '{$password}', role = '{$role}', up_date = now() WHERE id = '$edit'";
+        $send_db  = mysqli_query($conn, $send_to_db);
+        if (!$send_db){
+            $failed = "failed to update your user " .mysqli_error($conn);
+        }
+        else {
+            $send_to_db = "UPDATE email SET email = '{$email}', up_date = now() WHERE user_id = '$edit'";
+            mysqli_query($conn, $send_to_db);
+            $success = "user updated successfully";
+            //header("location: useredit.php?edit=$edit");
+        }
+    }
+    elseif (empty($password)){
+        $send_to_db = "UPDATE user SET username = '{$user_name}', image = '{$profile_pic}', biograph = '{$biograph}', role = '{$role}', up_date = now() WHERE id = '$edit'";
+        $send_db  = mysqli_query($conn, $send_to_db);
+        if (!$send_db){
+            $failed = "failed to update your user " .mysqli_error($conn);
+        }
+        else {
+            $send_to_db = "UPDATE email SET email = '{$email}', up_date = now() WHERE user_id = '$edit'";
+            mysqli_query($conn, $send_to_db);
+            $success = "user updated successfully";
+            //header("location: useredit.php?edit=$edit");
+        }
+    }
+    else{
+        $send_to_db = "UPDATE user SET username = '{$user_name}', image = '{$profile_pic}', password = '{$password}', biograph = '{$biograph}', role = '{$role}', up_date = now() WHERE id = '$edit'";
+        $send_db  = mysqli_query($conn, $send_to_db);
+        if (!$send_db){
+            $failed = "failed to update your user " .mysqli_error($conn);
+        }
+        else {
+            $send_to_db = "UPDATE email SET email = '{$email}', up_date = now() WHERE user_id = '$edit'";
+            mysqli_query($conn, $send_to_db);
+            $success = "user updated successfully";
+            //header("location: useredit.php?edit=$edit");
+        }
     }
 }
 
+//getting data from database
+if (isset($_GET['edit'])){
+    $edit = $_GET['edit'];
 
+    $edit_query = "SELECT * FROM user WHERE id = '$edit'";
+    if ($edit_query_run = mysqli_query($conn, $edit_query)) {
+        $edit_query_row = mysqli_fetch_assoc($edit_query_run);
+
+        $user_edit_id = $edit_query_row['id'];
+        $user_edit = $edit_query_row['username'];
+        $img_edit = $edit_query_row['image'];
+        $bio_edit = $edit_query_row['biograph'];
+        $edit_role = $edit_query_row['role'];
+        //$pass_edit = $edit_query_row['password'];
+
+    }
+    $edit_query1 = "SELECT * FROM email WHERE user_id = '$edit'";
+    if ($edit_query_run1 = mysqli_query($conn, $edit_query1)) {
+        $edit_query_row1 = mysqli_fetch_assoc($edit_query_run1);
+
+        $edit_email = $edit_query_row1['email'];
+
+    }
+}
 
 ?>
 
@@ -64,7 +126,7 @@ if (isset($_POST['post_sub_btn'])){
     <!--google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Lato|Roboto&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/stylesheet.css">
+    <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <!-- reference your copy Font Awesome here (from our CDN or by hosting yourself) -->
@@ -73,93 +135,15 @@ if (isset($_POST['post_sub_btn'])){
 <body>
 <!--housing div-->
 <div class="housing">
-    <!--header container-->
-    <div class="header_con sticky-top">
-        <div class="row header d-flex justify-content-center mx-0">
-            <div class="col-2 logo_con align-self-center px-0">
-                <img src="images/logo.fw.png" class="logo">
-            </div>
-            <div class="col header_text_con mx-auto align-self-center px-0">
-                <p class="header_text">welcome to Tanatech Labs LTD CMS</p>
-            </div>
-        </div>
-    </div>
-    <!--header container ENDS-->
 
     <!--dashboard container-->
     <div class="dashboard_con">
         <div class="row dashboard d-flex justify-content-between mx-0">
-            <div class="col-2 dashboard_link_con d-flex flex-column px-0">
-                <div class="dash_header_con d-flex justify-content-around">
-                    <div class="dash_header_icon align-self-center"> <img src="images/user.png" class="dash_header_img"> </div>
-                    <div class="align-self-center drop position-relative">
-                        <p class="dash_header">Tanatech admin <span class="dash_header_icon2"> <i class="fa fa-angle-down"></i> </span> </p>
-                        <div class="drop_con">
-                            <a href="logout.php" class="text-decoration-none">
-                                <p class="drop_link"> <i class="fa fa-power-off"></i> log out</p>
-                            </a>
-                        </div>
-                    </div>
+            <?php include("header.php") ?>
+            <div class="col-10 dashboard_display_con position-absolute px-0">
+                <div class="col header px-0">
+                    <p class="header_text">welcome to Tanatech Labs LTD CMS</p>
                 </div>
-                <div class="">
-                    <a href="dashboard.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-home"></i> </span>
-                            <p class="dash_link">home</p>
-                        </div>
-                    </a>
-                    <a href="category.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-tags"></i> </span>
-                            <p class="dash_link">categories</p>
-                        </div>
-                    </a>
-                    <a href="post.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-podcast"></i> </span>
-                            <p class="dash_link">post</p>
-                        </div>
-                    </a>
-                    <a href="banner.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-sliders"></i> </span>
-                            <p class="dash_link">slider / Banner</p>
-                        </div>
-                    </a>
-                    <a href="page.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-book"></i> </span>
-                            <p class="dash_link">pages</p>
-                        </div>
-                    </a>
-                    <a href="multimedia.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-picture-o"></i> </span>
-                            <p class="dash_link">multimedia</p>
-                        </div>
-                    </a>
-                    <a href="faq.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-question-circle"></i> </span>
-                            <p class="dash_link">FAQ</p>
-                        </div>
-                    </a>
-                    <a href="user.php" class="text-decoration-none">
-                        <div class="dash_link_con dash_link_active d-flex">
-                            <span class="dash_icon"> <i class="fa fa-users" aria-hidden="true"></i> </span>
-                            <p class="dash_link">users</p>
-                        </div>
-                    </a>
-                    <a href="setting.php" class="text-decoration-none">
-                        <div class="dash_link_con d-flex">
-                            <span class="dash_icon"> <i class="fa fa-cogs" aria-hidden="true"></i> </span>
-                            <p class="dash_link">settings</p>
-                        </div>
-                    </a>
-                </div>
-                <p class="power mt-auto">powered by: <span class="power_name">Tanatech Labs</span> </p>
-            </div>
-            <div class="col dashboard_display_con px-0">
                 <?php
                 if (isset($success)){
                     ?>
@@ -219,7 +203,7 @@ if (isset($_POST['post_sub_btn'])){
                                         </div>
                                         <div class="">
                                             <label class="form_label">email:</label> <br>
-                                            <input type="email" class="full" value="<?php if (isset($email_edit)) echo $email_edit; ?>" name="email" required>
+                                            <input type="email" class="full" value="<?php if (isset($edit_email)) echo $edit_email; ?>" name="email" required>
                                         </div>
                                         <div class="">
                                             <label class="form_label">profile picture:</label> <br>
@@ -234,11 +218,20 @@ if (isset($_POST['post_sub_btn'])){
                                         <button type="submit" name="post_sub_btn" class="post_sub_btn">create post</button>
                                     </div>
                                 </div>
-                                <div class="col post_2 px-0">
+                                <div class="col-4 post_2 px-0">
+                                    <div class="col px-0">
+                                        <label class="form_label">Role</label> <br>
+                                        <select class="form_sel" name="role">
+                                            <option value="<?php if (isset($edit_role)) echo $edit_role; ?>" class=""><?php if (isset($edit_role)) echo $edit_role; ?></option>
+                                            <option value="user" class="">User</option>
+                                            <option value="writter" class="">Writter</option>
+                                            <option value="admin" class="">Admin</option>
+                                        </select>
+                                    </div>
                                     <div class="post_form_2">
                                         <div class="">
                                             <label class="form_label">password:</label> <br>
-                                            <input type="password" class="full" value="<?php if (isset($pass_edit)) echo $pass_edit; ?>" name="password" required>
+                                            <input type="password" class="full" name="password">
                                         </div>
                                     </div>
                                 </div>
